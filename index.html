@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>南投行程</title>
+<meta name="description" content="南投兩天一夜、三天兩夜：住日月潭教師會館，埔里酒廠、水社、魚池夜市、伊達邵、紫南宮、竹山老街，湖邊午餐。">
+<meta property="og:title" content="南投行程">
+<meta property="og:description" content="南投兩天一夜、三天兩夜：住日月潭教師會館，埔里酒廠、水社、魚池夜市、伊達邵、紫南宮、竹山老街，湖邊午餐。">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #F6F3EC;
+    --surface: #FFFFFF;
+    --ink: #1F1D19;
+    --ink-soft: #4E483F;
+    --line: #DDD5C6;
+    --jade: #2A6355;
+    --jade-soft: #E6EEEA;
+    --vermilion: #A8422A;
+    --vermilion-soft: #F7E9E3;
+    --amber: #9A6A12;
+    --amber-soft: #F6EDD9;
+    --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+    --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.85;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 34px 16px 60px; }
+  h1 { font-family: var(--serif); font-weight: 700; font-size: 34px; line-height: 1.3; letter-spacing: .03em; margin: 0 0 8px; }
+  .sub { font-size: 16px; color: var(--ink-soft); margin: 0 0 26px; }
+
+  .pick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 28px; }
+  .tab {
+    appearance: none; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: .04em;
+    padding: 14px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface);
+    color: var(--ink-soft); cursor: pointer; line-height: 1.4;
+  }
+  .tab[aria-selected="true"] { background: var(--jade); border-color: var(--jade); color: #fff; }
+  .tab:focus-visible { outline: 3px solid var(--jade); outline-offset: 2px; }
+
+  .summary { background: var(--jade-soft); border-radius: 6px; padding: 14px 16px; font-size: 17px; color: var(--ink-soft); margin: 0 0 14px; }
+  .summary b { color: var(--ink); font-weight: 700; }
+  .legend { font-size: 14px; color: var(--ink-soft); margin: 0 0 20px; line-height: 2; }
+
+  .lv { display: inline-block; font-family: var(--sans); font-size: 12px; font-weight: 700; line-height: 1;
+        padding: 4px 6px; border-radius: 4px; vertical-align: 3px; margin-left: 4px; letter-spacing: 0; }
+  .lv-a { background: var(--jade-soft); color: var(--jade); }
+  .lv-b { background: #ECEAE4; color: #5A5448; }
+  .lv-c { background: var(--amber-soft); color: var(--amber); }
+
+  .dayhead { font-family: var(--serif); font-size: 21px; font-weight: 700; letter-spacing: .05em; margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--jade); }
+
+  .tl { display: grid; gap: 10px; position: relative; padding-left: 34px; }
+  .tl::before { content: ""; position: absolute; left: 10px; top: 26px; bottom: 26px; width: 2px; background: var(--line); }
+  .stop { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+  .stop::before { content: ""; position: absolute; left: -32px; top: 21px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 3px solid var(--jade); }
+  .meal::before { border-color: var(--vermilion); }
+  .ride::before { border-color: #9C968A; background: #9C968A; }
+  .ride { background: #F1EEE7; border-color: #E8E3D8; }
+  .tl.plain { padding-left: 0; }
+  .tl.plain::before, .tl.plain .stop::before { display: none; }
+
+  .time { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--jade); letter-spacing: .04em; margin: 0 0 2px; }
+  .meal .time { color: var(--vermilion); }
+  .ride .time { color: var(--ink-soft); }
+  .stop h3 { font-family: var(--serif); font-size: 21px; font-weight: 500; margin: 0 0 6px; letter-spacing: .03em; line-height: 1.45; }
+  .area { display: block; font-family: var(--sans); font-size: 14px; color: var(--ink-soft); letter-spacing: 0; }
+  .stop p { margin: 0; font-size: 17px; color: var(--ink-soft); }
+  .stop p + p { margin-top: 6px; }
+  .stop b { color: var(--ink); }
+  .stop a { color: var(--jade); }
+  .go { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 17px; color: var(--ink-soft); }
+  .go ul { margin: 0; padding-left: 20px; }
+  .ride .go { border-top-color: #DED8CB; }
+  .gmap { margin-top: 8px; }
+  .gmap a { display: inline-block; font-size: 15px; color: var(--jade); text-decoration: none; border-bottom: 1px solid var(--jade); padding-bottom: 1px; }
+
+  .map { margin: 0 0 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 14px 10px; }
+  .map svg { display: block; width: 100%; height: auto; }
+  .map figcaption { margin-top: 6px; font-size: 14px; color: var(--ink-soft); text-align: center; line-height: 1.6; }
+  .m-water { fill: #DCE9EC; stroke: #B9D0D6; stroke-width: 1.5; }
+  .m-hill { fill: none; stroke: #D8CFBE; stroke-width: 1.6; stroke-linejoin: round; }
+  .m-route { fill: none; stroke: var(--jade); stroke-width: 2.6; stroke-dasharray: 7 5; stroke-linecap: round; opacity: .8; }
+  .m-route2 { fill: none; stroke: var(--vermilion); stroke-width: 2.6; stroke-dasharray: 7 5; stroke-linecap: round; opacity: .8; }
+  .m-pin { fill: var(--jade); }
+  .m-pin-off { fill: #CFC7B7; }
+  .m-label { font-family: var(--serif); font-size: 15px; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+  .m-label-off { font-family: var(--serif); font-size: 14px; fill: #A79E8C; paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+  .m-sub { font-size: 12px; fill: var(--ink-soft); font-family: var(--sans); }
+  .m-key { font-size: 13px; font-family: var(--sans); fill: var(--ink-soft); }
+
+  .box { margin-top: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+  .box h4 { font-family: var(--serif); font-size: 19px; margin: 0 0 10px; letter-spacing: .04em; }
+  .box ul { margin: 0; padding-left: 20px; font-size: 17px; color: var(--ink-soft); }
+  .box li { margin-bottom: 10px; }
+  .box li:last-child { margin-bottom: 0; }
+  .box b { color: var(--ink); }
+  .box a { color: var(--jade); }
+  .acc { margin-top: 8px !important; padding: 8px 12px; background: #F3F6F4; border-radius: 4px; font-size: 16px !important; }
+  .stay::before { border-color: #7A5C2E; background: #F3E9D6; }
+  .stay .time { color: #7A5C2E; }
+  .m-route3 { fill: none; stroke: #7A5C2E; stroke-width: 2.6; stroke-dasharray: 3 5; stroke-linecap: round; opacity: .85; }
+  .tab.wide { grid-column: 1 / -1; }
+  .box.warn { border-color: #E6D3A8; background: #FFFBF2; }
+
+  .t { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 16px; line-height: 1.6; }
+  .t th, .t td { text-align: left; vertical-align: top; padding: 10px 10px; border-bottom: 1px solid var(--line); }
+  .t th { font-family: var(--serif); font-weight: 700; background: #FBF9F4; color: var(--ink); }
+  .t td:first-child { font-weight: 500; color: var(--ink); }
+  .t td { color: var(--ink-soft); }
+  .t tr:last-child td { border-bottom: 0; }
+
+  footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+  @media (min-width: 560px) { .pick { grid-template-columns: repeat(4, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>南投行程</h1>
+  <p class="sub">兩天一夜與三天兩夜，點一下切換。</p>
+
+  <div class="pick" role="tablist">
+    <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">兩天一夜</button>
+    <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false">三天兩夜</button>
+    <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false">各景點<br>休館日</button>
+    <button class="tab" role="tab" id="t4" aria-controls="p4" aria-selected="false">其他<br>餐廳選擇</button>
+    <button class="tab wide" role="tab" id="t5" aria-controls="p5" aria-selected="false">出發前確認</button>
+  </div>
+
+<section id="p1" role="tabpanel" aria-labelledby="t1">
+<p class="summary"><b>兩天一夜</b><br>第一天汐止約 08:10 出門，第二天約 19:10 到家。<br>住<b>日月潭教師會館</b>一晚，一人約 1,932 元。結緣重點：埔里酒廠、水社、魚池夜市、伊達邵、紫南宮。第二天中午在湖邊的雲品慢慢吃。<b>週二出發、週三回</b>。</p>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一（詳見「出發前確認」）</p><figure class="map"><svg viewBox="0 0 440 340" role="img" aria-label="行程路線示意圖"><path class="m-water" d="M296 244 C294 216 322 204 344 212 C368 220 378 252 362 266 C342 282 300 274 296 244 Z"/><text class="m-key" x="336" y="246" text-anchor="middle">日月潭</text><path class="m-hill" d="M212 110 l18 -26 l18 26 M240 160 l14 -20 l14 20 M206 250 l16 -24 l16 24"/><path class="m-route" d="M 70 54 L 52 20"/><path class="m-route" d="M 52 20 Q 240 40 392 136"/><path class="m-route" d="M 392 136 Q 360 150 318 200"/><path class="m-route" d="M 318 200 Q 360 176 382 188"/><path class="m-route2" d="M 318 200 Q 390 236 362 272"/><path class="m-route2" d="M 362 272 Q 318 300 292 230"/><path class="m-route2" d="M 292 230 Q 200 220 103 292"/><path class="m-route2" d="M 103 292 Q 30 180 70 54"/><circle class="m-pin" cx="70" cy="54" r="7"/><text class="m-label" x="82" y="59" text-anchor="start">高鐵台中站</text><circle class="m-pin" cx="52" cy="20" r="7"/><text class="m-label" x="64" y="25" text-anchor="start">空也素麵食</text><circle class="m-pin" cx="392" cy="136" r="7"/><text class="m-label" x="380" y="126" text-anchor="end">埔里酒廠</text><circle class="m-pin" cx="318" cy="200" r="7"/><text class="m-label" x="306" y="192" text-anchor="end">教師會館・水社</text><circle class="m-pin" cx="382" cy="188" r="7"/><text class="m-label" x="392" y="176" text-anchor="end">魚池夜市</text><circle class="m-pin" cx="292" cy="230" r="7"/><text class="m-label" x="280" y="234" text-anchor="end">雲品</text><circle class="m-pin" cx="362" cy="272" r="7"/><text class="m-label" x="374" y="290" text-anchor="start">伊達邵</text><circle class="m-pin" cx="103" cy="292" r="7"/><text class="m-label" x="115" y="297" text-anchor="start">紫南宮</text><circle class="m-pin-off" cx="300" cy="262" r="5"/><text class="m-label-off" x="290" y="278" text-anchor="end">向山</text><circle class="m-pin-off" cx="116" cy="316" r="5"/><text class="m-label-off" x="128" y="334" text-anchor="start">竹山老街</text><circle class="m-pin-off" cx="130" cy="160" r="5"/><text class="m-label-off" x="142" y="165" text-anchor="start">中興新村</text><line class="m-route" x1="246" y1="292" x2="282" y2="292"/><text class="m-key" x="289" y="296">第一天</text><line class="m-route2" x1="246" y1="312" x2="282" y2="312"/><text class="m-key" x="289" y="316">第二天</text></svg><figcaption>第一天：台中午餐 → 埔里酒廠 → 住教師會館、水社、魚池夜市；第二天：伊達邵 → 雲品湖景午餐 → 紫南宮 → 高鐵台中站</figcaption></figure><p class="dayhead">第一天（週二）</p>
+<div class="tl">
+<div class="stop ride">
+<p class="time">約 08:10</p>
+<h3>汐止 → 高鐵南港站 <span class="lv lv-a">A</span></h3>
+<p>自行開車，約 15–20 分鐘。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8D%97%E6%B8%AF%E7%AB%99%20%E5%8F%B0%E5%8C%97%E5%B8%82%E5%8D%97%E6%B8%AF%E5%8D%80%E5%8D%97%E6%B8%AF%E8%B7%AF%E4%B8%80%E6%AE%B5313%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">停<b>高鐵南港站汽車停車場</b>（B2 直通大廳）：平日每半小時 20 元，<b>每日上限 280 元</b>；進場 15 分鐘內免費。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 09:00</p>
+<h3>高鐵南港站 → 高鐵台中站 <span class="lv lv-c">C</span></h3>
+<p>搭有停台中站的南下班次，約 10:05 到台中。三人同一班車。</p>
+<p>標準車廂對號座：全票 750 元，65 歲以上敬老票 375 元（半價，購票與乘車時帶身分證）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8D%97%E6%B8%AF%E7%AB%99" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop">
+<p class="time">約 10:15</p>
+<h3>高鐵台中站・會合上車 <span class="lv lv-a">A</span></h3>
+<p>台中兩位開車到高鐵台中站接人，五人同一台車出發。</p>
+<p>台中市烏日區站區二路8號</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8F%B0%E4%B8%AD%E7%AB%99%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E7%83%8F%E6%97%A5%E5%8D%80%E7%AB%99%E5%8D%80%E4%BA%8C%E8%B7%AF8%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">接人停 1 樓 <b>P2 載客專用停車場</b>：30 分鐘內免費（每天限 2 次），超過每小時 60 元。</div>
+</div>
+<div class="stop meal">
+<p class="time">11:00</p>
+<h3>午餐・空也素麵食（朝富店） <span class="lv lv-b">B</span></h3>
+<p>輕井澤集團旗下的素食麵館，2025 年重新整修後開幕，空間清幽。平日中午人多，已電話訂位。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>台中市西屯區朝富五街10號｜電話 <a href="tel:0422523722">04-2252-3722</a><br>11:00 開始營業</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">高鐵台中站開車約 15–20 分鐘。店沒有停車位，停附近龍門路的收費停車場。</div>
+</div>
+<div class="stop">
+<p class="time">約 13:20</p>
+<h3>埔里酒廠 <span class="lv lv-a">A</span></h3>
+<p>一樓是展售區：紹興酒、紹興冰棒、紹興香腸和各地農特產，店員與攤位多，邊買邊結緣。二樓是酒文化館，可略過。</p>
+<p>埔里鎮中山路三段219號｜電話 <a href="tel:0492984006">049-2984006</a><br>平日 09:00–17:00，除夕外全年無休</p>
+<p class="acc">有無障礙步道、無障礙廁所、無障礙停車位（日月潭管理處）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E5%9F%94%E9%87%8C%E9%85%92%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5219%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">開車約 1 小時–1 小時 10 分（國道 1 號接國道 6 號）。酒廠有停車場。</div>
+</div>
+<div class="stop stay">
+<p class="time">約 15:10</p>
+<h3>入住・日月潭教師會館 <span class="lv lv-a">A</span></h3>
+<p>在涵碧半島上，湖邊最安靜的一段。① <b>迎賓館「家庭山景四人房」</b>：1 大床＋2 小床，約 11 坪，三人住，平日 <b>5,700 元</b><br>② <b>迎賓館「迎賓山景雙人房」</b>：2 張中床，約 8 坪，兩人住，平日 <b>3,960 元</b><br>兩間同在迎賓館。<b>一晚合計 9,660 元，一人約 1,932 元</b>。<br>一般民眾價，直接向飯店訂房<b>含中式早餐、不另收服務費</b>。</p>
+<p>魚池鄉水社村中興路136號｜電話 <a href="tel:0492855991">049-2855991</a><br>15:00 後入住、11:00 前退房<br>房內不提供拋棄式盥洗用品，請自備牙刷、毛巾。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">埔里酒廠開車約 25–30 分鐘。<br>停車：住客每房每天免費停一台。</div>
+</div>
+<div class="stop">
+<p class="time">約 16:30</p>
+<h3>水社碼頭・水社商圈 <span class="lv lv-a">A</span></h3>
+<p>日月潭最熱鬧的碼頭商圈，伴手禮店、茶葉蛋、小吃店沿著湖邊一整排，傍晚散步看夕陽、邊逛邊結緣。</p>
+<p>水社遊客中心：魚池鄉中山路163號｜電話 <a href="tel:0492855668">049-2855668</a></p>
+<p class="acc">碼頭有無障礙坡道、電梯（日月潭管理處）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF163%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">飯店開車約 5 分鐘。停<b>水社中興停車場</b>，平日每小時 50 元、每天最多 250 元。</div>
+</div>
+<div class="stop meal">
+<p class="time">17:30</p>
+<h3>晚餐・山湖餐廳 <span class="lv lv-b">B</span></h3>
+<p>水社商圈裡的合菜餐館，有獨立素食菜單，<b>葷素鍋具分開</b>，五人一桌點合菜。只收現金。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>魚池鄉中山路157號｜電話 <a href="tel:0492856693">049-2856693</a><br>11:00–14:00、17:00–20:00</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E5%B1%B1%E6%B9%96%E9%A4%90%E5%BB%B3%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF157%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">就在水社商圈內，車停原處步行即可。</div>
+</div>
+<div class="stop">
+<p class="time">約 18:50</p>
+<h3>魚池夜市（只有週二） <span class="lv lv-b">B</span></h3>
+<p>魚池鄉在地人的流動夜市，<b>每週二</b>才擺，攤商都是附近的在地人，是這趟最適合結緣的地方。逛約 40 分鐘。</p>
+<p>魚池鄉魚池街799號對面（7-11 鑫魚池門市對面空地）<br>週二 約 17:00–22:00</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AD%9A%E6%B1%A0%E5%A4%9C%E5%B8%82%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97799%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">水社開車約 10–15 分鐘，停路邊。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 19:40</p>
+<h3>魚池 → 教師會館</h3>
+<p>開車約 10–15 分鐘，回飯店休息。</p>
+</div>
+</div>
+<p class="dayhead">第二天（週三）</p>
+<div class="tl">
+<div class="stop meal">
+<p class="time">07:00</p>
+<h3>早餐・教師會館</h3>
+<p>房價已含中式早餐，07:00–09:30。</p>
+</div>
+<div class="stop ride">
+<p class="time">約 09:30</p>
+<h3>退房 → 伊達邵</h3>
+<p>開車約 10–15 分鐘。</p>
+</div>
+<div class="stop">
+<p class="time">約 09:45</p>
+<h3>伊達邵商圈 <span class="lv lv-a">A</span></h3>
+<p>日月潭東南岸的邵族商圈，義勇街一帶約 400 公尺，伴手禮、小吃、手工藝店，碼頭就在旁邊。部分店家週三、週四休息，但整條街仍有不少店開著。</p>
+<p>伊達邵遊客中心：魚池鄉文化街127號｜電話 <a href="tel:0492850660">049-2850660</a>｜每天 09:00–17:00</p>
+<p class="acc">遊客中心與碼頭有無障礙坡道、電梯、無障礙廁所，也可借代步車（日月潭管理處）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E4%BC%8A%E9%81%94%E9%82%B5%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%96%87%E5%8C%96%E8%A1%97127%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">停<b>伊達邵中正停車場</b>（148 格），平日每小時 50 元。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 11:20</p>
+<h3>伊達邵 → 雲品溫泉酒店</h3>
+<p>開車約 15–20 分鐘。</p>
+</div>
+<div class="stop meal">
+<p class="time">11:40</p>
+<h3>湖景午餐・雲品溫泉酒店 大廳酒吧 <span class="lv lv-a">A</span></h3>
+<p>這趟唯一安排的湖景餐廳。三樓大廳酒吧，落地窗面對日月潭，沙發座，可以慢慢吃、坐一個下午。菜單有素食麵點；飯店表示<b>可依宗教信仰調整餐點</b>，已在訂位時說明。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>魚池鄉中正路23號（3 樓大廳）｜訂位 <a href="tel:0492212926">049-2212926</a><br>10:00–22:00（最後點餐 21:30）<br>每人低消 350 元＋10% 服務費</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">飯店有室內及戶外停車場。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 14:10</p>
+<h3>雲品 → 竹山紫南宮</h3>
+<p>開車約 1 小時–1 小時 10 分。</p>
+</div>
+<div class="stop">
+<p class="time">約 15:15</p>
+<h3>紫南宮・周邊商店街 <span class="lv lv-a">A</span></h3>
+<p>廟前方與周邊好幾條街的小吃、冷飲、水果攤、伴手禮店，是攤商最多的結緣點。不排參拜，只逛商店街。</p>
+<p>竹山鎮社寮里大公街40號｜電話 <a href="tel:0492623722">049-2623722</a><br>每天 07:00–21:00</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">停<b>廟方大型停車場，免費</b>。廟前的私人停車場要收費，不要停。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 16:20</p>
+<h3>紫南宮 → 高鐵台中站</h3>
+<p>開車約 45–55 分鐘，約 17:15 到，送三位到車站。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8F%B0%E4%B8%AD%E7%AB%99%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E7%83%8F%E6%97%A5%E5%8D%80%E7%AB%99%E5%8D%80%E4%BA%8C%E8%B7%AF8%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop ride">
+<p class="time">約 17:30</p>
+<h3>高鐵台中站 → 高鐵南港站 <span class="lv lv-c">C</span></h3>
+<p>搭有停台中站的北上班次，約 18:35 到南港。全票 750 元、敬老票 375 元。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8D%97%E6%B8%AF%E7%AB%99" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop ride">
+<p class="time">約 18:45</p>
+<h3>高鐵南港站 → 汐止</h3>
+<p>到停車場取車，自行開車回汐止，約 19:10 到家。</p>
+</div>
+</div>
+<div class="box">
+<h4>這一趟的費用（已查到的部分）</h4>
+<ul>
+<li><b>住宿</b>：教師會館兩間房 9,660 元（含早餐），一人約 1,932 元。</li>
+<li><b>高鐵</b>（三位來回）：全票每趟 750 元，65 歲以上敬老票 375 元。</li>
+<li><b>南港站停車</b>：兩天，每天上限 280 元。</li>
+<li><b>湖景午餐</b>：雲品大廳酒吧每人低消 350 元＋10%。</li>
+</ul>
+</div>
+</section>
+
+<section id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+<p class="summary"><b>三天兩夜</b><br>第一天汐止約 08:10 出門，第三天約 16:40 到家。<br>兩晚都住<b>日月潭教師會館</b>，一人一晚約 1,932 元。第二天整天在湖邊，中午在雲品慢慢吃、下午回飯店休息。<b>週二出發、週四回</b>。</p>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一（詳見「出發前確認」）</p><figure class="map"><svg viewBox="0 0 440 340" role="img" aria-label="行程路線示意圖"><path class="m-water" d="M296 244 C294 216 322 204 344 212 C368 220 378 252 362 266 C342 282 300 274 296 244 Z"/><text class="m-key" x="336" y="246" text-anchor="middle">日月潭</text><path class="m-hill" d="M212 110 l18 -26 l18 26 M240 160 l14 -20 l14 20 M206 250 l16 -24 l16 24"/><path class="m-route" d="M 70 54 L 52 20"/><path class="m-route" d="M 52 20 Q 240 40 392 136"/><path class="m-route" d="M 392 136 Q 360 150 318 200"/><path class="m-route" d="M 318 200 Q 360 176 382 188"/><path class="m-route2" d="M 318 200 Q 290 222 300 262"/><path class="m-route2" d="M 300 262 Q 330 300 362 272"/><path class="m-route2" d="M 362 272 Q 380 230 292 230"/><path class="m-route3" d="M 318 200 Q 220 200 103 292"/><path class="m-route3" d="M 103 292 L 116 316"/><path class="m-route3" d="M 116 316 Q 160 250 130 160"/><path class="m-route3" d="M 130 160 Q 70 110 70 54"/><circle class="m-pin" cx="70" cy="54" r="7"/><text class="m-label" x="82" y="59" text-anchor="start">高鐵台中站</text><circle class="m-pin" cx="52" cy="20" r="7"/><text class="m-label" x="64" y="25" text-anchor="start">空也素麵食</text><circle class="m-pin" cx="392" cy="136" r="7"/><text class="m-label" x="380" y="126" text-anchor="end">埔里酒廠</text><circle class="m-pin" cx="318" cy="200" r="7"/><text class="m-label" x="306" y="192" text-anchor="end">教師會館・水社</text><circle class="m-pin" cx="382" cy="188" r="7"/><text class="m-label" x="392" y="176" text-anchor="end">魚池夜市</text><circle class="m-pin" cx="292" cy="230" r="7"/><text class="m-label" x="280" y="234" text-anchor="end">雲品</text><circle class="m-pin" cx="362" cy="272" r="7"/><text class="m-label" x="374" y="290" text-anchor="start">伊達邵</text><circle class="m-pin" cx="103" cy="292" r="7"/><text class="m-label" x="115" y="297" text-anchor="start">紫南宮</text><circle class="m-pin" cx="300" cy="262" r="7"/><text class="m-label" x="290" y="278" text-anchor="end">向山</text><circle class="m-pin" cx="116" cy="316" r="7"/><text class="m-label" x="128" y="334" text-anchor="start">竹山老街</text><circle class="m-pin" cx="130" cy="160" r="7"/><text class="m-label" x="142" y="165" text-anchor="start">中興新村（荷緣）</text><line class="m-route" x1="246" y1="292" x2="282" y2="292"/><text class="m-key" x="289" y="296">第一天</text><line class="m-route2" x1="246" y1="312" x2="282" y2="312"/><text class="m-key" x="289" y="316">第二天</text><line class="m-route3" x1="246" y1="332" x2="282" y2="332"/><text class="m-key" x="289" y="336">第三天</text></svg><figcaption>第一天：台中 → 埔里 → 日月潭；第二天：向山 → 伊達邵 → 雲品湖景午餐（湖邊慢活）；第三天：紫南宮 → 竹山老街 → 中興新村午餐 → 高鐵台中站</figcaption></figure><p class="dayhead">第一天（週二）</p>
+<div class="tl">
+<div class="stop ride">
+<p class="time">約 08:10</p>
+<h3>汐止 → 高鐵南港站 <span class="lv lv-a">A</span></h3>
+<p>自行開車，約 15–20 分鐘。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8D%97%E6%B8%AF%E7%AB%99%20%E5%8F%B0%E5%8C%97%E5%B8%82%E5%8D%97%E6%B8%AF%E5%8D%80%E5%8D%97%E6%B8%AF%E8%B7%AF%E4%B8%80%E6%AE%B5313%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">停<b>高鐵南港站汽車停車場</b>（B2 直通大廳）：平日每半小時 20 元，<b>每日上限 280 元</b>；進場 15 分鐘內免費。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 09:00</p>
+<h3>高鐵南港站 → 高鐵台中站 <span class="lv lv-c">C</span></h3>
+<p>搭有停台中站的南下班次，約 10:05 到台中。三人同一班車。</p>
+<p>標準車廂對號座：全票 750 元，65 歲以上敬老票 375 元（半價，購票與乘車時帶身分證）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8D%97%E6%B8%AF%E7%AB%99" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop">
+<p class="time">約 10:15</p>
+<h3>高鐵台中站・會合上車 <span class="lv lv-a">A</span></h3>
+<p>台中兩位開車到高鐵台中站接人，五人同一台車出發。</p>
+<p>台中市烏日區站區二路8號</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8F%B0%E4%B8%AD%E7%AB%99%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E7%83%8F%E6%97%A5%E5%8D%80%E7%AB%99%E5%8D%80%E4%BA%8C%E8%B7%AF8%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">接人停 1 樓 <b>P2 載客專用停車場</b>：30 分鐘內免費（每天限 2 次），超過每小時 60 元。</div>
+</div>
+<div class="stop meal">
+<p class="time">11:00</p>
+<h3>午餐・空也素麵食（朝富店） <span class="lv lv-b">B</span></h3>
+<p>輕井澤集團旗下的素食麵館，2025 年重新整修後開幕，空間清幽。平日中午人多，已電話訂位。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>台中市西屯區朝富五街10號｜電話 <a href="tel:0422523722">04-2252-3722</a><br>11:00 開始營業</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">高鐵台中站開車約 15–20 分鐘。店沒有停車位，停附近龍門路的收費停車場。</div>
+</div>
+<div class="stop">
+<p class="time">約 13:20</p>
+<h3>埔里酒廠 <span class="lv lv-a">A</span></h3>
+<p>一樓是展售區：紹興酒、紹興冰棒、紹興香腸和各地農特產，店員與攤位多，邊買邊結緣。二樓是酒文化館，可略過。</p>
+<p>埔里鎮中山路三段219號｜電話 <a href="tel:0492984006">049-2984006</a><br>平日 09:00–17:00，除夕外全年無休</p>
+<p class="acc">有無障礙步道、無障礙廁所、無障礙停車位（日月潭管理處）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E5%9F%94%E9%87%8C%E9%85%92%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5219%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">開車約 1 小時–1 小時 10 分（國道 1 號接國道 6 號）。酒廠有停車場。</div>
+</div>
+<div class="stop stay">
+<p class="time">約 15:10</p>
+<h3>入住・日月潭教師會館 <span class="lv lv-a">A</span></h3>
+<p>在涵碧半島上，湖邊最安靜的一段。① <b>迎賓館「家庭山景四人房」</b>：1 大床＋2 小床，約 11 坪，三人住，平日 <b>5,700 元</b><br>② <b>迎賓館「迎賓山景雙人房」</b>：2 張中床，約 8 坪，兩人住，平日 <b>3,960 元</b><br>兩間同在迎賓館。<b>一晚合計 9,660 元，一人約 1,932 元</b>。<br>一般民眾價，直接向飯店訂房<b>含中式早餐、不另收服務費</b>。<br>兩晚合計 <b>19,320 元</b>，一人約 3,864 元。</p>
+<p>魚池鄉水社村中興路136號｜電話 <a href="tel:0492855991">049-2855991</a><br>15:00 後入住、11:00 前退房<br>房內不提供拋棄式盥洗用品，請自備牙刷、毛巾。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">埔里酒廠開車約 25–30 分鐘。<br>停車：住客每房每天免費停一台。</div>
+</div>
+<div class="stop">
+<p class="time">約 16:30</p>
+<h3>水社碼頭・水社商圈 <span class="lv lv-a">A</span></h3>
+<p>日月潭最熱鬧的碼頭商圈，伴手禮店、茶葉蛋、小吃店沿著湖邊一整排，傍晚散步看夕陽、邊逛邊結緣。</p>
+<p>水社遊客中心：魚池鄉中山路163號｜電話 <a href="tel:0492855668">049-2855668</a></p>
+<p class="acc">碼頭有無障礙坡道、電梯（日月潭管理處）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF163%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">飯店開車約 5 分鐘。停<b>水社中興停車場</b>，平日每小時 50 元、每天最多 250 元。</div>
+</div>
+<div class="stop meal">
+<p class="time">17:30</p>
+<h3>晚餐・山湖餐廳 <span class="lv lv-b">B</span></h3>
+<p>水社商圈裡的合菜餐館，有獨立素食菜單，<b>葷素鍋具分開</b>，五人一桌點合菜。只收現金。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>魚池鄉中山路157號｜電話 <a href="tel:0492856693">049-2856693</a><br>11:00–14:00、17:00–20:00</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E5%B1%B1%E6%B9%96%E9%A4%90%E5%BB%B3%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF157%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">就在水社商圈內，車停原處步行即可。</div>
+</div>
+<div class="stop">
+<p class="time">約 18:50</p>
+<h3>魚池夜市（只有週二） <span class="lv lv-b">B</span></h3>
+<p>魚池鄉在地人的流動夜市，<b>每週二</b>才擺，攤商都是附近的在地人，是這趟最適合結緣的地方。逛約 40 分鐘。</p>
+<p>魚池鄉魚池街799號對面（7-11 鑫魚池門市對面空地）<br>週二 約 17:00–22:00</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AD%9A%E6%B1%A0%E5%A4%9C%E5%B8%82%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97799%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">水社開車約 10–15 分鐘，停路邊。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 19:40</p>
+<h3>魚池 → 教師會館</h3>
+<p>開車約 10–15 分鐘，回飯店休息。</p>
+</div>
+</div>
+<p class="dayhead">第二天（週三）湖邊慢活</p>
+<div class="tl">
+<div class="stop meal">
+<p class="time">07:00</p>
+<h3>早餐・教師會館</h3>
+<p>房價已含中式早餐，07:00–09:30。早上不趕，慢慢出門。</p>
+</div>
+<div class="stop">
+<p class="time">約 09:50</p>
+<h3>向山遊客中心 <span class="lv lv-a">A</span></h3>
+<p>清水模建築，整片落地窗看湖，是日月潭看湖景最舒服的室內空間。館內有茶飲店，坐著休息一下再出發。</p>
+<p>魚池鄉中山路599號｜電話 <a href="tel:0492341256">049-2341256</a><br>每天 09:00–17:00，全年無休</p>
+<p class="acc">有電梯、無障礙廁所、無障礙車位，可借代步車（日月潭管理處）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">飯店開車約 10 分鐘，停車免費。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 10:50</p>
+<h3>向山 → 伊達邵</h3>
+<p>沿著湖開車約 15–20 分鐘。</p>
+</div>
+<div class="stop">
+<p class="time">約 11:10</p>
+<h3>伊達邵商圈 <span class="lv lv-a">A</span></h3>
+<p>日月潭東南岸的邵族商圈，義勇街一帶約 400 公尺，伴手禮、小吃、手工藝店，碼頭就在旁邊。部分店家週三、週四休息，但整條街仍有不少店開著。</p>
+<p>伊達邵遊客中心：魚池鄉文化街127號｜電話 <a href="tel:0492850660">049-2850660</a>｜每天 09:00–17:00</p>
+<p class="acc">遊客中心與碼頭有無障礙坡道、電梯、無障礙廁所，也可借代步車（日月潭管理處）。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E4%BC%8A%E9%81%94%E9%82%B5%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%96%87%E5%8C%96%E8%A1%97127%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">停<b>伊達邵中正停車場</b>（148 格），平日每小時 50 元。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 12:10</p>
+<h3>伊達邵 → 雲品溫泉酒店</h3>
+<p>開車約 15–20 分鐘。</p>
+</div>
+<div class="stop meal">
+<p class="time">12:30</p>
+<h3>湖景午餐・雲品溫泉酒店 大廳酒吧 <span class="lv lv-a">A</span></h3>
+<p>這趟唯一安排的湖景餐廳。三樓大廳酒吧，落地窗面對日月潭，沙發座，可以慢慢吃、坐一個下午。菜單有素食麵點；飯店表示<b>可依宗教信仰調整餐點</b>，已在訂位時說明。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>魚池鄉中正路23號（3 樓大廳）｜訂位 <a href="tel:0492212926">049-2212926</a><br>10:00–22:00（最後點餐 21:30）<br>每人低消 350 元＋10% 服務費</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">飯店有室內及戶外停車場。</div>
+</div>
+<div class="stop stay">
+<p class="time">約 15:00</p>
+<h3>回教師會館休息</h3>
+<p>雲品開車約 5 分鐘。下午在房間休息，或在涵碧半島步道短短走一段看湖。</p>
+</div>
+<div class="stop meal">
+<p class="time">約 17:00</p>
+<h3>晚餐・阿芬素食館 <span class="lv lv-b">B</span></h3>
+<p>魚池街上的全素家常小館，炒飯、炒米粉、素滷，在地人常吃。晚上 19:00 打烊，早點去。只收現金。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>魚池鄉魚池街349號｜電話 <a href="tel:0492897761">049-2897761</a><br>晚餐 16:30–19:00｜週一公休</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">飯店開車約 10–15 分鐘，停路邊。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 18:15</p>
+<h3>魚池 → 教師會館</h3>
+<p>開車約 10–15 分鐘，回飯店休息。</p>
+</div>
+</div>
+<p class="dayhead">第三天（週四）</p>
+<div class="tl">
+<div class="stop meal">
+<p class="time">07:00</p>
+<h3>早餐・教師會館</h3>
+<p>房價已含中式早餐，07:00–09:30。</p>
+</div>
+<div class="stop ride">
+<p class="time">約 09:00</p>
+<h3>退房 → 竹山紫南宮</h3>
+<p>開車約 1 小時–1 小時 10 分。</p>
+</div>
+<div class="stop">
+<p class="time">約 10:10</p>
+<h3>紫南宮・周邊商店街 <span class="lv lv-a">A</span></h3>
+<p>廟前方與周邊好幾條街的小吃、冷飲、水果攤、伴手禮店，是攤商最多的結緣點。不排參拜，只逛商店街。</p>
+<p>竹山鎮社寮里大公街40號｜電話 <a href="tel:0492623722">049-2623722</a><br>每天 07:00–21:00</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">停<b>廟方大型停車場，免費</b>。廟前的私人停車場要收費，不要停。</div>
+</div>
+<div class="stop">
+<p class="time">約 11:35</p>
+<h3>竹山老街（林圮埔）・連興宮周邊 <span class="lv lv-a">A</span></h3>
+<p>兩百多年的老街，打鐵舖、米麩店、古早味飲料店都是傳了好幾代的老店，老闆多是長輩。停留約 40 分鐘。</p>
+<p>連興宮：竹山鎮下橫街28號｜電話 <a href="tel:0492642487">049-2642487</a></p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E7%AB%B9%E5%B1%B1%E9%80%A3%E8%88%88%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E4%B8%8B%E6%A9%AB%E8%A1%9728%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">紫南宮開車約 10–15 分鐘。竹山鎮沒有路邊停車收費，停老街周邊。</div>
+</div>
+<div class="stop meal">
+<p class="time">約 12:50</p>
+<h3>午餐・荷緣素食（中興新村） <span class="lv lv-a">A</span></h3>
+<p>全素，而且<b>完全不用素料</b>，主打蔬食火鍋，在中興新村荷花池旁。只收現金。訂位時已交代：<b>五位、全素、不加五辛</b>。</p>
+<p>南投市省府路89號｜電話 <a href="tel:0492390455">049-2390455</a><br>週二至週五 11:00–14:00、17:00–20:00｜週一公休</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+<div class="go">竹山老街開車約 30–40 分鐘。店沒有停車位，停省府路一帶路邊。</div>
+</div>
+<div class="stop ride">
+<p class="time">約 14:05</p>
+<h3>中興新村 → 高鐵台中站</h3>
+<p>開車約 30–40 分鐘，約 14:45 到，送三位到車站。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8F%B0%E4%B8%AD%E7%AB%99%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E7%83%8F%E6%97%A5%E5%8D%80%E7%AB%99%E5%8D%80%E4%BA%8C%E8%B7%AF8%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop ride">
+<p class="time">約 15:00</p>
+<h3>高鐵台中站 → 高鐵南港站 <span class="lv lv-c">C</span></h3>
+<p>搭有停台中站的北上班次，約 16:05 到南港。全票 750 元、敬老票 375 元。</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%90%B5%E5%8D%97%E6%B8%AF%E7%AB%99" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop ride">
+<p class="time">約 16:15</p>
+<h3>高鐵南港站 → 汐止</h3>
+<p>到停車場取車，自行開車回汐止，約 16:40 到家。</p>
+</div>
+</div>
+<div class="box">
+<h4>這一趟的費用（已查到的部分）</h4>
+<ul>
+<li><b>住宿</b>：教師會館兩間房，一晚 9,660 元（含早餐），兩晚 19,320 元，一人約 3,864 元。</li>
+<li><b>高鐵</b>（三位來回）：全票每趟 750 元，65 歲以上敬老票 375 元。</li>
+<li><b>南港站停車</b>：三天，每天上限 280 元。</li>
+<li><b>湖景午餐</b>：雲品大廳酒吧每人低消 350 元＋10%。</li>
+</ul>
+</div>
+</section>
+
+<section id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+<p class="summary">兩個版本都從<b>週二</b>出發：魚池夜市只在週二擺；阿芬、荷緣週一公休；山湖可能週四公休，所以不排週四晚餐。</p>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一（詳見「出發前確認」）</p><table class="t"><thead><tr><th>地點</th><th>時間</th><th>公休</th></tr></thead><tbody><tr><td>空也素麵食（朝富店） <span class="lv lv-c">C</span></td><td>11:00 起</td><td>查不到公休日</td></tr><tr><td>埔里酒廠 <span class="lv lv-a">A</span></td><td>平日 09:00–17:00</td><td>除夕外全年無休</td></tr><tr><td>日月潭教師會館 <span class="lv lv-a">A</span></td><td>15:00 入住／11:00 退房</td><td>—</td></tr><tr><td>水社商圈 <span class="lv lv-a">A</span></td><td>依各店</td><td>—</td></tr><tr><td>山湖餐廳 <span class="lv lv-c">C</span></td><td>11:00–14:00、17:00–20:00</td><td>週四（說法不一）</td></tr><tr><td>魚池夜市 <span class="lv lv-b">B</span></td><td>約 17:00–22:00</td><td><b>只在週二</b></td></tr><tr><td>伊達邵遊客中心 <span class="lv lv-a">A</span></td><td>09:00–17:00</td><td>每天開；部分店家週三、四休</td></tr><tr><td>雲品大廳酒吧 <span class="lv lv-a">A</span></td><td>10:00–22:00</td><td>每天開</td></tr><tr><td>向山遊客中心 <span class="lv lv-a">A</span></td><td>09:00–17:00</td><td>全年無休</td></tr><tr><td>阿芬素食館 <span class="lv lv-b">B</span></td><td>16:30–19:00（晚餐）</td><td><b>週一</b></td></tr><tr><td>紫南宮 <span class="lv lv-a">A</span></td><td>07:00–21:00</td><td>每天開</td></tr><tr><td>竹山老街 <span class="lv lv-c">C</span></td><td>各店不同</td><td>各店不同</td></tr><tr><td>荷緣素食 <span class="lv lv-a">A</span></td><td>11:00–14:00、17:00–20:00</td><td><b>週一</b></td></tr></tbody></table><div class="box">
+<h4>建議日期（出遊期間 11/1–12/20，避開 11/26–11/30）</h4>
+<ul>
+<li><b>兩天一夜（週二＋週三）</b><br>11/3–11/4、11/10–11/11、11/17–11/18、11/24–11/25<br>12/1–12/2、12/8–12/9、12/15–12/16</li>
+<li><b>三天兩夜（週二至週四）</b><br>11/3–11/5、11/10–11/12、11/17–11/19<br>12/1–12/3、12/8–12/10、12/15–12/17</li>
+<li>11/28（六）地方公職人員選舉，11/26–11/30 返鄉人潮多，已排除；11/24–11/26 三天版會碰到 11/26，所以不列。</li>
+<li>教師會館每月 1 日 09:00 開放預約未來三個月（例：11 月的房間 8/1 起可訂，12 月的房間 9/1 起可訂）。</li>
+</ul>
+</div>
+</section>
+
+<section id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+<p class="summary">行程裡沒排到的選擇，想換哪一餐都可以從這裡挑。<b>越前面越推薦</b>（好吃 × 坐得住）。座位少、要排隊的放在最後。</p>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一（詳見「出發前確認」）</p><p class="dayhead">湖景餐廳（替代雲品）</p>
+<div class="tl plain">
+<div class="stop">
+<h3>涵碧樓・湖光軒<span class="area">日月潭水社</span> <span class="lv lv-a">A</span></h3>
+<p>日月潭最知名的湖景飯店，7 樓中餐廳（港式、上海菜）。官網沒寫素食；2019 年有素食套餐的紀錄，要電話確認能否做全素、不加五辛。</p>
+<p>魚池鄉中興路142號｜電話 <a href="tel:0492856577">049-2856577</a><br>午餐 11:30–15:00</p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E6%B6%B5%E7%A2%A7%E6%A8%93%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF142%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop">
+<h3>漢來日月行館・星空酒廊<span class="area">日月潭</span> <span class="lv lv-a">A</span></h3>
+<p>11 樓，日月潭最高的景觀餐廳。午餐 11:00–14:00、下午茶 14:00–17:00，每人低消 680 元＋10%。素食要電話問。</p>
+<p>魚池鄉中興路139號｜電話 <a href="tel:0492212188">049-2212188</a></p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E6%BC%A2%E4%BE%86%E6%97%A5%E6%9C%88%E8%A1%8C%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF139%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+</div>
+<p class="dayhead">平價正餐</p>
+<div class="tl plain">
+<div class="stop">
+<h3>督賀蔬苑<span class="area">草屯</span> <span class="lv lv-a">A</span></h3>
+<p>素食專用的大型餐廳，有包廂、大停車場，合菜 4–6 人份，空間最寬敞。</p>
+<p>草屯鎮墩煌路三段168號｜電話 <a href="tel:0492357166">049-2357166</a><br>11:30–13:30、17:30–20:00｜<b>週二、週三公休</b></p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E7%9D%A3%E8%B3%80%E8%94%AC%E8%8B%91%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E5%A2%A9%E7%85%8C%E8%B7%AF%E4%B8%89%E6%AE%B5168%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop">
+<h3>田心心素蔬食餐坊<span class="area">埔里</span> <span class="lv lv-a">A</span></h3>
+<p>鄉村風蔬食，燉飯、焗烤、火鍋，有套餐，坐得舒服。</p>
+<p>埔里鎮中正三路174號｜電話 <a href="tel:0492999351">049-2999351</a><br>11:00–14:00、17:00–20:00｜<b>週三公休</b></p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E7%94%B0%E5%BF%83%E5%BF%83%E7%B4%A0%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E4%B8%89%E8%B7%AF174%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop">
+<h3>101歐風蔬食烘焙咖啡<span class="area">南投市・中興新村</span> <span class="lv lv-b">B</span></h3>
+<p>田園景觀，全素、蛋奶素都有。平日 15:00–17:00 休息。</p>
+<p>南投市營中路239號｜電話 <a href="tel:0492352966">049-2352966</a><br>週二至週五 11:30–15:00、17:00–21:00｜<b>週一公休</b></p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=101%E6%AD%90%E9%A2%A8%E8%94%AC%E9%A3%9F%E7%83%98%E7%84%99%E5%92%96%E5%95%A1%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%87%9F%E4%B8%AD%E8%B7%AF239%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop">
+<h3>雪花素食<span class="area">埔里</span> <span class="lv lv-a">A</span></h3>
+<p>老字號全素店，臭豆腐、高麗菜捲、三色豆花。用餐時間常客滿，不接受訂位。</p>
+<p>埔里鎮忠孝路141號｜電話 <a href="tel:0492985127">049-2985127</a><br>10:30–20:00｜<b>週二公休</b></p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E9%9B%AA%E8%8A%B1%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF141%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+<div class="stop">
+<h3>大有素食<span class="area">南投市</span> <span class="lv lv-a">A</span></h3>
+<p>三十年老店，紅燒麵、大滷麵。<b>位子少、常排隊</b>，龍井街不好停車。</p>
+<p>南投市龍井街7號｜電話 <a href="tel:0492236963">049-2236963</a><br>約 11:00–13:30、17:00–19:00｜<b>週一公休</b></p>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E6%9C%89%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E9%BE%8D%E4%BA%95%E8%A1%977%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a></p>
+</div>
+</div>
+</section>
+
+<section id="p5" role="tabpanel" aria-labelledby="t5" hidden>
+<p class="summary">下面都是<b>網路上已查過、仍查不到或說法不一</b>的事，只能打電話問。訂房、訂位時一併問清楚即可。</p>
+<div class="box">
+<h4>訂房、訂位時一起問</h4>
+<ul>
+<li><b>日月潭教師會館 <a href="tel:0492855991">049-2855991</a></b><br>・兩間房能不能排在隔壁或相鄰（官網寫「恕不接受指定樓層」，相鄰房沒寫，只能請櫃檯盡量安排）<br>・迎賓館有沒有電梯（官網查不到）<br>・早餐有沒有全素、不含五辛的菜</li>
+<li><b>空也素麵食 <a href="tel:0422523722">04-2252-3722</a></b><br>・哪些麵點是全素、不含五辛（菜單沒有標示）<br>・公休日（查不到）</li>
+<li><b>雲品大廳酒吧 <a href="tel:0492212926">049-2212926</a></b><br>・午餐主餐有哪些素食（官網只列飲品甜點，素食麵點只有一篇 2026 年部落格寫到）<br>・能否做全素、不加五辛<br>・湖景座位能否預留；非住客停車是否免費</li>
+<li><b>山湖餐廳 <a href="tel:0492856693">049-2856693</a></b><br>・素食合菜的菜色與價位（查不到）；能否不加五辛<br>・週四是否公休（兩說；行程排週二，不受影響）</li>
+<li><b>阿芬素食館 <a href="tel:0492897761">049-2897761</a></b>　能否不加五辛；座位夠不夠五人一桌。</li>
+<li><b>荷緣素食 <a href="tel:0492390455">049-2390455</a></b>　能否不加五辛；五人能否訂位。</li>
+</ul>
+</div>
+<div class="box">
+<h4>出發前再看一眼</h4>
+<ul>
+<li><b>高鐵車次與票價</b>：官方查詢頁要互動操作，只查到第三方網站的票價（全票 750、敬老 375）與車次，訂票時在高鐵 App 選「有停台中站」的班次。</li>
+<li><b>魚池夜市</b>：沒有官方公告，三篇部落格都寫週二擺。出發前一週可請教師會館櫃檯幫忙問。</li>
+<li><b>竹山老街</b>：各店公休不同；停車場名稱與收費只有一篇部落格寫「免費」。</li>
+<li><b>水社中興停車場</b>：日月潭管理處兩個頁面寫的費率不同（每天上限 250 元或 100 元），以現場告示為準。</li>
+<li><b>車程</b>：都是概估，山路請多抓一點時間，出發前一天用 Google 地圖再看一次。</li>
+<li><b>天候</b>：山區遇颱風、豪雨時，商圈與夜市可能不開，出發前一天看新聞。</li>
+</ul>
+</div>
+</section>
+
+
+  <footer>
+    車程為一般路況概估，實際以當日車況為準。營業時間以店家公告為準。資料查證日：2026 年 9 月 26 日。
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function show(id) {
+      tabs.forEach(function (t) {
+        var on = t.id === id;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+    }
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        show(t.id);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
