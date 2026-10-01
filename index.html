@@ -273,6 +273,8 @@
   .m2-num { font-size: 15px; }
   .m-label-off { font-size: 15px; }
   .m-key { font-size: 14px; }
+  html, button, a { touch-action: manipulation; }
+  .fontbtn { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
   .fontbtn { position: fixed; left: 16px; bottom: 20px; z-index: 6; height: 52px; padding: 0 16px; border-radius: 26px; border: 1px solid var(--line);
              background: var(--surface); color: var(--ink); font-size: 17px; box-shadow: 0 2px 8px rgba(0,0,0,.15); cursor: pointer; }
   html.big .wrap { zoom: 1.2; }
@@ -714,7 +716,7 @@
 <ul class="bl"><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000809" target="_blank" rel="noopener">魚池鄉（日月潭，住兩晚）</a></li><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000802" target="_blank" rel="noopener">埔里鎮（第一天）</a></li><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000804" target="_blank" rel="noopener">竹山鎮（第三天紫南宮）</a></li><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000801" target="_blank" rel="noopener">南投市（第三天中興新村）</a></li></ul>
 </div>
 <div class="pack"><h4>隨行後背包</h4><label><input type="checkbox"> <span>摺疊傘</span></label><label><input type="checkbox"> <span>行動電源</span></label><label><input type="checkbox"> <span>衛生紙</span></label><label><input type="checkbox"> <span>護墊</span></label><label><input type="checkbox"> <span>遮陽帽</span></label><label><input type="checkbox"> <span>太陽眼鏡</span></label><label><input type="checkbox"> <span>環保袋</span></label><label><input type="checkbox"> <span>環保餐具</span></label><label><input type="checkbox"> <span>保溫杯或水壺</span></label><p class="pnote"><small>會館房內不提供瓶裝水，可到樓層飲水機裝水（會館官網）</small></p></div>
-<div class="pack"><h4>行李</h4><label><input type="checkbox"> <span>手機充電線</span></label><label><input type="checkbox"> <span>牙刷</span></label><label><input type="checkbox"> <span>牙膏</span></label><label><input type="checkbox"> <span>換洗衣物（內衣、內褲、襪子、睡衣、外衣）</span></label><label><input type="checkbox"> <span>防曬</span></label><label><input type="checkbox"> <span>薄外套（看一週預報）</span></label><label><input type="checkbox"> <span>梳子、室內拖鞋</span></label><p class="pnote"><small>會館官網客房頁：房內不提供牙膏、牙刷、梳子、浴帽、刮鬍刀、紙拖等一次性備品。洗髮精、沐浴乳官網沒寫，習慣用自己的可以帶</small></p></div>
+<div class="pack"><h4>行李</h4><label><input type="checkbox"> <span>手機充電線</span></label><label><input type="checkbox"> <span>牙刷</span></label><label><input type="checkbox"> <span>牙膏</span></label><label><input type="checkbox"> <span>換洗衣物（內衣、內褲、襪子、睡衣、外衣）</span></label><label><input type="checkbox"> <span>防曬</span></label><label><input type="checkbox"> <span>薄外套（看一週預報）</span></label><label><input type="checkbox"> <span>室內拖鞋</span></label><p class="pnote"><small>會館官網客房頁：房內不提供牙膏、牙刷、浴帽、刮鬍刀、紙拖等一次性備品；洗髮精、沐浴乳會館有提供</small></p></div>
 <div class="box">
 <h4>會館有提供（不用帶）</h4>
 <ul class="bl"><li>吹風機、電熱水壺、冷水壺（會館官網客房頁）</li></ul>
@@ -726,7 +728,7 @@
   <button type="button" class="top-btn" id="toTop">↑ 回到最上面（切換頁籤）</button>
 <svg class="lotus" viewBox="0 0 84 64" aria-hidden="true"><path class="pt" style="--r:-62deg;--dl:0.5s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#EDB9C4"/><path class="pt" style="--r:62deg;--dl:0.5s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#EDB9C4"/><path class="pt" style="--r:-32deg;--dl:0.3s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F0C6CF"/><path class="pt" style="--r:32deg;--dl:0.3s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F0C6CF"/><path class="pt" style="--r:0deg;--dl:0.1s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F5D6DC"/><path d="M24 60 Q42 66 60 60" stroke="#8FAA9E" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
   <footer>
-    車程為一般路況概估，實際以當日車況為準。營業時間以店家公告為準。資料查證日：2026 年 10 月 1 日。
+    車程為一般路況概估，實際以當日車況為準。營業時間以店家公告為準。資料查證日：2026 年 10 月 2 日。
   </footer>
 </div>
 <button type="button" class="top-fab" id="toTopFab" aria-label="回到最上面">↑</button>
