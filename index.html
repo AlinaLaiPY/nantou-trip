@@ -65,7 +65,7 @@
   .dayhead { font-family: var(--serif); font-size: 21px; font-weight: 700; letter-spacing: .05em; margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--jade); }
 
   .tl { display: grid; gap: 10px; position: relative; padding-left: 34px; }
-  .tl::before { content: ""; position: absolute; left: 10px; top: 26px; bottom: 26px; width: 2px; background: var(--line); }
+  .tl::before { content: ""; position: absolute; left: 13px; top: 26px; bottom: 26px; width: 2px; background: var(--line); }
   .stop { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
   .stop::before { content: ""; position: absolute; left: -32px; top: 21px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 3px solid var(--jade); }
   .meal::before { border-color: var(--vermilion); }
@@ -123,6 +123,8 @@
   .map.go .m-leg-on[pathLength] { animation: draw .6s ease-out var(--d) both, appear .01s linear var(--d) both; }
   .pop { transform-box: fill-box; transform-origin: center; opacity: 0; }
   section[role=tabpanel]:not([hidden]) { animation: panelin .45s ease-out both; }
+  section[role=tabpanel].noin { animation: none; }
+  .sw .tl .stop, .sw .pack, .sw .t, .sw .tl .stop::before, .sw .tl .stop .time { transition: none !important; animation: none !important; }
   @keyframes panelin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
   .js .tl .stop, .js .pack, .js .t { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
   .js .tl .stop.in, .js .pack.in, .js .t.in { opacity: 1; transform: none; }
@@ -163,7 +165,7 @@
   .hero[data-day="1"] .h-sun { fill: #F2C996; }
   .hero[data-day="2"] .h-sun { fill: #F6E4B8; }
   .hero[data-day="3"] .h-sun { fill: #E9A57C; }
-  .tl:not(.plain)::after { content: ""; position: absolute; left: 10px; top: 26px; width: 2px; height: calc(var(--p, 0) * (100% - 52px)); background: var(--jade); opacity: .7; transition: height .25s linear; z-index: 0; }
+  .tl:not(.plain)::after { content: ""; position: absolute; left: 13px; top: 26px; width: 2px; height: calc(var(--p, 0) * (100% - 52px)); background: var(--jade); opacity: .7; transition: height .25s linear; z-index: 0; }
   .tl .stop { z-index: 1; }
   .js .tl .stop.in .time { animation: tglow 1.1s ease-out .2s both; }
   @keyframes tglow { from { opacity: 0; letter-spacing: .3em; } to { opacity: 1; letter-spacing: .04em; } }
@@ -242,6 +244,38 @@
   .car .cbtn { position: absolute; top: calc(50% - 30px); width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255,255,255,.85); color: #333; font-size: 24px; line-height: 34px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
   .car .prev { left: 8px; } .car .next { right: 8px; }
   .car .cnt { margin: 4px 0 0 !important; font-size: 13px !important; color: #8A8377; text-align: center; }
+  /* ---- 大字：手機老花友善 ---- */
+  body { font-size: 19px; line-height: 1.8; }
+  .sub { font-size: 17px; }
+  .tab { font-size: 18px !important; }
+  .summary, .summary li { font-size: 18px; }
+  .legend { font-size: 15px; }
+  .area { font-size: 16px; }
+  .time { font-size: 20px; }
+  .stop h3 { font-size: 22px; }
+  .pts li, .gol li, .stop p, .bl li { font-size: 18px !important; }
+  .info { font-size: 17px !important; }
+  .gmap a { font-size: 16px; }
+  .tag { font-size: 16px !important; }
+  .ph figcaption { font-size: 14px; }
+  .car .cnt { font-size: 15px !important; }
+  .car .scap { font-size: 16px; }
+  .m-steps { font-size: 17px; }
+  .m-steps span { font-size: 16px; }
+  .m-steps b { width: 24px; height: 24px; line-height: 24px; font-size: 14px; }
+  .t { font-size: 17px; }
+  .pack label { font-size: 18px; }
+  .pack small { font-size: 15px; }
+  .dsw button { font-size: 17px; }
+  footer { font-size: 15px; }
+  .dayline span { font-size: 13px; }
+  .m2-name { font-size: 16px; }
+  .m2-num { font-size: 15px; }
+  .m-label-off { font-size: 15px; }
+  .m-key { font-size: 14px; }
+  .fontbtn { position: fixed; left: 16px; bottom: 20px; z-index: 6; height: 52px; padding: 0 16px; border-radius: 26px; border: 1px solid var(--line);
+             background: var(--surface); color: var(--ink); font-size: 17px; box-shadow: 0 2px 8px rgba(0,0,0,.15); cursor: pointer; }
+  html.big .wrap { zoom: 1.2; }
   .box.warn { border-color: #E6D3A8; background: #FFFBF2; }
 
   .t { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 16px; line-height: 1.6; }
@@ -696,6 +730,7 @@
   </footer>
 </div>
 <button type="button" class="top-fab" id="toTopFab" aria-label="回到最上面">↑</button>
+<button type="button" class="fontbtn" id="fontBtn" aria-pressed="false">字放大</button>
 
 <script>
   (function () {
@@ -736,15 +771,23 @@
     document.querySelectorAll('[role=tabpanel]:not([hidden])').forEach(arm);
     tabs.forEach(function (t) {
       t.addEventListener('click', function () {
+        document.querySelectorAll('[role=tabpanel]').forEach(function (x) { x.classList.remove('noin'); });
         show(t.id);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
     document.querySelectorAll('.dsw button').forEach(function (b) {
       b.addEventListener('click', function () {
-        var id = b.getAttribute('data-go'); show(id);
+        var before = b.parentNode.getBoundingClientRect().top;
+        var root = document.documentElement; root.classList.add('sw');
+        var id = b.getAttribute('data-go');
+        var pn = document.getElementById(document.getElementById(id).getAttribute('aria-controls'));
+        pn.classList.add('noin');
+        pn.querySelectorAll('.tl .stop, .pack, .t').forEach(function (x) { x.classList.add('in'); if (rio) rio.unobserve(x); });
+        show(id);
         var el = document.querySelector('#' + document.getElementById(id).getAttribute('aria-controls') + ' .dsw');
-        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 12, behavior: 'auto' });
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - before, behavior: 'auto' });
+        requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.remove('sw'); }); });
       });
     });
     document.querySelectorAll('.car').forEach(function (c) {
@@ -784,6 +827,10 @@
     window.addEventListener('resize', prog); prog();
     var lotus = document.querySelector('.lotus');
     if (lotus) { if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) lotus.classList.add('bloom'); }, { threshold: 0.6 }).observe(lotus); else lotus.classList.add('bloom'); }
+    var fb = document.getElementById('fontBtn');
+    function setBig(on) { document.documentElement.classList.toggle('big', on); fb.textContent = on ? '字恢復' : '字放大'; fb.setAttribute('aria-pressed', on ? 'true' : 'false'); setTimeout(prog, 50); }
+    try { if (localStorage.getItem('bigFont') === '1') setBig(true); } catch (e) {}
+    fb.addEventListener('click', function () { var on = !document.documentElement.classList.contains('big'); setBig(on); try { localStorage.setItem('bigFont', on ? '1' : '0'); } catch (e) {} });
     function up() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     document.getElementById('toTop').addEventListener('click', up);
     var fab = document.getElementById('toTopFab');
