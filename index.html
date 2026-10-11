@@ -415,6 +415,45 @@
   @keyframes refl { from { transform: translateX(-3px) scaleY(1); } to { transform: translateX(3px) scaleY(.94); } }
   @media (prefers-reduced-motion: reduce) { .cal, .cd .fl { opacity: 1; transform: none; } .t .ck { transform: none; } .lotus .lpad { opacity: 1; transform: none; } .lb, .lb.on { transition: none; } }
   @media (prefers-reduced-motion: reduce) { .stars { display: none; } .pprog.done .pr-lotus path { transform: rotate(var(--r)) scale(1); opacity: 1; } .cd .fl { opacity: 1; transform: none; } .map .pop.hop { transform: scale(1.12); opacity: 1; } }
+  /* ---- 出發前 10 天倒數 ---- */
+  .cdw.l10 { background: rgba(255,255,255,.78); padding: 6px 16px 6px 8px; }
+  .cdw.l10 .cal { box-shadow: 0 0 0 2px var(--vermilion), 0 0 14px 3px rgba(168,66,42,.35);
+    animation: calflip .9s cubic-bezier(.3,1.4,.5,1) .7s both, l10glow 2.6s ease-in-out 1.8s infinite alternate; }
+  @keyframes l10glow { from { box-shadow: 0 0 0 2px var(--vermilion), 0 0 8px 1px rgba(168,66,42,.25); } to { box-shadow: 0 0 0 2px var(--vermilion), 0 0 18px 5px rgba(168,66,42,.45); } }
+  .cdw.l10 .cd strong { font-size: 20px; line-height: 1.2; }
+  .cdw.l10 .cd .fl { font-size: 32px; line-height: 1; }
+  .cdots { display: flex; gap: 5px; margin-top: 5px; }
+  .cdots i { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(168,66,42,.5); box-sizing: border-box; }
+  .cdots i.on { background: var(--vermilion); border-color: var(--vermilion); animation: dotin .4s ease-out calc(1.6s + var(--i) * .06s) both; }
+  @keyframes dotin { from { transform: scale(0); } to { transform: none; } }
+  .hero.l10 { height: 252px; }
+  .cdtip { margin: -8px 0 18px !important; padding: 10px 14px; border-left: 4px solid var(--vermilion); border-radius: 0 6px 6px 0; background: var(--vermilion-soft); color: var(--ink); font-size: 17px; line-height: 1.6; text-wrap: pretty; }
+  .cdtip a, .cdtip .tiplink { color: var(--vermilion); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .cdtip .tiplink { appearance: none; border: 0; background: none; padding: 8px 0; margin: -8px 0; font: inherit; font-weight: 700; cursor: pointer; }
+  /* ---- 一般版／行車版切換、上方天數列 ---- */
+  html { scroll-padding-top: 64px; }
+  .vsw.hv { position: absolute; right: 8px; top: 8px; z-index: 2; display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; border-radius: 999px;
+    background: rgba(255,255,255,.88); border: 1px solid var(--jade); color: var(--jade); font-size: 14px; font-weight: 700; text-decoration: none; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  html.big .vsw.hv { zoom: .8334; }   /* 字放大時切換鈕維持原大小，不壓到標題 */
+  html.big .hero h1 { font-size: 30px; }
+  .daybar { position: fixed; left: 0; right: 0; top: 0; z-index: 9; display: flex; align-items: center; gap: 6px; height: calc(52px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 8px 0;
+    background: var(--jade); box-shadow: 0 2px 10px rgba(0,0,0,.2); visibility: hidden; transform: translateY(-110%); transition: transform .25s ease, visibility 0s linear .25s; }
+  html.dbon .daybar { visibility: visible; transform: none; transition: transform .25s ease; }
+  html.lbopen .daybar { visibility: hidden; }
+  .db-seg { display: flex; flex: 1 1 auto; min-width: 0; max-width: 300px; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; overflow: hidden; }
+  .daybar button, .daybar a { appearance: none; display: flex; align-items: center; justify-content: center; min-height: 44px; margin: 0; padding: 0 8px; border: 0; background: none;
+    color: #fff; font: 700 16px/1 var(--sans); letter-spacing: .02em; text-decoration: none; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .db-seg .db-d { flex: 1 1 0; min-width: 0; padding: 0 4px; }
+  .db-seg .db-d + .db-d { border-left: 1px solid rgba(255,255,255,.4); }
+  .db-seg .db-d.on { background: #fff; color: var(--jade); }
+  .daybar .db-x, .daybar .db-v { flex: 0 0 auto; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; padding: 0 12px; }
+  .daybar .db-x { margin-left: auto; }
+  .daybar .db-v { background: #fff; color: var(--jade); border-color: #fff; }
+  .db-seg + .db-v { margin-left: auto; }
+  html.dbon .pprog { top: 64px; }
+  section[role=tabpanel].noin.dbin { animation: dbfade .35s ease-out both; }
+  @keyframes dbfade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .cdots i.on { transform: none; } }
   .box.warn { border-color: #E6D3A8; background: #FFFBF2; }
 
   .t { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 16px; line-height: 1.6; }
@@ -469,8 +508,10 @@
     </g>
   </svg>
   <div class="ttl"><h1>南投行程</h1><p class="sub">三天兩夜・11/24（二）– 11/26（四）</p><div class="cdw" id="cdw" hidden><div class="cal"><b>十一月</b><span id="calD">24</span><small id="calW">星期二</small></div><p class="cd" id="cd" aria-live="polite"></p></div></div>
+  <a class="vsw hv" href="drive.html">🚗 行車版</a>
   <p class="dayline"><span data-d="1">☀ 第一天・晨光出發</span><span data-d="2">☀ 第二天・湖畔日光</span><span data-d="3">☀ 第三天・夕陽回程</span></p>
 </div>
+  <p class="cdtip" id="cdtip" hidden></p>
 
   <div class="pick" role="tablist">
     <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">第一天<br>11/24（二）</button>
@@ -921,6 +962,9 @@
 </div>
 <button type="button" class="top-fab" id="toTopFab" aria-label="回到最上面">↑</button>
 <button type="button" class="fontbtn" id="fontBtn" aria-pressed="false">字放大</button>
+<nav class="daybar" id="dayBar" aria-label="快速切換">
+  <div class="db-seg"><button type="button" class="db-d" data-go="t1">第一天</button><button type="button" class="db-d" data-go="t2">第二天</button><button type="button" class="db-d" data-go="t3">第三天</button></div><a class="vsw db-v" href="drive.html">🚗 行車版</a>
+</nav>
 
 <script>
   (function () {
@@ -1044,7 +1088,16 @@
       var dd = Math.round((DAYS[0] - today) / 864e5), WK = '日一二三四五六';
       var flip = function (n) { return String(n).split('').map(function (c, i) { return '<span class="fl" style="--dl:' + (1.3 + i * 0.15) + 's">' + c + '</span>'; }).join(''); };
       var setc = function (dt, h) { document.getElementById('calD').textContent = dt.getDate(); document.getElementById('calW').textContent = '星期' + WK[dt.getDay()]; cd.innerHTML = h; cdw.hidden = false; };
-      if (dd > 0) setc(DAYS[0], '出發日<strong>還有 ' + flip(dd) + ' 天</strong>');
+      if (dd > 10) setc(DAYS[0], '出發日<strong>還有 ' + flip(dd) + ' 天</strong>');
+      else if (dd > 0) {   // 出發前 10 天：日曆外框發光、數字放大、10 顆點每過一天亮一顆、當天提醒
+        var dots = '<span class="cdots" aria-hidden="true">';
+        for (var di0 = 0; di0 < 10; di0++) dots += '<i' + (di0 < 10 - dd ? ' class="on" style="--i:' + di0 + '"' : '') + '></i>';
+        setc(DAYS[0], '出發日<strong>還有 ' + flip(dd) + ' 天</strong>' + dots + '</span>');
+        cdw.classList.add('l10');
+        var hr0 = document.querySelector('.hero'); if (hr0) hr0.classList.add('l10');
+        var CDTIPS = {"10": "開始準備行李，可以對照「<button type=\"button\" class=\"tiplink\" data-go=\"t8\">應備用品</button>」頁籤", "7": "中央氣象署一週預報已涵蓋出發日，可以<a href=\"https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000809\" target=\"_blank\" rel=\"noopener\">看天氣</a>", "5": "日月潭纜車 11 月保養日，看<a href=\"https://www.ropeway.com.tw/page/news/index.aspx?kind=15\" target=\"_blank\" rel=\"noopener\">纜車官網公告</a>", "2": "再看一次<a href=\"https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000809\" target=\"_blank\" rel=\"noopener\">天氣預報</a>，準備薄外套", "1": "手機、行動電源充飽電，行李對照應備用品"}, tip = document.getElementById('cdtip');
+        if (tip && CDTIPS[dd]) { tip.innerHTML = CDTIPS[dd]; tip.hidden = false; }
+      }
       else if (dd === 0) setc(DAYS[0], '今天<strong>出發！</strong>');
       else if (dd >= -2) setc(today, '旅途<strong>第 ' + flip(1 - dd) + ' 天</strong>');
     }
@@ -1185,6 +1238,41 @@
         setTimeout(function () { window.location.href = a.getAttribute('href'); }, 450);
       });
     });
+    // 11 一般版／行車版切換：保留網址 ?參數（例如 ?now= 測試）
+    if (location.search) document.querySelectorAll('a.vsw').forEach(function (a) { a.setAttribute('href', a.getAttribute('href').split('?')[0] + location.search); });
+    // 12 上方天數列：捲過頁籤才出現；點了切到那天、捲到那天內容的開頭
+    var dbar = document.getElementById('dayBar'), pick = document.querySelector('.pick'), html0 = document.documentElement;
+    function goTab(id) {
+      var t = document.getElementById(id); if (!t) return;
+      var pn = document.getElementById(t.getAttribute('aria-controls'));
+      document.querySelectorAll('[role=tabpanel]').forEach(function (x) { x.classList.remove('noin', 'dbin'); });
+      pn.classList.add('noin'); if (!RM) pn.classList.add('dbin');
+      show(id);
+      var y = pn.getBoundingClientRect().top + window.pageYOffset - (dbar ? 52 : 0) - 12;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+      setTimeout(onsc, 60); dbUpd();
+    }
+    function dbSel() {
+      if (!dbar) return;
+      dbar.querySelectorAll('.db-d, .db-x').forEach(function (b) { b.classList.toggle('on', document.getElementById(b.getAttribute('data-go')).getAttribute('aria-selected') === 'true'); });
+    }
+    function dbUpd() {
+      if (!dbar || !pick) return;
+      var on = pick.getBoundingClientRect().bottom < 56;
+      if (on !== html0.classList.contains('dbon')) { html0.classList.toggle('dbon', on); dbar.setAttribute('aria-hidden', on ? 'false' : 'true'); }
+    }
+    if (dbar) {
+      dbar.setAttribute('aria-hidden', 'true');
+      dbar.querySelectorAll('button[data-go]').forEach(function (b) { b.addEventListener('click', function () { goTab(b.getAttribute('data-go')); }); });
+      if ('MutationObserver' in window) new MutationObserver(dbSel).observe(pick, { subtree: true, attributes: true, attributeFilter: ['aria-selected'] });
+      var tk3 = false;
+      window.addEventListener('scroll', function () { if (!tk3) { tk3 = true; requestAnimationFrame(function () { dbUpd(); tk3 = false; }); } }, { passive: true });
+      window.addEventListener('resize', dbUpd);
+      document.getElementById('fontBtn').addEventListener('click', function () { setTimeout(dbUpd, 60); });
+      dbSel(); dbUpd();
+    }
+    // 出發前提醒裡的「應備用品」：開那個頁籤
+    document.querySelectorAll('.tiplink[data-go]').forEach(function (b) { b.addEventListener('click', function () { goTab(b.getAttribute('data-go')); }); });
   })();
 </script>
 </body>
