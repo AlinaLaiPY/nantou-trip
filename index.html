@@ -115,6 +115,7 @@
   .m-route3 { fill: none; stroke: #7A5C2E; stroke-width: 2.6; stroke-dasharray: 3 5; stroke-linecap: round; opacity: .85; }
   .tab { grid-column: span 2; }
   .tab.wide { grid-column: span 3; }
+  .tab.full { grid-column: 1 / -1; }
   .m-town { fill: #F3EEE4; stroke: #DDD5C6; }
   .m-leg-on { fill: none; stroke: var(--vermilion); stroke-width: 2.6; stroke-linecap: round; opacity: .9; }
   .m-leg-off { fill: none; stroke: #D9D1C3; stroke-width: 2; stroke-dasharray: 4 5; stroke-linecap: round; }
@@ -436,20 +437,22 @@
     background: rgba(255,255,255,.88); border: 1px solid var(--jade); color: var(--jade); font-size: 14px; font-weight: 700; text-decoration: none; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
   html.big .vsw.hv { zoom: .8334; }   /* 字放大時切換鈕維持原大小，不壓到標題 */
   html.big .hero h1 { font-size: 30px; }
-  .daybar { position: fixed; left: 0; right: 0; top: 0; z-index: 9; display: flex; align-items: center; gap: 6px; height: calc(52px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 8px 0;
-    background: var(--jade); box-shadow: 0 2px 10px rgba(0,0,0,.2); visibility: hidden; transform: translateY(-110%); transition: transform .25s ease, visibility 0s linear .25s; }
+  /* 上方天數鈕：捲過頁籤後浮在畫面上方，一顆顆分開的毛玻璃膠囊，後面沒有底條（容器透明、不擋點擊） */
+  .daybar { position: fixed; left: 0; right: 0; top: 0; z-index: 9; display: flex; align-items: center; gap: 6px; padding: calc(env(safe-area-inset-top) + 6px) 8px 0;
+    background: none; pointer-events: none; visibility: hidden; transform: translateY(-130%); transition: transform .25s ease, visibility 0s linear .25s; }
   html.dbon .daybar { visibility: visible; transform: none; transition: transform .25s ease; }
   html.lbopen .daybar { visibility: hidden; }
-  .db-seg { display: flex; flex: 1 1 auto; min-width: 0; max-width: 300px; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; overflow: hidden; }
-  .daybar button, .daybar a { appearance: none; display: flex; align-items: center; justify-content: center; min-height: 44px; margin: 0; padding: 0 8px; border: 0; background: none;
-    color: #fff; font: 700 16px/1 var(--sans); letter-spacing: .02em; text-decoration: none; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-  .db-seg .db-d { flex: 1 1 0; min-width: 0; padding: 0 4px; }
-  .db-seg .db-d + .db-d { border-left: 1px solid rgba(255,255,255,.4); }
-  .db-seg .db-d.on { background: #fff; color: var(--jade); }
-  .daybar .db-x, .daybar .db-v { flex: 0 0 auto; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; padding: 0 12px; }
-  .daybar .db-x { margin-left: auto; }
-  .daybar .db-v { background: #fff; color: var(--jade); border-color: #fff; }
-  .db-seg + .db-v { margin-left: auto; }
+  .db-seg { display: flex; flex: 0 1 auto; min-width: 0; gap: 6px; }
+  .daybar button, .daybar a { pointer-events: auto; appearance: none; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; min-width: 44px; min-height: 44px; margin: 0; padding: 0 11px;
+    border-radius: 999px; border: 1px solid var(--glass-bd); background: rgba(255, 255, 255, .86); color: var(--jade);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 4px 14px rgba(0, 0, 0, .16), 0 1px 3px rgba(0, 0, 0, .1);
+    font: 700 16px/1 var(--sans); letter-spacing: .02em; text-decoration: none; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease; }
+  .db-seg .db-d { flex: 0 1 auto; min-width: 0; }
+  .daybar .db-d.on, .daybar .db-x.on { background: var(--btn-grad); border-color: transparent; color: #fff; box-shadow: var(--btn-sh), 0 4px 14px rgba(0, 0, 0, .16); }
+  .daybar button:active, .daybar a:active { transform: translateY(1px); }
+  .daybar .db-x, .db-seg + .db-v { margin-left: auto; }
   html.dbon .pprog { top: 64px; }
   section[role=tabpanel].noin.dbin { animation: dbfade .35s ease-out both; }
   @keyframes dbfade { from { opacity: 0; } to { opacity: 1; } }
@@ -508,14 +511,6 @@
   .ov-chip { font-family: var(--sans); font-size: 16px; font-weight: 700; line-height: 1; padding: 7px 12px; border-radius: 999px; letter-spacing: .02em;
              color: var(--jade); background: rgba(var(--jade-rgb), .09); border: 1px solid rgba(var(--jade-rgb), .2); }
   .ov-theme { margin: 6px 0 0; font-family: var(--serif); font-size: 18px; line-height: 1.6; color: var(--ink-soft); letter-spacing: .05em; }
-  /* 上方天數列：半透明＋毛玻璃（白字對比 ≥ 4.5） */
-  .daybar { background: rgba(var(--jade-rgb), .9); -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3);
-            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .12), 0 6px 20px rgba(var(--jade-rgb), .22); }
-  .db-seg { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .42); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16); }
-  .db-seg .db-d.on { background: rgba(255, 255, 255, .95); color: var(--jade); box-shadow: inset 0 1px 0 #fff; }
-  .daybar .db-x { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .45); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2); }
-  .daybar .db-x.on { background: rgba(255, 255, 255, .95); color: var(--jade); }
-  .daybar .db-v { background: rgba(255, 255, 255, .94); border-color: rgba(255, 255, 255, .9); color: var(--jade); box-shadow: inset 0 1px 0 #fff, 0 2px 8px rgba(0, 0, 0, .15); }
   .box.warn { border-color: #E6D3A8; background: #FFFBF2; }
 
   .t { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 16px; line-height: 1.6; }
@@ -582,11 +577,10 @@
     <button class="tab" role="tab" id="t4" aria-controls="p4" aria-selected="false">營業時間<br>公休</button>
     <button class="tab" role="tab" id="t5" aria-controls="p5" aria-selected="false">其他<br>餐廳選擇</button>
     <button class="tab" role="tab" id="t6" aria-controls="p6" aria-selected="false">其他<br>景點參考</button>
-    <button class="tab wide" role="tab" id="t7" aria-controls="p7" aria-selected="false">各景點<br>待確認筆記</button>
-    <button class="tab wide" role="tab" id="t8" aria-controls="p8" aria-selected="false">應備<br>用品</button>
+    <button class="tab full" role="tab" id="t8" aria-controls="p8" aria-selected="false">應備用品</button>
   </div>
 
-  <p class="legend">資料等級：<span class="lv lv-a" title="A＝官方來源">A</span> 官方來源　<span class="lv lv-b" title="B＝多個來源一致">B</span> 多個來源一致　<span class="lv lv-c" title="C＝單一來源或說法不一">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p>
+  <p class="legend">資料等級：<span class="lv lv-a" title="A＝官方來源">A</span> 官方來源　<span class="lv lv-b" title="B＝多個來源一致">B</span> 多個來源一致　<span class="lv lv-c" title="C＝單一來源或說法不一">C</span> 單一來源或說法不一</p>
 <section id="p1" role="tabpanel" aria-labelledby="t1">
 <div class="amb" aria-hidden="true"><span class="bfly c1" style="--y:23vh;--t:19s;--dl:-8s"><i></i></span><span class="bfly c2" style="--y:22vh;--t:25s;--dl:-14s"><i></i></span><span class="bfly c3" style="--y:45vh;--t:24s;--dl:-6s"><i></i></span></div>
 <div class="ovw"><h2 class="ovh"><span class="ov-d">第一天</span><span class="ov-chip">11/24（二）</span></h2><p class="ov-theme">汐止出發・埔里逛街・入住日月潭</p></div>
@@ -981,14 +975,6 @@
 <p class="info">第一市場：光華二路1之2號<br>第三市場：光榮西路13號<br>Google 地圖：第三市場<b>週二休</b>，其他天營業（各攤不同）</p>
 <p class="gmap"><a href="https://www.ndc.gov.tw/Content_List.aspx?n=B79CFFBDF7242042" target="_blank" rel="noopener">國發會中興新村介紹</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E8%88%88%E6%96%B0%E6%9D%91%E7%AC%AC%E4%B8%89%E5%B8%82%E5%A0%B4%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82" target="_blank" rel="noopener">Google 地圖</a></p>
 </div>
-</div>
-</section>
-<section id="p7" role="tabpanel" aria-labelledby="t7" hidden>
-<div class="summary"><b>各景點待確認筆記</b><ul class="sl"><li>網路上已查過、仍查不到或說法不一的事</li></ul>
-</div>
-<div class="box">
-<h4>查不到或說法不一</h4>
-<ul class="bl"><li><b>教師會館</b> <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a>：涵曦會館走到迎賓樓早餐餐廳的路線（要不要走戶外、有沒有電梯或坡道），官網與住宿心得都沒寫</li><li><b>無所從來</b> <a class="tel" href="tel:0492919007"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2919007</a>：最後點餐 18:30 或 19:00，兩個來源不同</li><li><b>伊達邵遊客中心</b>：日月潭管理處電話 <a class="tel" href="tel:0492850660"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850660</a>，Google 地圖寫 <a class="tel" href="tel:0492850289"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850289</a>（管理處登記為伊達邵碼頭電話）</li><li><b>紙教堂</b> <a class="tel" href="tel:0492914922"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2914922</a>：公休日官網寫週三，日月潭管理處寫週三、週四（11/24 週二兩邊都有開）；停車場到教堂的步道有沒有坡道，官網沒寫</li><li><b>地母廟</b> <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a>：平日車子能不能開到上方乾坤門停車場，遊記說法不完全一致</li><li><b>日月潭纜車</b>：11 月保養日以官網 10 月底公告為準（原則是每月第一個週三，11/4）</li><li><b>車程</b>：依 Google 地圖 9/28、10/10 查詢結果放寬，實際以當天路況為準</li></ul>
 </div>
 </section>
 <section id="p8" role="tabpanel" aria-labelledby="t8" hidden>
