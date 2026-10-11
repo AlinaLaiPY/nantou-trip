@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="planner">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>南投行程・行車版</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="南投三天兩夜（11/24–11/26）：住日月潭教師會館，埔里逛街、地母廟、向山、日月潭纜車、雲品湖景下午茶、紫南宮。">
+<meta property="og:title" content="南投行程・行車版">
+<meta property="og:description" content="南投三天兩夜（11/24–11/26）：住日月潭教師會館，埔里逛街、地母廟、向山、日月潭纜車、雲品湖景下午茶、紫南宮。">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #F6F3EC;
+    --surface: #FFFFFF;
+    --ink: #1F1D19;
+    --ink-soft: #4E483F;
+    --line: #DDD5C6;
+    --jade: #2A6355;
+    --jade-soft: #E6EEEA;
+    --vermilion: #A8422A;
+    --vermilion-soft: #F7E9E3;
+    --amber: #9A6A12;
+    --amber-soft: #F6EDD9;
+    --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+    --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.85;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 34px 16px 60px; }
+  h1 { font-family: var(--serif); font-weight: 700; font-size: 34px; line-height: 1.3; letter-spacing: .03em; margin: 0 0 8px; }
+  .sub { font-size: 16px; color: var(--ink-soft); margin: 0 0 26px; }
+
+  .pick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 28px; }
+  .tab {
+    appearance: none; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: .04em;
+    padding: 14px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface);
+    color: var(--ink-soft); cursor: pointer; line-height: 1.4;
+  }
+  .tab[aria-selected="true"] { background: var(--jade); border-color: var(--jade); color: #fff; }
+  .tab:focus-visible { outline: 3px solid var(--jade); outline-offset: 2px; }
+
+  .summary { background: var(--jade-soft); border-radius: 6px; padding: 14px 16px; font-size: 17px; color: var(--ink-soft); margin: 0 0 14px; }
+  .summary li { color: var(--ink-soft); }
+  .summary b { color: var(--ink); font-weight: 700; }
+  .legend { font-size: 14px; color: var(--ink-soft); margin: 0 0 20px; line-height: 2; }
+
+  .lv { display: inline-block; font-family: var(--sans); font-size: 12px; font-weight: 700; line-height: 1;
+        padding: 4px 6px; border-radius: 4px; vertical-align: 3px; margin-left: 4px; letter-spacing: 0; }
+  .lv-a { background: var(--jade-soft); color: var(--jade); }
+  .lv-b { background: #ECEAE4; color: #5A5448; }
+  .lv-c { background: var(--amber-soft); color: var(--amber); }
+
+  .dayhead { font-family: var(--serif); font-size: 21px; font-weight: 700; letter-spacing: .05em; margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--jade); }
+
+  .tl { display: grid; gap: 10px; position: relative; padding-left: 34px; }
+  .tl::before { content: ""; position: absolute; left: 13px; top: 26px; bottom: 26px; width: 2px; background: var(--line); }
+  .stop { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+  .stop::before { content: ""; position: absolute; left: -32px; top: 21px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 3px solid var(--jade); }
+  .meal::before { border-color: var(--vermilion); }
+  .ride::before { border-color: #9C968A; background: #9C968A; }
+  .ride { background: #F1EEE7; border-color: #E8E3D8; }
+  .tl.plain { padding-left: 0; }
+  .tl.plain::before, .tl.plain .stop::before { display: none; }
+
+  .time { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--jade); letter-spacing: .04em; margin: 0 0 2px; }
+  .meal .time { color: var(--vermilion); }
+  .ride .time { color: var(--ink-soft); }
+  .stop h3 { font-family: var(--serif); font-size: 21px; font-weight: 500; margin: 0 0 6px; letter-spacing: .03em; line-height: 1.45; }
+  .area { display: block; font-family: var(--sans); font-size: 14px; color: var(--ink-soft); letter-spacing: 0; }
+  .stop p { margin: 0; font-size: 17px; color: var(--ink-soft); }
+  .stop p + p { margin-top: 6px; }
+  .stop b { color: var(--ink); }
+  .stop a { color: var(--jade); }
+  .go { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 17px; color: var(--ink-soft); }
+  .go ul { margin: 0; padding-left: 20px; }
+  .ride .go { border-top-color: #DED8CB; }
+  .gmap { margin-top: 8px; }
+  .gmap a { display: inline-block; font-size: 15px; color: var(--jade); text-decoration: none; border-bottom: 1px solid var(--jade); padding-bottom: 1px; }
+
+  .map { margin: 0 0 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 14px 10px; }
+  .map svg { display: block; width: 100%; height: auto; }
+  .map figcaption { margin-top: 6px; font-size: 14px; color: var(--ink-soft); text-align: center; line-height: 1.6; }
+  .m-water { fill: #DCE9EC; stroke: #B9D0D6; stroke-width: 1.5; }
+  .m-hill { fill: none; stroke: #D8CFBE; stroke-width: 1.6; stroke-linejoin: round; }
+  .m-route { fill: none; stroke: var(--jade); stroke-width: 2.6; stroke-dasharray: 7 5; stroke-linecap: round; opacity: .8; }
+  .m-route2 { fill: none; stroke: var(--vermilion); stroke-width: 2.6; stroke-dasharray: 7 5; stroke-linecap: round; opacity: .8; }
+  .m-pin { fill: var(--jade); }
+  .m-pin-off { fill: #CFC7B7; }
+  .m-label { font-family: var(--serif); font-size: 15px; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+  .m-label-off { font-family: var(--serif); font-size: 14px; fill: #A79E8C; paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+  .m-sub { font-size: 12px; fill: var(--ink-soft); font-family: var(--sans); }
+  .m-key { font-size: 13px; font-family: var(--sans); fill: var(--ink-soft); }
+
+  .box { margin-top: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+  .box h4 { font-family: var(--serif); font-size: 19px; margin: 0 0 10px; letter-spacing: .04em; }
+  .box ul { margin: 0; padding-left: 20px; font-size: 17px; color: var(--ink-soft); }
+  .box li { margin-bottom: 10px; }
+  .box li:last-child { margin-bottom: 0; }
+  .box b { color: var(--ink); }
+  .box a { color: var(--jade); }
+  .stay::before { border-color: #7A5C2E; background: #F3E9D6; }
+  .stay .time { color: #7A5C2E; }
+  .m-route3 { fill: none; stroke: #7A5C2E; stroke-width: 2.6; stroke-dasharray: 3 5; stroke-linecap: round; opacity: .85; }
+  .tab { grid-column: span 2; }
+  .tab.wide { grid-column: span 3; }
+  .m-town { fill: #F3EEE4; stroke: #DDD5C6; }
+  .m-leg-on { fill: none; stroke: var(--vermilion); stroke-width: 2.6; stroke-linecap: round; opacity: .9; }
+  .m-leg-off { fill: none; stroke: #D9D1C3; stroke-width: 2; stroke-dasharray: 4 5; stroke-linecap: round; }
+  .m-arw { fill: var(--vermilion); }
+  .m-leg-on[pathLength] { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+  .map.go .m-leg-on[pathLength] { animation: draw .6s ease-out var(--d) both, appear .01s linear var(--d) both; }
+  .pop { transform-box: fill-box; transform-origin: center; opacity: 0; }
+  section[role=tabpanel]:not([hidden]) { animation: panelin .45s ease-out both; }
+  section[role=tabpanel].noin { animation: none; }
+  .sw .tl .stop, .sw .pack, .sw .t, .sw .tl .stop::before, .sw .tl .stop .time { transition: none !important; animation: none !important; }
+  @keyframes panelin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .js .tl .stop, .js .pack, .js .t { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .js .tl .stop.in, .js .pack.in, .js .t.in { opacity: 1; transform: none; }
+  .js .tl .stop::before { transform: scale(.3); transition: transform .5s cubic-bezier(.3,1.6,.5,1) .15s; }
+  .js .tl .stop.in::before { transform: scale(1); }
+  .pack label span { transition: color .3s ease; background: linear-gradient(currentColor, currentColor) no-repeat 0 55% / 0 1px; transition: background-size .35s ease, color .3s ease; }
+  .pack input:checked + span { color: #9A958A; background-size: 100% 1px; }
+  .h-bird { animation: fly 22s linear infinite; }
+  .h-bird.b2 { animation-duration: 28s; animation-delay: -9s; }
+  @keyframes fly { from { transform: translate(-80px, 0); } 50% { transform: translate(380px, -10px); } to { transform: translate(820px, 4px); } }
+  .h-wing { animation: flap .9s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+  @keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(.45); } }
+  .amb { position: fixed; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; }
+  .leaf, .petal { position: absolute; top: -50px; left: var(--x); background-repeat: no-repeat; background-size: contain; animation: leaffall var(--t) linear var(--dl) infinite; }
+  .leaf { width: 15px; height: 28px; opacity: .75; background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 44'%3E%3Cpath d='M12 2 L12 42' stroke='%238C4A26' stroke-width='1.1' stroke-linecap='round'/%3E%3Cellipse cx='7' cy='6' rx='4.6' ry='1.5' fill='%23D9883E' transform='rotate(28 7 6)'/%3E%3Cellipse cx='17' cy='6' rx='4.6' ry='1.5' fill='%23D9883E' transform='rotate(-28 17 6)'/%3E%3Cellipse cx='7' cy='11' rx='4.6' ry='1.5' fill='%23CF7436' transform='rotate(28 7 11)'/%3E%3Cellipse cx='17' cy='11' rx='4.6' ry='1.5' fill='%23CF7436' transform='rotate(-28 17 11)'/%3E%3Cellipse cx='7' cy='16' rx='4.6' ry='1.5' fill='%23C86A30' transform='rotate(28 7 16)'/%3E%3Cellipse cx='17' cy='16' rx='4.6' ry='1.5' fill='%23C86A30' transform='rotate(-28 17 16)'/%3E%3Cellipse cx='7' cy='21' rx='4.6' ry='1.5' fill='%23C0602C' transform='rotate(28 7 21)'/%3E%3Cellipse cx='17' cy='21' rx='4.6' ry='1.5' fill='%23C0602C' transform='rotate(-28 17 21)'/%3E%3Cellipse cx='7' cy='26' rx='4.6' ry='1.5' fill='%23B9582A' transform='rotate(28 7 26)'/%3E%3Cellipse cx='17' cy='26' rx='4.6' ry='1.5' fill='%23B9582A' transform='rotate(-28 17 26)'/%3E%3Cellipse cx='7' cy='31' rx='4.6' ry='1.5' fill='%23B25428' transform='rotate(28 7 31)'/%3E%3Cellipse cx='17' cy='31' rx='4.6' ry='1.5' fill='%23B25428' transform='rotate(-28 17 31)'/%3E%3Cellipse cx='7' cy='36' rx='4.6' ry='1.5' fill='%23A94F27' transform='rotate(28 7 36)'/%3E%3Cellipse cx='17' cy='36' rx='4.6' ry='1.5' fill='%23A94F27' transform='rotate(-28 17 36)'/%3E%3C/svg%3E"); }
+  .petal { width: 14px; height: 21px; opacity: .8; background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FCEEF1'/%3E%3Cstop offset='1' stop-color='%23E9A3B4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M10 1 C17 8 19 18 10 29 C1 18 3 8 10 1 Z' fill='url(%23g)'/%3E%3Cpath d='M10 5 L10 25' stroke='%23E6A2B2' stroke-width='.6' opacity='.7'/%3E%3C/svg%3E"); }
+  @keyframes leaffall { 0% { transform: translate(0, 0) rotate(-20deg) scale(var(--s)); } 25% { transform: translate(34px, 27vh) rotate(25deg) scale(var(--s)); }
+    50% { transform: translate(-8px, 55vh) rotate(-30deg) scale(var(--s)); } 75% { transform: translate(30px, 82vh) rotate(20deg) scale(var(--s)); } 100% { transform: translate(4px, 112vh) rotate(-15deg) scale(var(--s)); } }
+  .bfly { position: absolute; left: -50px; top: var(--y); width: 30px; height: 23px; opacity: .85; animation: bflyfly var(--t) linear var(--dl) infinite; }
+  .bfly i { display: block; width: 100%; height: 100%; background-repeat: no-repeat; background-size: contain; animation: wing .28s ease-in-out infinite alternate; }
+  .bfly.c1 i { background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 30'%3E%3Cpath d='M19 14 C12 2 2 2 3 11 C4 17 12 17 19 15 Z' fill='%23F2B65E'/%3E%3Cpath d='M21 14 C28 2 38 2 37 11 C36 17 28 17 21 15 Z' fill='%23F2B65E'/%3E%3Cpath d='M19 16 C13 18 7 25 11 27 C15 29 18 22 19.5 17 Z' fill='%23E59A4A'/%3E%3Cpath d='M21 16 C27 18 33 25 29 27 C25 29 22 22 20.5 17 Z' fill='%23E59A4A'/%3E%3Cellipse cx='20' cy='16' rx='1.1' ry='6' fill='%235A4636'/%3E%3Cpath d='M20 10 Q18 5 16 4 M20 10 Q22 5 24 4' stroke='%235A4636' stroke-width='.6' fill='none'/%3E%3C/svg%3E"); }
+  .bfly.c2 i { background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 30'%3E%3Cpath d='M19 14 C12 2 2 2 3 11 C4 17 12 17 19 15 Z' fill='%23A9C4E2'/%3E%3Cpath d='M21 14 C28 2 38 2 37 11 C36 17 28 17 21 15 Z' fill='%23A9C4E2'/%3E%3Cpath d='M19 16 C13 18 7 25 11 27 C15 29 18 22 19.5 17 Z' fill='%2386A9D3'/%3E%3Cpath d='M21 16 C27 18 33 25 29 27 C25 29 22 22 20.5 17 Z' fill='%2386A9D3'/%3E%3Cellipse cx='20' cy='16' rx='1.1' ry='6' fill='%235A4636'/%3E%3Cpath d='M20 10 Q18 5 16 4 M20 10 Q22 5 24 4' stroke='%235A4636' stroke-width='.6' fill='none'/%3E%3C/svg%3E"); }
+  .bfly.c3 i { background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 30'%3E%3Cpath d='M19 14 C12 2 2 2 3 11 C4 17 12 17 19 15 Z' fill='%23F2B8C2'/%3E%3Cpath d='M21 14 C28 2 38 2 37 11 C36 17 28 17 21 15 Z' fill='%23F2B8C2'/%3E%3Cpath d='M19 16 C13 18 7 25 11 27 C15 29 18 22 19.5 17 Z' fill='%23E494A6'/%3E%3Cpath d='M21 16 C27 18 33 25 29 27 C25 29 22 22 20.5 17 Z' fill='%23E494A6'/%3E%3Cellipse cx='20' cy='16' rx='1.1' ry='6' fill='%235A4636'/%3E%3Cpath d='M20 10 Q18 5 16 4 M20 10 Q22 5 24 4' stroke='%235A4636' stroke-width='.6' fill='none'/%3E%3C/svg%3E"); }
+  @keyframes wing { from { transform: scaleX(1); } to { transform: scaleX(.3); } }
+  @keyframes bflyfly { 0% { transform: translate(0, 0) rotate(8deg); } 20% { transform: translate(22vw, -7vh) rotate(-6deg); } 40% { transform: translate(44vw, 4vh) rotate(10deg); } 60% { transform: translate(66vw, -6vh) rotate(-8deg); } 80% { transform: translate(88vw, 3vh) rotate(6deg); } 100% { transform: translate(115vw, -2vh) rotate(0); } }
+  .dayline { position: absolute; right: 12px; bottom: 6px; margin: 0; height: 20px; width: 160px; }
+  .dayline span { position: absolute; right: 0; bottom: 0; white-space: nowrap; font-size: 12px; letter-spacing: .08em; color: rgba(255,255,255,.95);
+                  text-shadow: 0 1px 2px rgba(60,70,65,.35); opacity: 0; transform: translateY(4px); transition: opacity .9s ease, transform .9s ease; }
+  .hero[data-day="1"] .dayline span[data-d="1"], .hero[data-day="2"] .dayline span[data-d="2"], .hero[data-day="3"] .dayline span[data-d="3"] { opacity: 1; transform: none; }
+  .sky-dawn, .sky-dusk { opacity: 0; transition: opacity 1.4s ease; }
+  .hero[data-day="1"] .sky-dawn { opacity: 1; }
+  .hero[data-day="3"] .sky-dusk { opacity: 1; }
+  .sunpos { transition: transform 1.8s cubic-bezier(.3,.7,.3,1); }
+  .hero[data-day="1"] .sunpos { transform: translate(0, 16px); }
+  .hero[data-day="2"] .sunpos { transform: translate(-16px, -42px); }
+  .hero[data-day="3"] .sunpos { transform: translate(-300px, 20px); }
+  .h-sun { transition: fill 1.8s ease; }
+  .hero[data-day="1"] .h-sun { fill: #F2C996; }
+  .hero[data-day="2"] .h-sun { fill: #F6E4B8; }
+  .hero[data-day="3"] .h-sun { fill: #E9A57C; }
+  .tl:not(.plain)::after { content: ""; position: absolute; left: 13px; top: 26px; width: 2px; height: calc(var(--p, 0) * (100% - 52px)); background: var(--jade); opacity: .7; transition: height .25s linear; z-index: 0; }
+  .tl .stop { z-index: 1; }
+  .js .tl .stop.in .time { animation: tglow 1.1s ease-out .2s both; }
+  @keyframes tglow { from { opacity: 0; letter-spacing: .3em; } to { opacity: 1; letter-spacing: .04em; } }
+  html { background: var(--paper); }
+  body { background: transparent !important; }
+  .ink { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .40  0 0 0 0 .30  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .ink svg { position: absolute; left: 0; bottom: 0; width: 100%; height: 170px; will-change: transform; }
+  .wrap { position: relative; z-index: 1; }
+  .top-fab { z-index: 6; }
+  .mcar { transition: opacity .6s ease; }
+  .lotus { display: block; width: 170px; height: 74px; margin: 18px auto 4px; overflow: visible; }
+  .lotus .pt { transform-box: fill-box; transform-origin: 50% 100%; transform: rotate(0deg) scale(.25); opacity: 0; transition: transform 1.6s cubic-bezier(.2,.8,.2,1) var(--dl), opacity .8s ease var(--dl); }
+  .lotus.bloom .pt { transform: rotate(var(--r)) scale(1); opacity: 1; }
+  .m-arrowhead { fill: var(--vermilion); opacity: 0; }
+  .map.go .m-arrowhead { animation: appear .25s ease-out var(--d) both; }
+  .map.go .pop { animation: pop .45s cubic-bezier(.3,1.6,.5,1) var(--d) both; }
+  @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes appear { from { opacity: 0; } to { opacity: .9; } }
+  @keyframes pop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: scale(1); } }
+  .hero { position: relative; margin: -34px -16px 22px; height: 240px; overflow: hidden; border-bottom: 1px solid var(--line); }
+  .hero svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero .ttl { position: absolute; left: 0; right: 0; top: 22px; text-align: center; }
+  .hero h1 { margin: 0; font-size: 36px; letter-spacing: .12em; animation: rise 1s ease-out .2s both; }
+  .hero .sub { margin: 2px 0 0; animation: rise 1s ease-out .55s both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .h-sun { animation: sunup 2.4s ease-out .2s both; }
+  @keyframes sunup { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  .h-moon { animation: fadein 2s ease-out .8s both; }
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+  .h-rip { animation: ripple 6s ease-in-out infinite alternate; }
+  .h-rip.r2 { animation-duration: 7.5s; animation-delay: -2s; }
+  .h-rip.r3 { animation-duration: 9s; animation-delay: -4s; }
+  @keyframes ripple { from { transform: translateX(-14px); opacity: .35; } to { transform: translateX(14px); opacity: .85; } }
+  .h-far { animation: drift 30s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: translateX(0); } to { transform: translateX(-18px); } }
+  .h-boat { animation: sail 26s linear infinite; }
+  @keyframes sail { from { transform: translateX(-60px); } to { transform: translateX(760px); } }
+  @media (prefers-reduced-motion: reduce) { .amb { display: none; } .lotus .pt { transform: rotate(var(--r)) scale(1); opacity: 1; } .mcar { display: none; } *, *::before, *::after { animation: none !important; transition: none !important; } .js .tl .stop, .js .pack, .js .t { opacity: 1; transform: none; } .js .tl .stop::before { transform: none; } .m-leg-on[pathLength] { stroke-dasharray: none; stroke-dashoffset: 0; opacity: .9; } .pop { opacity: 1; } .m-arrowhead { opacity: .9; } }
+  .m-steps { list-style: none; padding: 0; margin: 8px 0 0; font-size: 15px; color: var(--ink); }
+  .m-steps li { display: flex; align-items: center; gap: 6px; padding: 3px 0; border-bottom: 1px dashed var(--line); }
+  .m-steps li:last-child { border-bottom: none; }
+  .m-steps span { margin-left: auto; color: var(--ink-soft); font-size: 14px; }
+  .m-steps b { display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 50%; background: var(--jade); color: #fff; font-size: 12px; margin-right: 4px; }
+  .m2-pin { fill: var(--jade); stroke: #fff; stroke-width: 2.5; }
+  .m2-num { fill: #fff; font: 700 14px var(--sans); }
+  .m2-name { fill: var(--ink); font: 600 14px var(--sans); }
+  .m2-time { fill: var(--ink-soft); font: 12px var(--sans); }
+  .dsw { display: flex; gap: 6px; justify-content: center; margin: 0 0 8px; }
+  .dsw button { flex: 1; max-width: 120px; padding: 8px 4px; font-size: 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink-soft); cursor: pointer; }
+  .dsw button.on { background: var(--jade); border-color: var(--jade); color: #fff; }
+  .pack { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; margin: 0 0 12px; }
+  .pack h4 { margin: 0 0 6px; font-size: 18px; }
+  .pack label { display: flex; gap: 10px; align-items: flex-start; font-size: 17px; color: var(--ink-soft); padding: 5px 0; line-height: 1.5; }
+  .pack input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--jade); flex: 0 0 auto; }
+  .pack small { font-size: 14px; color: #8A8377; }
+  .pack .pnote { margin: 4px 0 0 !important; line-height: 1.5; }
+  .bnote { margin: 10px 0 0 !important; font-size: 15px !important; color: #8A8377; line-height: 1.5; }
+  #p8 .box, #p8 .pack { margin: 0 0 16px; }
+  .pack .add { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 999px; background: var(--jade-soft); color: var(--jade); font-size: 12px; }
+  .tag { display: inline-block; margin: 0 0 6px !important; padding: 2px 10px; border-radius: 999px; background: var(--vermilion-soft); color: var(--vermilion) !important; font-size: 15px !important; }
+  .pts, .gol, .bl, .sl { margin: 0; padding-left: 20px; }
+  .pts li, .gol li { font-size: 17px; color: var(--ink-soft); margin-bottom: 2px; }
+  .info { margin-top: 8px !important; font-size: 16px !important; }
+  .summary .sl { margin-top: 4px; }
+  .summary .sl li { margin-bottom: 0; }
+  .gmap a { margin-right: 10px; }
+  .ph { margin: 4px 0 10px; }
+  .ph img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; background: #EEE9DF; display: block; }
+  .ph figcaption { font-size: 12px; color: #8A8377; margin-top: 3px; line-height: 1.5; }
+  .ph figcaption a { color: #8A8377; }
+  .car { position: relative; }
+  .car .track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-radius: 4px; }
+  .car .track::-webkit-scrollbar { display: none; }
+  .car .slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; }
+  .car .scap { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 12px 8px; background: linear-gradient(transparent, rgba(0,0,0,.6)); color: #fff; font-size: 15px; line-height: 1.4; }
+  .car .slide img { border-radius: 0; }
+  .car .cbtn { position: absolute; top: calc(50% - 30px); width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255,255,255,.85); color: #333; font-size: 24px; line-height: 34px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+  .car .prev { left: 8px; } .car .next { right: 8px; }
+  .car .cnt { margin: 4px 0 0 !important; font-size: 13px !important; color: #8A8377; text-align: center; }
+  /* ---- 大字：手機老花友善 ---- */
+  body { font-size: 19px; line-height: 1.8; }
+  .sub { font-size: 17px; }
+  .tab { font-size: 18px !important; }
+  .summary, .summary li { font-size: 18px; }
+  .legend { font-size: 15px; }
+  .area { font-size: 16px; }
+  .time { font-size: 20px; }
+  .stop h3 { font-size: 22px; }
+  .pts li, .gol li, .stop p, .bl li { font-size: 18px !important; }
+  .info { font-size: 17px !important; }
+  .gmap a { font-size: 16px; }
+  .tag { font-size: 16px !important; }
+  .ph figcaption { font-size: 14px; }
+  .car .cnt { font-size: 15px !important; }
+  .car .scap { font-size: 16px; }
+  .m-steps { font-size: 17px; }
+  .m-steps span { font-size: 16px; }
+  .m-steps b { width: 24px; height: 24px; line-height: 24px; font-size: 14px; }
+  .t { font-size: 17px; }
+  .pack label { font-size: 18px; }
+  .pack small { font-size: 15px; }
+  .dsw button { font-size: 17px; }
+  footer { font-size: 15px; }
+  .dayline span { font-size: 13px; }
+  .m2-name { font-size: 16px; }
+  .m2-num { font-size: 15px; }
+  .m-label-off { font-size: 15px; }
+  .m-key { font-size: 14px; }
+  html, button, a { touch-action: manipulation; }
+  .fontbtn { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .fontbtn { position: fixed; left: 16px; bottom: 20px; z-index: 6; height: 52px; padding: 0 16px; border-radius: 26px; border: 1px solid var(--line);
+             background: var(--surface); color: var(--ink); font-size: 17px; box-shadow: 0 2px 8px rgba(0,0,0,.15); cursor: pointer; }
+  html.big .wrap { zoom: 1.2; }
+  /* ---- 動畫 v47 ---- */
+  .cdw { display: inline-flex; align-items: center; gap: 12px; margin-top: 8px; padding: 6px 18px 6px 8px; border-radius: 12px; background: rgba(255,255,255,.6); }
+  .cdw[hidden] { display: none; }
+  .cal { width: 52px; border-radius: 6px; overflow: hidden; background: #fff; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.18); transform-origin: 50% 0; animation: calflip .9s cubic-bezier(.3,1.4,.5,1) .7s both; }
+  .cal b { display: block; background: var(--vermilion); color: #fff; font-size: 11px; line-height: 1.7; font-weight: 500; letter-spacing: .1em; }
+  .cal span { display: block; font: 700 25px/1.15 var(--serif); color: var(--ink); }
+  .cal small { display: block; font-size: 10px; line-height: 1.4; color: #8A8377; padding-bottom: 3px; }
+  @keyframes calflip { from { transform: perspective(300px) rotateX(-95deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  .cd { margin: 0 !important; text-align: left; font-size: 14px; line-height: 1.35; color: var(--ink-soft); }
+  .cd strong { display: block; font: 700 22px/1.3 var(--serif); color: var(--vermilion); letter-spacing: .04em; }
+  .cd .fl { display: inline-block; transform-origin: 50% 0; animation: flip .7s cubic-bezier(.3,1.4,.5,1) var(--dl) both; }
+  @keyframes flip { from { transform: perspective(200px) rotateX(90deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  .tl .stop.now::before { animation: breathe 2.2s ease-in-out infinite; }
+  @keyframes breathe { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,90,60,.45); } 50% { box-shadow: 0 0 0 9px rgba(200,90,60,0); } }
+  .nowtag { display: inline-block; margin-right: 8px; padding: 0 10px; border-radius: 999px; background: var(--vermilion); color: #fff; font-size: 15px; vertical-align: 2px; letter-spacing: .05em; }
+  .m-steps li { cursor: pointer; border-radius: 4px; transition: background .3s; }
+  .m-steps li.sel { background: var(--jade-soft); }
+  .map.go .pop.shown { animation: none; opacity: 1; transform: none; }
+  .map.go .pop.shown.hop { animation: hop .7s cubic-bezier(.3,1.8,.5,1) both; }
+  @keyframes hop { 0% { transform: scale(1); } 35% { transform: translateY(-8px) scale(1.35); } 100% { transform: scale(1.12); opacity: 1; } }
+  .car .slide { overflow: hidden; }
+  .car .slide img { animation: kb 14s ease-in-out infinite alternate; }
+  @keyframes kb { from { transform: scale(1); } to { transform: scale(1.08) translate(-1.5%, -1%); } }
+  .m-rip ellipse { fill: none; stroke: #fff; stroke-width: 1.2; opacity: 0; transform-box: fill-box; transform-origin: center; animation: mrip 4.5s ease-out infinite; }
+  .m-rip .r2 { animation-delay: -1.5s; } .m-rip .r3 { animation-delay: -3s; }
+  @keyframes mrip { 0% { transform: scale(.3); opacity: 0; } 30% { opacity: .9; } 100% { transform: scale(1.6); opacity: 0; } }
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 1.8s ease;
+           background: linear-gradient(#26304F 0%, #3A4670 45%, #6E7699 80%, #9C9DB0 100%); }
+  html.night .stars { opacity: 1; }
+  .stars i { position: absolute; width: var(--z); height: var(--z); border-radius: 50%; background: #FFF4CC; box-shadow: 0 0 8px 2px rgba(255,232,160,.75); animation: twinkle var(--t) ease-in-out var(--dl) infinite alternate; }
+  .stars .moon { position: absolute; right: 9%; top: 7vh; width: 54px; height: 54px; border-radius: 50%; box-shadow: -11px 7px 0 0 #F6E7B2; transform: rotate(-12deg); filter: drop-shadow(0 0 10px rgba(246,231,178,.55)); }
+  .stars .shoot { position: absolute; left: 12%; top: 14vh; width: 110px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(255,244,204,0), #FFF4CC); opacity: 0; transform: rotate(18deg); }
+  html.night .stars .shoot { animation: shoot 7s ease-in 2s infinite; }
+  @keyframes shoot { 0% { opacity: 0; transform: translate(0, 0) rotate(18deg); } 3% { opacity: 1; } 12% { opacity: 0; transform: translate(220px, 72px) rotate(18deg); } 100% { opacity: 0; transform: translate(220px, 72px) rotate(18deg); } }
+  .nightcard, .nightcard * { transition: background-color .7s ease, color .7s ease, border-color .7s ease; }
+  html.night .nightcard { background: #2F3A5A !important; border-color: #4A5680 !important; }
+  html.night .nightcard h3, html.night .nightcard li, html.night .nightcard p { color: #F1EBDA !important; }
+  html.night .nightcard .time { color: #F2CF7A !important; }
+  html.night .nightcard .gmap a { color: #F2CF7A !important; border-color: #F2CF7A !important; }
+  html.night .nightcard .nowtag { background: #F2CF7A; color: #2F3A5A; }
+  html.night footer { color: #E6E1D3; border-top-color: rgba(255,255,255,.25); }
+  @keyframes twinkle { from { opacity: .3; transform: scale(.7); } to { opacity: 1; transform: scale(1.1); } }
+  .sky-night { opacity: 0; transition: opacity 1.6s ease; }
+  html.night .hero .sky-night { opacity: 1; }
+  .teacup { display: inline-block; width: 26px; height: 23px; margin-left: 6px; vertical-align: -2px; overflow: visible; }
+  .teacup .stm { fill: none; stroke: #B9AFA2; stroke-width: 1.6; stroke-linecap: round; opacity: 0; animation: steam 3s ease-in-out infinite; }
+  .teacup .s2 { animation-delay: 1s; } .teacup .s3 { animation-delay: 2s; }
+  @keyframes steam { 0% { opacity: 0; transform: translateY(4px); } 40% { opacity: .9; } 100% { opacity: 0; transform: translateY(-5px); } }
+  #p2 .amb .leaf { filter: hue-rotate(calc((1 - var(--lp, 0)) * 65deg)) saturate(calc(.8 + var(--lp, 0) * .3)); }
+  .pprog { position: sticky; top: 8px; z-index: 4; display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 8px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .pprog svg { width: 56px; height: 56px; flex: 0 0 auto; }
+  .pprog .pr-bg { fill: none; stroke: var(--line); stroke-width: 5; }
+  .pprog .pr-fg { fill: none; stroke: var(--jade); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--pp, 0)); transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset .5s ease; }
+  .pprog .pr-lotus path { transform-box: fill-box; transform-origin: 50% 100%; transform: scale(.2); opacity: 0; transition: transform 1.2s cubic-bezier(.2,.8,.2,1) var(--dl), opacity .6s ease var(--dl); }
+  .pprog.done .pr-lotus path { transform: rotate(var(--r)) scale(1); opacity: 1; }
+  .pprog p { margin: 0 !important; font-size: 20px !important; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .pprog small { font-size: 15px; font-weight: 400; color: var(--ink-soft); }
+  a.tel { white-space: nowrap; }
+  a.tel .hs { display: inline-block; width: .9em; height: .9em; margin-right: 3px; vertical-align: -1px; fill: currentColor; transform-origin: 60% 60%; }
+  a.tel.ring .hs { animation: ring .5s ease-in-out; }
+  @keyframes ring { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-18deg); } 40% { transform: rotate(16deg); } 60% { transform: rotate(-12deg); } 80% { transform: rotate(8deg); } }
+
+
+  /* ---- 行車版 ---- */
+  .tab.pl, .plbadge { display: none; }
+  html.planner .tab.pl { display: block; }
+  html.planner .tab.wide { grid-column: span 2; }
+  html.planner { --jade: #2C4470; --jade-soft: #E7ECF4; --paper: #EEF0F4; --line: #D3D9E3; }
+  html.planner .plbadge { display: block; position: absolute; left: 10px; top: 5px; margin: 0; padding: 0 10px; border-radius: 999px; background: #2C4470; color: #fff; font-size: 12px; line-height: 20px; letter-spacing: .08em; z-index: 2; }
+
+  .pd { margin-top: 10px; border: 1px solid #C9D2E1; border-left: 4px solid #2C4470; background: #F3F6FA; }
+  .pd summary { cursor: pointer; padding: 8px 12px; font-weight: 700; color: #2C4470; font-size: 17px; list-style: none; }
+  .pd summary::-webkit-details-marker { display: none; }
+  .pd summary::before { content: "▸ "; } .pd[open] summary::before { content: "▾ "; }
+  .pd dl { display: grid; grid-template-columns: 4.2em 1fr; gap: 4px 8px; margin: 0; padding: 0 12px 10px; font-size: 16px; line-height: 1.6; }
+  .pd dt { color: #6B7385; } .pd dd { margin: 0; color: var(--ink); }
+  .plan { display: grid; gap: 10px; }
+  .plr { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--jade); border-radius: 0; padding: 10px 14px; }
+  .plr .plt { margin: 0 !important; color: var(--jade); font-weight: 700; font-size: 17px !important; }
+  .plr h4 { margin: 2px 0 6px; font-size: 19px; }
+  .plr dl { display: grid; grid-template-columns: 4.2em 1fr; gap: 4px 8px; margin: 0; font-size: 16px; line-height: 1.6; }
+  .plr dt { color: #6B7385; }
+  .plr dd { margin: 0; color: var(--ink); }
+  /* ---- 動畫 v48 ---- */
+  .sc { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 1.8s ease; overflow: hidden; }
+  html.dawn .sc-dawn, html.lake .sc-lake, html.dusk .sc-dusk { opacity: 1; }
+  .sc-dawn { background: linear-gradient(#F7D9A6 0%, #FAE6C6 40%, #F6EFE2 100%); }
+  .sc-dawn::before { content: ""; position: absolute; left: -50%; right: -50%; top: -30%; height: 130%;
+    background: repeating-conic-gradient(from 160deg at 50% 0%, rgba(255,250,232,.75) 0deg 3deg, rgba(255,250,232,0) 3deg 11deg);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%); mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
+    transform-origin: 50% 0; animation: rays 14s ease-in-out infinite alternate; }
+  .sc-dawn::after { content: ""; position: absolute; left: 50%; top: -60px; width: 180px; height: 180px; margin-left: -90px; border-radius: 50%; background: radial-gradient(#FFF6DA, rgba(255,236,190,0) 70%); }
+  @keyframes rays { from { transform: rotate(-4deg); opacity: .7; } to { transform: rotate(4deg); opacity: 1; } }
+  .sc-lake { background: linear-gradient(#EAF1EE 0%, #CFE2DF 55%, #B4D1CD 100%); }
+  .sc-lake i { position: absolute; width: var(--z); height: var(--z); background: #fff; transform: rotate(45deg); box-shadow: 0 0 6px 2px rgba(255,255,255,.9); animation: glint var(--t) ease-in-out var(--dl) infinite; }
+  @keyframes glint { 0%, 100% { opacity: 0; transform: rotate(45deg) scale(.3); } 50% { opacity: 1; transform: rotate(45deg) scale(1); } }
+  .sc-dusk { background: linear-gradient(#F9DDB9 0%, #F4BC97 40%, #E7A18F 75%, #D9998F 100%); }
+  .sc-dusk .dsun { position: absolute; left: 50%; bottom: 14vh; width: 120px; height: 120px; margin-left: -60px; border-radius: 50%; background: radial-gradient(#FCE4A8 40%, rgba(252,210,150,0) 70%); animation: sunset 18s ease-in-out infinite alternate; }
+  @keyframes sunset { from { transform: translateY(0); } to { transform: translateY(26px); } }
+  .sc-dusk .db { position: absolute; left: -60px; top: var(--y); width: 26px; height: 12px; animation: dbird var(--t) linear var(--dl) infinite; }
+  .sc-dusk .db svg { width: 100%; height: 100%; overflow: visible; }
+  .sc-dusk .db path { fill: none; stroke: #6B4E4E; stroke-width: 1.8; stroke-linecap: round; animation: flap .8s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+  @keyframes dbird { from { transform: translate(0, 0); } 50% { transform: translate(60vw, -4vh); } to { transform: translate(125vw, 2vh); } }
+  .duskcard, .duskcard * { transition: background-color .7s ease, color .7s ease, border-color .7s ease; }
+  html.dusk .duskcard { background: #FFF5EC !important; border-color: #E9A882 !important; }
+  html.dusk .duskcard .time { color: #B5533C !important; }
+  html.dusk footer { color: #4A3434; border-top-color: rgba(74,52,52,.25); }
+  .lb { position: fixed; inset: 0; z-index: 20; background: rgba(20,22,26,.92); display: flex; flex-direction: column; justify-content: center; opacity: 0; transition: opacity .35s ease; }
+  .lb.on { opacity: 1; }
+  .lb[hidden] { display: none; }
+  .lb-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .lb-track::-webkit-scrollbar { display: none; }
+  .lb-s { flex: 0 0 100%; scroll-snap-align: center; display: flex; align-items: center; justify-content: center; padding: 0 8px; box-sizing: border-box; }
+  .lb-s img { max-width: 100%; max-height: 74vh; width: auto; height: auto; border-radius: 4px; transform-origin: 0 0; }
+  .lb-cap { margin: 14px 20px 0 !important; color: #F3EEE2; font-size: 18px !important; text-align: center; line-height: 1.5; }
+  .lb-cnt { margin: 4px 0 0 !important; color: #B9B3A6; font-size: 15px !important; text-align: center; }
+  .lb-x { position: absolute; top: 14px; right: 14px; width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(255,255,255,.92); color: #333; font-size: 24px; cursor: pointer; }
+  .lb { overscroll-behavior: contain; touch-action: pan-x; }
+  .ph img { cursor: zoom-in; }
+  .t .ck { display: inline-block; margin-right: 5px; color: var(--jade); font-weight: 700; transform: scale(0); }
+  .t.in .ck { animation: ckpop .5s cubic-bezier(.3,1.8,.5,1) calc(.35s + var(--i) * .14s) both; }
+  @keyframes ckpop { from { transform: scale(0) rotate(-30deg); } to { transform: none; } }
+  .lotus .lrip { fill: none; stroke: #A9C1B6; stroke-width: 1.3; opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .lotus.bloom .lrip { animation: lrip 3.8s ease-out 1.4s infinite; }
+  .lotus.bloom .lrip.r2 { animation-delay: 3.3s; }
+  @keyframes lrip { 0% { transform: scale(.4); opacity: 0; } 25% { opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+  .lotus .lpad { opacity: 0; transform: translateY(6px); transition: opacity 1s ease 1s, transform 1s ease 1s; }
+  .lotus.bloom .lpad { opacity: 1; transform: none; }
+  .lotus.bloom .lpad path { animation: bob 4s ease-in-out 2s infinite alternate; transform-box: fill-box; transform-origin: center; }
+  .lotus.bloom .lpad.p2 path { animation-delay: 3s; }
+  @keyframes bob { from { transform: translateY(0) rotate(0); } to { transform: translateY(-1.5px) rotate(-2deg); } }
+  .h-refl { opacity: .35; animation: refl 5s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 0; }
+  @keyframes refl { from { transform: translateX(-3px) scaleY(1); } to { transform: translateX(3px) scaleY(.94); } }
+  @media (prefers-reduced-motion: reduce) { .cal, .cd .fl { opacity: 1; transform: none; } .t .ck { transform: none; } .lotus .lpad { opacity: 1; transform: none; } .lb, .lb.on { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .stars { display: none; } .pprog.done .pr-lotus path { transform: rotate(var(--r)) scale(1); opacity: 1; } .cd .fl { opacity: 1; transform: none; } .map .pop.hop { transform: scale(1.12); opacity: 1; } }
+  .box.warn { border-color: #E6D3A8; background: #FFFBF2; }
+
+  .t { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 16px; line-height: 1.6; }
+  .t th, .t td { text-align: left; vertical-align: top; padding: 10px 10px; border-bottom: 1px solid var(--line); }
+  .t th { font-family: var(--serif); font-weight: 700; background: #FBF9F4; color: var(--ink); }
+  .t td:first-child { font-weight: 500; color: var(--ink); }
+  .t td { color: var(--ink-soft); }
+  .t tr:last-child td { border-bottom: 0; }
+
+  footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+  .pick { grid-template-columns: repeat(6, 1fr); }
+  .tab { font-size: 17px; padding: 12px 6px; }
+  .top-btn { display:block; width:100%; margin:28px 0 8px; padding:14px 10px; font-size:17px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; }
+  .top-fab { position:fixed; right:16px; bottom:20px; width:52px; height:52px; border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-size:22px; box-shadow:0 2px 8px rgba(0,0,0,.15); cursor:pointer; opacity:0; pointer-events:none; transition:opacity .2s; }
+  .top-fab.on { opacity:1; pointer-events:auto; }
+</style>
+<style>
+  /* ---- 行車版（只在 drive.html） ---- */
+  html.planner .amb, html.planner .sc, html.planner .stars { display: none !important; }
+  html.planner .car .slide img { animation: none !important; transform: none !important; }
+  html.planner.js .tl .stop, html.planner.js .pack, html.planner.js .t { opacity: 1 !important; transform: none !important; transition: none !important; }
+  html.planner.js .tl .stop::before { transform: none !important; transition: none !important; }
+  html.planner.js .tl .stop .time { animation: none !important; }
+  html.planner a.navbtn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; margin: 8px 0 12px; padding: 8px 16px;
+    border-radius: 999px; background: #2C4470; color: #fff !important; font-size: 19px; font-weight: 700; letter-spacing: .08em; text-decoration: none; border: 0; box-shadow: 0 2px 6px rgba(44,68,112,.3); }
+  html.planner a.navbtn::before { content: "➤"; margin-right: 8px; font-size: 17px; }
+  html.planner a.navbtn:active { background: #1E3152; }
+  .route { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid #2C4470; padding: 12px 14px 14px; margin: 0 0 16px; }
+  .route h4 { margin: 0 0 8px; font-size: 21px; color: #2C4470; }
+  .route .board { list-style: none; margin: 0 0 12px; padding: 0; }
+  .route .br { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; column-gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+  .route .br:first-child { border-top: 0; padding-top: 2px; }
+  .route .bt { display: flex; flex-direction: column; line-height: 1.2; color: #2C4470; }
+  .route .bt b { font-size: 18px; font-weight: 700; }
+  .route .bt small { font-size: 12px; color: #6B7385; }
+  .route .bt small.be { font-size: 13px; margin-top: 2px; }
+  .route .bm { min-width: 0; }
+  .route .bn { display: block; font-size: 17px; font-weight: 700; line-height: 1.35; color: var(--ink); text-decoration: none; }
+  .route a.bn { text-decoration: underline; text-decoration-color: #9AA8C0; text-underline-offset: 3px; }
+  .route .bs { margin: 2px 0 0 !important; font-size: 14px !important; line-height: 1.45 !important; color: #4A5568; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .route .bs span + span::before { content: "・"; }
+  .route .bb { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; max-width: 96px; }
+  .route a.bnav, .route a.bcall { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 8px; border-radius: 10px; box-sizing: border-box;
+    font-size: 15px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .route a.bnav { background: #2C4470; color: #fff; }
+  .route a.bcall { background: #E7ECF4; color: #2C4470; font-size: 19px; border: 1px solid #C9D2E1; }
+  html.planner .tl .stop[id] { scroll-margin-top: 12px; }
+  html.planner .act { display: flex; gap: 8px; margin: 8px 0 12px; }
+  html.planner .act > a { flex: 1 1 0; min-width: 0; }
+  html.planner .act a.navbtn { width: auto; margin: 0; padding: 6px 8px; font-size: 17px; line-height: 1.25; letter-spacing: 0; text-align: center; }
+  html.planner .act a.navbtn::before { margin-right: 4px; font-size: 15px; }
+  html.planner a.callbtn { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 8px 10px; border-radius: 999px;
+    background: #fff; color: #2C4470 !important; border: 2px solid #2C4470; font-size: 17px; line-height: 1.25; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  html.planner a.callbtn:active { background: #E7ECF4; }
+  html.planner .stop .pd { margin: 0 0 4px; }
+  html.planner details.intro { margin-top: 10px; border-top: 1px dashed var(--line); }
+  html.planner details.intro > summary { cursor: pointer; padding: 10px 0 4px; min-height: 44px; box-sizing: border-box; font-size: 17px; font-weight: 700; color: #2C4470; list-style: none; }
+  html.planner details.intro > summary::-webkit-details-marker { display: none; }
+  html.planner details.intro > summary::before { content: "▸ "; } html.planner details.intro[open] > summary::before { content: "▾ "; }
+  .route .rbh { margin: 0 0 6px; font-size: 15px; color: #6B7385; }
+  .route .rbtns { display: grid; gap: 8px; }
+  .route a.rbtn { display: flex; align-items: center; min-height: 48px; padding: 8px 14px; border-radius: 12px; background: #2C4470; color: #fff; font-size: 17px; font-weight: 700; line-height: 1.4; text-decoration: none; }
+  .route a.rbtn::before { content: "➤"; margin-right: 8px; font-size: 15px; }
+  .nextbar { display: none; }
+  html.planner.hasnext .nextbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 8; align-items: center; gap: 10px; min-height: 68px;
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom)); background: #2C4470; color: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,.25); }
+  html.lbopen .nextbar { display: none !important; }
+  .nextbar .nb-txt { flex: 1; min-width: 0; }
+  .nextbar p { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nextbar .nb-a { font-size: 14px; line-height: 1.35; opacity: .85; }
+  .nextbar .nb-b { font-size: 18px; line-height: 1.35; font-weight: 700; }
+  .nextbar .nb-c { font-size: 14px; line-height: 1.35; color: #F2CF7A; }
+  .nextbar .nb-c:empty, .nextbar .nb-a:empty { display: none; }
+  .nextbar .nb-go { display: flex; gap: 6px; flex-shrink: 0; }
+  .nextbar .nb-go a { display: flex; align-items: center; justify-content: center; min-width: 72px; min-height: 52px; padding: 0 12px; border-radius: 12px;
+    background: #fff; color: #2C4470; font-size: 19px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  html.planner.hasnext .fontbtn, html.planner.hasnext .top-fab { bottom: calc(var(--nbh, 72px) + 12px); }
+  html.planner.hasnext body { padding-bottom: calc(var(--nbh, 72px) + 16px); }
+</style>
+</head>
+<body>
+<div class="ink" aria-hidden="true"><svg viewBox="0 0 680 170" preserveAspectRatio="none">
+  <path d="M0 120 C60 80 110 90 170 60 C230 30 280 70 340 52 C410 30 470 80 540 58 C600 40 640 70 680 60 L680 170 L0 170 Z" fill="#E9E3D6" opacity=".55"/>
+  <path d="M0 150 C80 120 140 130 210 108 C280 86 330 120 400 104 C470 90 540 126 610 108 C640 100 660 108 680 104 L680 170 L0 170 Z" fill="#E2DACB" opacity=".55"/>
+</svg></div>
+<div class="wrap">
+  <div class="hero" data-day="1">
+  <svg viewBox="0 0 680 210" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6F3EC"/><stop offset="1" stop-color="#E7EEE9"/></linearGradient>
+      <linearGradient id="hlake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6E4E1"/><stop offset="1" stop-color="#C3D7D3"/></linearGradient>
+      <linearGradient id="hdawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E1D2"/><stop offset="1" stop-color="#EEF0EA"/></linearGradient>
+      <linearGradient id="hdusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EFC9AE"/><stop offset="1" stop-color="#EBDDD2"/></linearGradient>
+      <mask id="hmoon"><rect width="680" height="210" fill="#fff"/><circle cx="186" cy="40" r="13" fill="#000"/></mask>
+    </defs>
+    <rect width="680" height="210" fill="url(#hsky)"/>
+    <rect class="sky-dawn" width="680" height="210" fill="url(#hdawn)"/>
+    <rect class="sky-dusk" width="680" height="210" fill="url(#hdusk)"/>
+    <rect class="sky-night" width="680" height="210" fill="#4A5578" opacity="0"/>
+    <g class="sunpos"><circle class="h-sun" cx="500" cy="104" r="24" fill="#F1D9AE"/></g>
+    <circle class="h-moon" cx="178" cy="44" r="13" fill="#E6D9BC" mask="url(#hmoon)"/>
+    <g class="h-far"><path d="M-20 150 L60 112 L120 132 L190 96 L260 128 L330 104 L400 130 L470 98 L540 126 L610 108 L700 136 L700 160 L-20 160 Z" fill="#C9D7CF"/></g>
+    <path d="M-20 160 L40 136 L110 150 L170 124 L250 152 L320 132 L390 154 L450 128 L520 150 L600 130 L700 152 L700 170 L-20 170 Z" fill="#A9C1B6"/>
+    <rect y="166" width="680" height="44" fill="url(#hlake)"/>
+    <clipPath id="hlclip"><rect y="166" width="680" height="44"/></clipPath>
+    <g clip-path="url(#hlclip)"><g transform="matrix(1 0 0 -1 0 332)"><g class="h-refl"><path d="M-20 160 L40 136 L110 150 L170 124 L250 152 L320 132 L390 154 L450 128 L520 150 L600 130 L700 152 L700 170 L-20 170 Z" fill="#A9C1B6"/></g></g></g>
+    <ellipse cx="360" cy="176" rx="16" ry="4" fill="#9DB8AD"/>
+    <g class="h-bird"><path class="h-wing" d="M40 52 q6 -6 12 0 q6 -6 12 0" fill="none" stroke="#8A8A80" stroke-width="1.6" stroke-linecap="round"/></g>
+    <g class="h-bird b2"><path class="h-wing" d="M10 70 q5 -5 10 0 q5 -5 10 0" fill="none" stroke="#9A9A90" stroke-width="1.4" stroke-linecap="round"/></g>
+    <g class="h-boat"><path d="M0 186 l22 0 l-4 5 l-14 0 z" fill="#8C6A4A"/><path d="M11 186 l0 -12 l7 10 z" fill="#FFFFFF" opacity=".9"/></g>
+    <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-width="1.6">
+      <path class="h-rip" d="M70 182 h40 M230 194 h52 M480 184 h44"/>
+      <path class="h-rip r2" d="M140 198 h30 M390 190 h36 M600 196 h40"/>
+      <path class="h-rip r3" d="M30 204 h26 M300 204 h30 M540 203 h26"/>
+    </g>
+  </svg>
+  <div class="ttl"><h1>南投行程</h1><p class="sub">三天兩夜・11/24（二）– 11/26（四）</p><div class="cdw" id="cdw" hidden><div class="cal"><b>十一月</b><span id="calD">24</span><small id="calW">星期二</small></div><p class="cd" id="cd" aria-live="polite"></p></div></div>
+  <p class="plbadge">行車版</p>
+  <p class="dayline"><span data-d="1">☀ 第一天・晨光出發</span><span data-d="2">☀ 第二天・湖畔日光</span><span data-d="3">☀ 第三天・夕陽回程</span></p>
+</div>
+
+  <div class="pick" role="tablist">
+    <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">第一天<br>11/24（二）</button>
+    <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false">第二天<br>11/25（三）</button>
+    <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false">第三天<br>11/26（四）</button>
+    <button class="tab" role="tab" id="t4" aria-controls="p4" aria-selected="false">營業時間<br>公休</button>
+    <button class="tab" role="tab" id="t5" aria-controls="p5" aria-selected="false">其他<br>餐廳選擇</button>
+    <button class="tab" role="tab" id="t6" aria-controls="p6" aria-selected="false">其他<br>景點參考</button>
+    <button class="tab wide" role="tab" id="t7" aria-controls="p7" aria-selected="false">各景點<br>待確認筆記</button>
+    <button class="tab wide" role="tab" id="t8" aria-controls="p8" aria-selected="false">應備<br>用品</button>
+    <button class="tab pl" role="tab" id="t9" aria-controls="p9" aria-selected="false">行車<br>總表</button>
+  </div>
+
+<section id="p1" role="tabpanel" aria-labelledby="t1">
+<div class="amb" aria-hidden="true"><span class="bfly c1" style="--y:23vh;--t:19s;--dl:-8s"><i></i></span><span class="bfly c2" style="--y:22vh;--t:25s;--dl:-14s"><i></i></span><span class="bfly c3" style="--y:45vh;--t:24s;--dl:-6s"><i></i></span></div>
+<div class="summary"><b>第一天・11/24（二）</b><ul class="sl"><li>約 09:00 汐止開車出發</li><li>台中空也午餐 → 埔里 18度C → 地母廟看埔里盆地 → 日月町</li><li>埔里晚餐 → 約 19:50 入住教師會館，在湖景房休息、看夜湖</li></ul>
+</div>
+<div class="route"><h4>行車看板</h4><ol class="board"><li class="br"><span class="bt"><small>約</small><b>09:00</b></span><div class="bm"><a class="bn" href="#d1s1">汐止出發 → 台中</a><p class="bs"><span>車程 約 2 小時 40 分–3 小時（Google 2 小時 12 分）</span></p></div></li><li class="br"><span class="bt"><b>12:00</b><small class="be">至 13:30</small></span><div class="bm"><a class="bn" href="#d1s2">空也素麵食（龍門店）</a><p class="bs"><span>停車 店家未寫</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0422523722" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>14:40</b><small class="be">至 15:20</small></span><div class="bm"><a class="bn" href="#d1s3">Feeling18℃</a><p class="bs"><span>車程 約 1 小時 10 分（Google 55 分）</span><span>停車 店家 P1、P3 收費停車場（南安路），消費可折抵</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492984863" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>15:30</b><small class="be">至 16:00</small></span><div class="bm"><a class="bn" href="#d1s4">地母廟</a><p class="bs"><span>車程 約 10 分（Google 6 分）</span><span>停車 開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492982873" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>16:30</b><small class="be">至 17:30</small></span><div class="bm"><a class="bn" href="#d1s5">日月町</a><p class="bs"><span>車程 約 30 分（Google 24 分）</span><span>停車 免費停車場（食尚玩家）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492009296" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>17:40</b><small class="be">至 19:10</small></span><div class="bm"><a class="bn" href="#d1s6">無所從來（晚餐）</a><p class="bs"><span>車程 約 10 分（Google 7 分）</span><span>停車 免費停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492919007" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:50</b></span><div class="bm"><a class="bn" href="#d1s7">日月潭教師會館（入住）</a><p class="bs"><span>車程 約 40 分（Google 26 分）</span><span>停車 會館專屬停車場，住客免費（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492855991" aria-label="打電話">📞</a></span></li></ol><p class="rbh">Google 地圖開車路線（含中途點）</p><div class="rbtns"><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%B1%90%E6%AD%A2%E5%8D%80&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">汐止 → 台中空也</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&waypoints=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F%7C%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">空也 → 18度C → 地母廟 → 日月町</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&waypoints=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">日月町 → 無所從來 → 教師會館</a></div></div>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="dsw" role="group" aria-label="切換天數"><button type="button" data-go="t1" class=on>第一天</button><button type="button" data-go="t2">第二天</button><button type="button" data-go="t3">第三天</button></div>
+<div class="tl">
+<div class="stop ride" id="d1s1">
+<p class="time">約 09:00</p>
+<h3>汐止 → 台中（自行開車）</h3>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>國道 3 號／1 號，Google 2 小時 12 分（172 公里）→ 抓 2 小時 40 分–3 小時</dd></dl></details><ul class="pts"><li>走國道 3 號／國道 1 號，Google 地圖約 2 小時 12 分（172 公里）；含中途休息，抓 2 小時 40 分–3 小時</li><li>台中兩位直接到空也素麵食會合</li></ul>
+</div>
+<div class="stop meal" id="d1s2">
+<p class="time">12:00–13:30</p>
+<h3>午餐・空也素麵食（龍門店） <span class="lv lv-b">B</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0422523722">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>停車</dt><dd>店家未寫</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">台中市西屯區朝富五街10號<br>電話 <a class="tel" href="tel:0422523722"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>04-2252-3722</a><br>11:00–21:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>素食麵館</li></ul>
+<p class="gmap"><a href="https://www.facebook.com/kongye.vegetable/" target="_blank" rel="noopener">Facebook 粉專</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+<div class="stop" id="d1s3">
+<p class="time">約 14:40–15:20</p>
+<h3>埔里・Feeling18℃ 巧克力工房 <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492984863">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 約 55 分 → 抓 1 小時 10 分</dd><dt>停車</dt><dd>店家 P1、P3 收費停車場（南安路），消費可折抵</dd><dt>無障礙</dt><dd>四間門市都有座位（官網）</dd></dl></details><p class="info">埔里鎮慈恩街20號<br>電話 <a class="tel" href="tel:0492984863"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2984863</a><br>平日 10:00–18:00（咖啡門市 09:00 開）</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>逛巧克力、生吐司、冰淇淋門市，買伴手禮</li><li>同一地址四間相連的門市：巧克力、義式冰淇淋、生吐司、咖啡（官網）</li><li>四間都有座位（官網）</li><li>四間門市相連，不是大型園區，行程抓 40 分鐘</li><li>Google 4.2 分（22,000 多則評論）</li></ul>
+<p class="gmap"><a href="https://www.feeling18c.com/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>空也開車約 1 小時 10 分（Google 約 55 分，走國道 6 號）</li><li>停店家 P1、P3 收費停車場（南安路上），消費可折抵</li></ul>
+</div>
+</details>
+</div>
+<div class="stop" id="d1s4">
+<p class="time">約 15:30–16:00</p>
+<h3>寶湖宮天地堂地母廟 <span class="lv lv-b">B</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492982873">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 6 分 → 抓 10 分</dd><dt>停車</dt><dd>開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</dd><dt>無障礙</dt><dd>主殿前廣場可到；最高的乾元殿要走階梯（遊記）</dd><dt>備案</dt><dd>上方停車場不能進：停廟前免費停車場，在下方看廟，不上階梯；時間不夠可跳過，日月町恢復 1 小時 50 分</dd><dt>要確認</dt><dd>平日車子能不能開到乾坤門停車場（遊記說法不完全一致）<a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a></dd></dl></details><p class="info">埔里鎮枇杷路94號<br>電話 <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a><br>每天 06:00–21:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<figure class="ph car"><div class="track"><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Puli_Demu_Temple.jpg?width=800" alt="地母廟主殿與廟前廣場" loading="lazy"><span class="scap">地母廟主殿與廟前廣場</span></div><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/View_from_Puli_Demu_Temple.jpg?width=800" alt="從地母廟看埔里" loading="lazy"><span class="scap">從地母廟看埔里</span></div><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Puli_Baohu_Temple_in_the_afternoon_on_16_December_2015.jpg?width=800" alt="依山坡層層往上蓋的地母廟" loading="lazy"><span class="scap">依山坡層層往上蓋的地母廟</span></div><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Qiankun_Gate_of_Puli_Demu_Temple_20151216.jpg?width=800" alt="乾坤門" loading="lazy"><span class="scap">乾坤門</span></div></div><button type="button" class="cbtn prev" aria-label="上一張">‹</button><button type="button" class="cbtn next" aria-label="下一張">›</button><p class="cnt">1 / 4　左右滑動看更多</p><figcaption>照片：ixmatex wu（CC BY 2.0）、Husky221（CC BY-SA 4.0），<a href="https://commons.wikimedia.org/w/index.php?search=Puli+Demu+Temple&title=Special:MediaSearch&type=image" target="_blank" rel="noopener">Wikimedia Commons</a></figcaption></figure>
+<ul class="pts"><li>車開到上方乾坤門旁停車場</li><li>在主殿前廣場看埔里盆地，停留約 30 分鐘</li><li>色彩繽紛的多層樓廟宇，蓋在山坡上（Google 地圖簡介）</li><li>從廟區可以看到整座廟宇與埔里盆地（遊記）</li><li>最高的乾元殿要從側邊步道、階梯上去（遊記）</li><li>Google 4.7 分（14,000 多則評論）</li></ul>
+<p class="gmap"><a href="https://travel.yam.com/article/131967" target="_blank" rel="noopener">遊記（2024/8，乾坤門停車場）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>18度C 開車約 10 分鐘（Google 6 分）</li><li><b>車可開往乾坤門方向，那裡有停車場</b>（遊記 2024/8；另兩篇遊記寫廟區上方有無障礙車位）</li><li>廟前另有免費停車場</li></ul>
+</div>
+</details>
+</div>
+<div class="stop" id="d1s5">
+<p class="time">約 16:30–17:30</p>
+<h3>埔里・日月町複合式商場（Hizuki Town） <span class="lv lv-b">B</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492009296">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 24 分 → 抓 30 分</dd><dt>停車</dt><dd>免費停車場（食尚玩家）</dd><dt>無障礙</dt><dd>主館有電梯、無障礙坡道（遊記 2026/9）</dd></dl></details><p class="info">埔里鎮中山路四段235-8號<br>電話 <a class="tel" href="tel:0492009296"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2009296</a><br>每天 09:00–18:00（Google 地圖）</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>逛各樓層店家與戶外餐車區</li><li>可在 2 樓茶飲店或咖啡廳坐下休息</li><li>國道 6 號愛蘭交流道旁（食尚玩家）</li><li>1 樓日月本家：伴手禮（食尚玩家）</li><li>2 樓朝霧茶莊（台茶 18 號紅玉）、有益帖（草本茶）（食尚玩家）</li><li>2–3 樓 WIRED CAFE；3–4 樓蔦屋書店 TSUTAYA BOOKSTORE（食尚玩家）</li><li>戶外有餐車區（食尚玩家）</li><li><b>主館有電梯，也有無障礙坡道</b>；沒有手扶梯（兩篇遊記，最新一篇 2026/9）</li><li>Google 4.4 分（3,400 多則評論）</li></ul>
+<p class="gmap"><a href="https://supertaste.tvbs.com.tw/travel/350501" target="_blank" rel="noopener">食尚玩家介紹</a>　<a href="https://fullfenblog.tw/hizuki-town/" target="_blank" rel="noopener">遊記（2026/9，有電梯）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>地母廟開車約 30 分鐘（Google 24 分）</li><li>有免費停車場（食尚玩家）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop meal" id="d1s6">
+<p class="time">17:40–19:10</p>
+<h3>晚餐・無所從來蔬食文創館 <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492919007">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 7 分 → 抓 10 分</dd><dt>停車</dt><dd>免費停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">埔里鎮南安路788號<br>電話 <a class="tel" href="tel:0492919007"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2919007</a><br>每天 11:00–20:00，全年無休<br>最後點餐：官網寫 19:00，南投旅遊網寫 18:30</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">素食餐廳（全素＋蛋奶素）</p>
+<ul class="pts"><li>享用晚餐（套餐）</li><li>館內有文創商品區可以順便逛</li><li>Google 4.8 分</li></ul>
+<p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://www.instagram.com/nwnheewh/" target="_blank" rel="noopener">Instagram（店家）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+<div class="go"><ul class="gol"><li>日月町開車約 10 分鐘（Google 7 分）</li><li>有免費停車場</li></ul>
+</div>
+</details>
+</div>
+<div class="stop stay" id="d1s7">
+<p class="time">約 19:50</p>
+<h3>入住・日月潭教師會館（住兩晚） <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492855991">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 約 26 分 → 抓 40 分</dd><dt>停車</dt><dd>會館專屬停車場，住客免費（官網）</dd><dt>無障礙</dt><dd>第一晚不外出，在湖景房休息；涵曦會館到早餐餐廳的路線未查到</dd></dl></details><p class="info">魚池鄉水社村中興路136號<br>電話 <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a><br>15:00 後入住、11:00 前退房</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>房間是涵曦湖景房（官網房型名稱），入住後在房內休息、看夜湖</li><li>在涵碧半島上，緊鄰涵碧樓（官網）</li><li>會館有三棟：迎賓樓、涵曦會館、白如樓（官網）</li><li><b>辦入住在迎賓樓大廳</b>（兩篇住宿心得）</li><li>兩間房都在<b>涵曦會館</b>，含早餐：</li><li>涵曦湖景四人房（2 張雙人床），平日 4,800 元</li><li>涵曦湖景雙人房（1 張雙人床），平日 3,720 元</li><li>房內不提供拋棄式盥洗用品，須自備唷</li></ul>
+<p class="gmap"><a href="https://www.smlthotel.com.tw/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>無所從來開車約 40 分鐘（Google 約 26 分）</li><li>會館專屬停車場，住客免費（官網）</li></ul>
+</div>
+</details>
+</div>
+</div>
+</section>
+<section id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+<div class="amb" aria-hidden="true"><span class="leaf" style="--x:10vw;--t:15s;--dl:-2s;--s:0.89"></span><span class="leaf" style="--x:24vw;--t:18s;--dl:-8s;--s:0.99"></span><span class="leaf" style="--x:80vw;--t:14s;--dl:-18s;--s:1.02"></span><span class="leaf" style="--x:58vw;--t:20s;--dl:-16s;--s:1.13"></span><span class="leaf" style="--x:72vw;--t:21s;--dl:-16s;--s:0.86"></span><span class="leaf" style="--x:7vw;--t:14s;--dl:-11s;--s:0.94"></span><span class="leaf" style="--x:43vw;--t:20s;--dl:-13s;--s:1.11"></span></div>
+<div class="summary"><b>第二天・11/25（三）環湖・纜車</b><ul class="sl"><li>早餐 07:30–08:45，09:00 出發</li><li>上午：向山品嚐抹茶 → 沿湖南岸 → 日月潭纜車來回</li><li>中午魚池明雅午餐；下午：日月老茶廠買紅茶 → 雲品湖景下午茶兩小時</li><li>晚餐魚池阿芬素食館（全素），約 19:20 回會館停車，19:30 水社湖畔夜間散步，約 20:30 回房休息</li></ul>
+</div>
+<div class="route"><h4>行車看板</h4><ol class="board"><li class="br"><span class="bt"><b>07:30</b><small class="be">至 08:45</small></span><div class="bm"><a class="bn" href="#d2s1">早餐（會館桃李緣）</a></div></li><li class="br"><span class="bt"><small>約</small><b>09:15</b><small class="be">至 10:15</small></span><div class="bm"><a class="bn" href="#d2s2">向山遊客中心・茶茶小王子</a><p class="bs"><span>車程 約 15 分（Google 9 分）</span><span>停車 免費，小型車 104 格（管理處）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492341256" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>10:15</b></span><div class="bm"><a class="bn" href="#d2s3">沿湖南岸開往纜車站</a><p class="bs"><span>車程 約 35 分（Google 23 分）</span></p></div></li><li class="br"><span class="bt"><small>約</small><b>11:00</b><small class="be">至 11:50</small></span><div class="bm"><a class="bn" href="#d2s4">日月潭纜車（來回）</a><p class="bs"><span>停車 纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492850666" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>12:15</b><small class="be">至 13:45</small></span><div class="bm"><a class="bn" href="#d2s5">明雅小棧（午餐）</a><p class="bs"><span>車程 約 25 分（Google 19 分）</span><span>停車 門口與附近有停車場（南投旅遊網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492896929" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>13:55</b><small class="be">至 14:55</small></span><div class="bm"><a class="bn" href="#d2s6">日月老茶廠</a><p class="bs"><span>車程 約 10 分（Google 4 分）</span><span>停車 有停車場（管理處）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492895508" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>15:10</b><small class="be">至 17:10</small></span><div class="bm"><a class="bn" href="#d2s7">雲品大廳酒吧（下午茶）</a><p class="bs"><span>車程 約 10 分（Google 4 分）</span><span>停車 飯店室內及戶外停車場（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492212926" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>17:30</b><small class="be">至 19:00</small></span><div class="bm"><a class="bn" href="#d2s8">阿芬素食館（晚餐）</a><p class="bs"><span>車程 約 20 分（Google 12 分）</span><span>停車 <b>店家沒有停車位，停路邊</b>（蔬福生活）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492897761" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:20</b></span><div class="bm"><a class="bn" href="#d2s9">回教師會館停車</a><p class="bs"><span>車程 約 20 分（Google 12 分）</span><span>停車 住客免費；車停會館，走路去湖邊</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:30</b><small class="be">至 20:15</small></span><div class="bm"><a class="bn" href="#d2s10">水社碼頭周邊湖畔散步</a><p class="bs"><span>車程 走路約 9 分鐘、700 公尺（Google 多為平坦）</span><span>停車 不用開車</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmode=walking" target="_blank" rel="noopener">導航</a></span></li><li class="br"><span class="bt"><small>約</small><b>20:30</b></span><div class="bm"><a class="bn" href="#d2s11">回房休息</a><p class="bs"><span>車程 走路約 9 分鐘回會館</span></p></div></li></ol><p class="rbh">Google 地圖開車路線（含中途點）</p><div class="rbtns"><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&waypoints=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F%7C%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">會館 → 向山 → 纜車站 → 明雅</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&waypoints=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F%7C%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F%7C%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">明雅 → 日月老茶廠 → 雲品 → 阿芬 → 會館</a></div></div>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="dsw" role="group" aria-label="切換天數"><button type="button" data-go="t1">第一天</button><button type="button" data-go="t2" class=on>第二天</button><button type="button" data-go="t3">第三天</button></div>
+<div class="tl">
+<div class="stop meal" id="d2s1">
+<p class="time">07:30–08:45</p>
+<h3>早餐・教師會館 桃李緣餐廳</h3>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>付款</dt><dd>房價含早餐</dd></dl></details><ul class="pts"><li>房價已含早餐，中式自助式（官網）</li><li>粥、包子饅頭、炒青菜、吐司麵包、水果等（住宿心得）</li><li><b>餐廳在一樓</b>（Google 地圖）；住宿心得寫在迎賓樓一樓</li><li>07:30 下樓，從容用餐一個多小時（官網：供應到 09:30）</li></ul>
+</div>
+<div class="stop" id="d2s2">
+<p class="time">約 09:15–10:15</p>
+<h3>向山遊客中心・茶茶小王子（抹茶） <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492341256">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 9 分 → 抓 15 分</dd><dt>停車</dt><dd>免費，小型車 104 格（管理處）</dd><dt>無障礙</dt><dd>電梯、無障礙廁所與車位、可借輔具（管理處）</dd></dl></details><p class="info">魚池鄉中山路599號<br>遊客中心 <a class="tel" href="tel:0492341256"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2341256</a>：每天 09:00–17:00，全年無休<br>茶茶小王子 <a class="tel" href="tel:0492855027"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855027</a>：每天 09:30–17:30</p>
+<details class="intro"><summary>景點介紹</summary>
+<figure class="ph"><img src="https://www.sunmoonlake.gov.tw/fapi/Image?type=Attraction&refid=78&l=1&w=1280&h=768&id=324" alt="遊客中心的水池倒影" loading="lazy"><figcaption>照片：<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=78" target="_blank" rel="noopener">日月潭國家風景區管理處</a></figcaption></figure>
+<ul class="pts"><li>在遊客中心看湖：清水模建築，整片落地窗</li><li>「茶茶小王子」品嚐抹茶與抹茶甜點</li><li>遊客中心有電梯、無障礙廁所、無障礙車位，可借輔具（日月潭管理處）</li><li>這次不走步道，只在遊客中心</li></ul>
+<p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=78" target="_blank" rel="noopener">日月潭管理處：向山遊客中心</a>　<a href="https://www.matchaprince.com.tw/pages/store_xiangshang" target="_blank" rel="noopener">茶茶小王子官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E8%8C%B6%E8%8C%B6%E5%B0%8F%E7%8E%8B%E5%AD%90%20%E5%90%91%E5%B1%B1%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F" target="_blank" rel="noopener">Google 地圖網友照片（茶茶小王子）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>會館開車約 15 分鐘（Google 9 分）</li><li>停車免費，小型車 104 格（日月潭管理處）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop ride" id="d2s3">
+<p class="time">約 10:15</p>
+<h3>向山 → 日月潭纜車站（沿湖南岸）</h3>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 23 分 → 抓 35 分；車上看月牙灣、頭社壩、玄光寺、玄奘寺、慈恩塔</dd><dt>無障礙</dt><dd>玄光寺要走台階、慈恩塔約 700 公尺石階，都不下車（管理處）</dd></dl></details><ul class="pts"><li>開車約 35 分鐘（Google 23 分）</li><li>車上可看月牙灣、頭社壩，經過玄光寺、玄奘寺、慈恩塔（不下車）</li></ul>
+</div>
+<div class="stop" id="d2s4">
+<p class="time">約 11:00–11:50</p>
+<h3>日月潭纜車（來回） <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492850666">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>停車</dt><dd>纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</dd><dt>付款</dt><dd><b>只收現金或國民旅遊卡</b>；來回全票 420、65 歲以上 330（官網）</dd><dt>無障礙</dt><dd>電梯、坡道；車廂門寬 80 公分（官網）</dd><dt>備案</dt><dd>打雷或天候暫停：直接從向山往明雅（Google 約 14 分），明雅 11:00 開門，午餐可提早</dd><dt>要確認</dt><dd>11 月保養日：纜車官網「設施保養」10 月底公告</dd></dl></details><p class="info">魚池鄉日月村中正路102號<br>電話 <a class="tel" href="tel:0492850666"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850666</a><br>平日 10:30–16:00（售票 10:00–15:30）<br>來回：全票 420 元，65 歲以上 330 元（官網，2026/6/1 起）</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>搭纜車到九族端再坐回來，從空中看日月潭與群山</li><li>只搭來回，不進九族文化村</li><li>單程約 7–10 分鐘（日月潭管理處）；到站一律下車，不能坐著直接回程（官網）</li><li>九族端一樓有紀念品店，給只搭纜車的旅客短暫停留再回去（官網）</li><li><b>只收現金或國民旅遊卡</b>（官網）</li><li>車廂門寬 80 公分、深 140 公分，代步車可以直接推進車廂；站內有電梯、坡道（官網）</li><li>每月第一個週三保養停駛（11 月是 11/4），11/25 有營運；打雷時會暫停（官網）</li><li>官網：懼高、心臟病、高血壓者不能搭</li></ul>
+<p class="gmap"><a href="https://www.ropeway.com.tw/page/about/index.aspx?kind=34" target="_blank" rel="noopener">纜車官網：票價</a>　<a href="https://www.ropeway.com.tw/page/about/index.aspx?kind=35" target="_blank" rel="noopener">纜車官網：營業時間</a>　<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=58" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>纜車站停車場 381 格，09:00–18:00，每車停車清潔費 150 元（官網）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop meal" id="d2s5">
+<p class="time">12:15–13:45</p>
+<h3>午餐・明雅小棧（魚池） <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492896929">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 19 分 → 抓 25 分</dd><dt>停車</dt><dd>門口與附近有停車場（南投旅遊網）</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉魚池街557巷1號<br>電話 <a class="tel" href="tel:0492896929"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2896929</a><br>週一至週六 11:00–14:00｜週日公休</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">素食餐廳（全素＋蛋奶素）</p>
+<ul class="pts"><li>享用午餐</li><li>2005 年開業，用自家栽種的有機蔬菜（南投旅遊網）</li><li>中式簡餐、鍋物、燴飯、麵食（南投旅遊網）</li></ul>
+<p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://vegemap.merit-times.com/restaurant_detail/%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7?list=2" target="_blank" rel="noopener">菜單照片（蔬福生活）</a>　<a href="https://www.facebook.com/%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7-123329284427517/" target="_blank" rel="noopener">Facebook</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+<div class="go"><ul class="gol"><li>纜車站開車約 25 分鐘（Google 19 分）</li><li>門口與附近有停車場（南投旅遊網）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop" id="d2s6">
+<p class="time">約 13:55–14:55</p>
+<h3>日月老茶廠（買日月潭紅茶）<svg class="teacup" viewBox="0 0 34 30" aria-hidden="true"><path class="stm" d="M11 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s2" d="M17 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s3" d="M23 11 q-3 -4 0 -7 q3 -3 0 -6"/><path d="M6 14 h22 v4 a9 9 0 0 1 -9 9 h-4 a9 9 0 0 1 -9 -9 z" fill="#B5835A"/><path d="M28 16 h2 a3 3 0 0 1 0 6 h-3" fill="none" stroke="#B5835A" stroke-width="2"/></svg> <span class="lv lv-b">B</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492895508">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 4 分 → 抓 10 分</dd><dt>停車</dt><dd>有停車場（管理處）</dd><dt>付款</dt><dd>免門票（遊記）</dd><dt>無障礙</dt><dd>遊記：停車後走一段木棧道，有高低落差</dd></dl></details><p class="info">魚池鄉中明村有水巷38號<br>電話 <a class="tel" href="tel:0492895508"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2895508</a><br>每天 08:00–17:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>逛老茶廠、看傳統製茶機具</li><li>販售區試喝、買日月潭紅茶（紅玉、阿薩姆等）</li><li>前身是 1959 年建的「台灣農林公司魚池茶廠」（日月潭管理處）</li><li>有茶文化展示區、產品販售區可試喝；二樓餐廳要預約（日月潭管理處）</li><li>魚池一帶的紅茶有台茶 8 號阿薩姆、台茶 18 號紅玉、台茶 21 號紅韻（日月潭管理處）</li><li>免門票（多篇遊記）</li><li>Google 4.4 分（2,700 多則評論）</li></ul>
+<p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=96" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>明雅開車約 10 分鐘（Google 4 分）</li><li>管理處寫有停車場、無障礙設施；遊記寫停車後要走一段木棧道，有高低落差</li></ul>
+</div>
+</details>
+</div>
+<div class="stop meal" id="d2s7">
+<p class="time">約 15:10–17:10</p>
+<h3>湖景下午茶・雲品溫泉酒店 大廳酒吧<svg class="teacup" viewBox="0 0 34 30" aria-hidden="true"><path class="stm" d="M11 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s2" d="M17 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s3" d="M23 11 q-3 -4 0 -7 q3 -3 0 -6"/><path d="M6 14 h22 v4 a9 9 0 0 1 -9 9 h-4 a9 9 0 0 1 -9 -9 z" fill="#B5835A"/><path d="M28 16 h2 a3 3 0 0 1 0 6 h-3" fill="none" stroke="#B5835A" stroke-width="2"/></svg> <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492212926">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 約 4 分 → 抓 10 分</dd><dt>停車</dt><dd>飯店室內及戶外停車場（官網）</dd><dt>付款</dt><dd>雙人下午茶 1,980＋10%；或每人低消 350＋10%（官網）</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉中正路23號（3 樓大廳）<br>大廳酒吧訂位 <a class="tel" href="tel:0492212926"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212926</a>｜飯店總機 <a class="tel" href="tel:0492856788"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2856788</a><br>10:00–22:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<figure class="ph"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sun_Moon_Lake_View_from_Fleur_de_Chine_Hotel.JPG?width=640" alt="" loading="lazy"><figcaption>從雲品飯店看出去的日月潭｜照片：WeiHsiang Wang／CC BY-SA 4.0（<a href="https://commons.wikimedia.org/wiki/File:Sun_Moon_Lake_View_from_Fleur_de_Chine_Hotel.JPG" target="_blank" rel="noopener">Wikimedia Commons</a>）</figcaption></figure>
+<p class="tag">飯店酒吧（葷素都有）</p>
+<ul class="pts"><li>享用下午茶，坐看湖景、從容聊天兩小時</li><li>3 樓大廳酒吧，面對日月潭湖景，50 個座位（官網）</li><li>英式下午茶雙人 1,980 元＋10%（14:00–17:00）</li><li>也可只點飲品甜點，每人低消 350 元＋10%</li></ul>
+<p class="gmap"><a href="https://www.fleurdechinehotel.com/fdc_tw/pages/26/37/96" target="_blank" rel="noopener">官網（含下午茶內容）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+<div class="go"><ul class="gol"><li>日月老茶廠開車約 10 分鐘（Google 約 4 分）</li><li>飯店有室內及戶外停車場</li></ul>
+</div>
+</details>
+</div>
+<div class="stop meal" id="d2s8">
+<p class="time">17:30–19:00</p>
+<h3>晚餐・阿芬素食館 <span class="lv lv-b">B</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492897761">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd><b>店家沒有停車位，停路邊</b>（蔬福生活）</dd><dt>付款</dt><dd><b>只收現金</b>（蔬福生活）</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉魚池街349號<br>電話 <a class="tel" href="tel:0492897761"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2897761</a><br>晚餐 16:30–19:00｜週一公休</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">全素餐廳</p>
+<ul class="pts"><li>享用晚餐</li><li>只收現金（蔬福生活）</li><li>19:00 打烊</li></ul>
+<p class="gmap"><a href="https://vegemap.merit-times.com/restaurant_detail/%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8" target="_blank" rel="noopener">蔬福生活（素食平台）</a>　<a href="https://food.suiis.com/menu.aspx?id=700096282" target="_blank" rel="noopener">菜單（素易食，網友整理）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+<div class="go"><ul class="gol"><li>雲品開車約 20 分鐘（Google 約 12 分）</li><li>店家沒有停車位（蔬福生活），停路邊</li></ul>
+</div>
+</details>
+</div>
+<div class="stop ride" id="d2s9">
+<p class="time">約 19:20</p>
+<h3>回教師會館停車</h3>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd>住客免費；車停會館，走路去湖邊</dd></dl></details><ul class="pts"><li>阿芬開車約 20 分鐘（Google 12 分）</li><li>車停會館（住客免費），從會館直接推代步車去湖邊</li></ul>
+</div>
+<div class="stop" id="d2s10">
+<p class="time">約 19:30–20:15</p>
+<h3>水社碼頭周邊・湖畔夜間散步 <span class="lv lv-b">B</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmode=walking" target="_blank" rel="noopener">走路導航到這裡</a>
+</div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>走路約 9 分鐘、700 公尺（Google 多為平坦）</dd><dt>停車</dt><dd>不用開車</dd><dt>付款</dt><dd>免費</dd><dt>無障礙</dt><dd>無障礙斜坡木棧道、碼頭電梯（管理處）；停車場到碼頭有斜坡（評論）</dd></dl></details><details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>從會館推代步車走到水社碼頭周邊，沿湖畔木棧道散步、看夜湖</li><li>會館走到碼頭約 700 公尺、9 分鐘，Google 步行路線標示多為平坦</li><li>碼頭周邊有無障礙斜坡木棧道，碼頭有電梯（日月潭管理處）</li><li>碼頭本體冬令 08:00–17:00 關閉，晚上在外圍湖畔走（日月潭管理處）</li><li>Google 評論（2026）：晚上寧靜、燈光穩定，有遊客散步</li><li>停車場到碼頭有不少斜坡，代步車慢慢走（Google 評論 2026/9）</li></ul>
+<p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=148" target="_blank" rel="noopener">日月潭管理處 水社碼頭</a>　<a href="https://www.renkai1001.com/sun-moon-lake/night/walk/" target="_blank" rel="noopener">遊記（2026/2，夜間散步）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+</details>
+</div>
+<div class="stop stay" id="d2s11">
+<p class="time">約 20:30</p>
+<h3>回房休息</h3>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>走路約 9 分鐘回會館</dd></dl></details><ul class="pts"><li>沿原路走回會館（約 9 分鐘）</li><li>早點休息，隔天 07:30 早餐</li></ul>
+</div>
+</div>
+</section>
+<section id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+<div class="amb" aria-hidden="true"><span class="petal" style="--x:33vw;--t:17s;--dl:-11s;--s:1.07"></span><span class="petal" style="--x:63vw;--t:16s;--dl:-19s;--s:0.71"></span><span class="petal" style="--x:63vw;--t:19s;--dl:-17s;--s:0.79"></span><span class="petal" style="--x:94vw;--t:22s;--dl:-17s;--s:1.03"></span><span class="petal" style="--x:63vw;--t:21s;--dl:-20s;--s:1.04"></span><span class="petal" style="--x:32vw;--t:17s;--dl:-16s;--s:0.86"></span></div>
+<div class="summary"><b>第三天・11/26（四）</b><ul class="sl"><li>早餐 07:30–08:45，約 09:15 退房</li><li>紫南宮商店街 → 中興新村午餐</li><li>約 13:50 返程，汐止約 17:30 到家</li></ul>
+</div>
+<div class="route"><h4>行車看板</h4><ol class="board"><li class="br"><span class="bt"><b>07:30</b><small class="be">至 08:45</small></span><div class="bm"><span class="bn">早餐，約 09:15 退房</span></div></li><li class="br"><span class="bt"><small>約</small><b>10:25</b><small class="be">至 11:20</small></span><div class="bm"><a class="bn" href="#d3s3">竹山紫南宮</a><p class="bs"><span>車程 約 1 小時 5–15 分（Google 47 分）</span><span>停車 廟方停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492623722" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>12:20</b><small class="be">至 13:50</small></span><div class="bm"><a class="bn" href="#d3s4">荷緣素食（中興新村）</a><p class="bs"><span>車程 約 55 分–1 小時（Google 39 分）</span><span>停車 未查</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492390455" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>13:50</b></span><div class="bm"><a class="bn" href="#d3s5">返程</a><p class="bs"><span>車程 回汐止 約 3 小時 20–40 分（Google 2 小時 50 分）；回台中 約 45 分（Google 34 分）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">回汐止</a><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">回台中</a></span></li></ol><p class="rbh">Google 地圖開車路線（含中途點）</p><div class="rbtns"><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&waypoints=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">會館 → 紫南宮 → 荷緣</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">荷緣 → 汐止</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&destination=%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">荷緣 → 台中</a></div></div>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="dsw" role="group" aria-label="切換天數"><button type="button" data-go="t1">第一天</button><button type="button" data-go="t2">第二天</button><button type="button" data-go="t3" class=on>第三天</button></div>
+<div class="tl">
+<div class="stop meal" id="d3s1">
+<p class="time">07:30–08:45</p>
+<h3>早餐・教師會館 桃李緣餐廳</h3>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>付款</dt><dd>房價含早餐</dd></dl></details><ul class="pts"><li>房價已含早餐，中式自助式（官網）</li><li>粥、包子饅頭、炒青菜、吐司麵包、水果等（住宿心得）</li><li><b>餐廳在一樓</b>（Google 地圖）；住宿心得寫在迎賓樓一樓</li><li>07:30 下樓，從容用餐一個多小時（官網：供應到 09:30）</li></ul>
+</div>
+<div class="stop ride" id="d3s2">
+<p class="time">約 09:15</p>
+<h3>退房 → 竹山紫南宮</h3>
+<ul class="pts"><li>開車約 1 小時 5–15 分</li></ul>
+</div>
+<div class="stop" id="d3s3">
+<p class="time">約 10:25–11:20</p>
+<h3>竹山紫南宮・周邊商店街 <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492623722">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 47 分 → 抓 1 小時 5–15 分</dd><dt>停車</dt><dd>廟方停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">竹山鎮社寮里大公街40號<br>電話 <a class="tel" href="tel:0492623722"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2623722</a><br>每天 07:00–21:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>到紫南宮</li><li>逛廟前與周邊好幾條街的小吃、冷飲、水果攤、伴手禮店</li><li>竹山社寮的土地公廟（主祀福德正神），以「借發財金」聞名</li></ul>
+<p class="gmap"><a href="https://www.xn--6kry7q182a.tw/" target="_blank" rel="noopener">紫南宮官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>教師會館開車約 1 小時 5–15 分（Google 47 分）</li><li>廟方有停車場</li></ul>
+</div>
+</details>
+</div>
+<div class="stop meal" id="d3s4">
+<p class="time">12:20–13:50</p>
+<h3>午餐・荷緣素食（中興新村） <span class="lv lv-a">A</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492390455">📞 打電話</a></div>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 39 分 → 抓 55 分–1 小時</dd><dt>停車</dt><dd>未查</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">南投市省府路89號<br>電話 <a class="tel" href="tel:0492390455"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2390455</a><br>週二至週日 11:00–14:00、17:00–19:30｜週一公休</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">全素餐廳</p>
+<ul class="pts"><li>享用午餐（蔬食火鍋）</li><li>南投旅遊網：火鍋料不用加工品，有無糖豆漿</li></ul>
+<p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://food.suiis.com/menu.aspx?id=700020396" target="_blank" rel="noopener">菜單（素易食，網友整理）</a>　<a href="https://www.facebook.com/p/%E5%8D%97%E6%8A%95%E4%B8%AD%E8%88%88%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F-100057610382688/" target="_blank" rel="noopener">Facebook</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+<div class="go"><ul class="gol"><li>紫南宮開車約 55 分鐘–1 小時（Google 39 分）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop ride" id="d3s5">
+<p class="time">約 13:50</p>
+<h3>中興新村 → 返程（自行開車）</h3>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>回汐止 Google 約 2 小時 50 分（216 公里）→ 抓 3 小時 20–40 分；回台中 Google 34 分 → 抓 45 分</dd></dl></details><ul class="pts"><li>回汐止：Google 約 2 小時 50 分（216 公里），含休息抓 3 小時 20–40 分，約 17:30 到家</li><li>回台中：約 45 分鐘（Google 34 分）</li></ul>
+</div>
+</div>
+<div class="box">
+<h4>竹山老街為什麼沒排？</h4>
+<ul class="bl"><li>Google 地圖查：紫南宮到竹山老街約 20 分鐘，竹山老街到荷緣約 49 分鐘，加上逛街時間，荷緣 14:00 打烊前來不及安排一個半小時的午餐。</li><li>竹山老街放在「其他景點參考」，適合另外安排。</li></ul>
+</div>
+</section>
+<section id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+<div class="summary"><b>營業時間・公休</b><ul class="sl"><li>11/24–11/26 行程裡每個地點當天都有營業</li></ul>
+</div>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><p class="dayhead">第一天・11/24（二）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>空也素麵食 <span class="lv lv-b">B</span></td><td>11:00–21:00</td><td><span class="ck" style="--i:0">✓</span>每天開</td></tr><tr><td>Feeling18℃ <span class="lv lv-a">A</span></td><td>平日 10:00–18:00</td><td><span class="ck" style="--i:1">✓</span>每天開</td></tr><tr><td>地母廟 <span class="lv lv-b">B</span></td><td>06:00–21:00</td><td><span class="ck" style="--i:2">✓</span>每天開</td></tr><tr><td>日月町 <span class="lv lv-b">B</span></td><td>09:00–18:00</td><td><span class="ck" style="--i:3">✓</span>每天開</td></tr><tr><td>無所從來 <span class="lv lv-a">A</span></td><td>11:00–20:00</td><td><span class="ck" style="--i:4">✓</span>全年無休</td></tr></tbody></table><p class="dayhead">第二天・11/25（三）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>向山遊客中心 <span class="lv lv-a">A</span></td><td>09:00–17:00</td><td><span class="ck" style="--i:0">✓</span>全年無休</td></tr><tr><td>茶茶小王子（向山） <span class="lv lv-b">B</span></td><td>09:30–17:30</td><td><span class="ck" style="--i:1">✓</span>每天開</td></tr><tr><td>日月潭纜車 <span class="lv lv-a">A</span></td><td>平日 10:30–16:00（售票到 15:30）</td><td>每月第一個週三（11/4）</td></tr><tr><td>明雅小棧 <span class="lv lv-a">A</span></td><td>11:00–14:00</td><td>週日</td></tr><tr><td>日月老茶廠 <span class="lv lv-a">A</span></td><td>08:00–17:00</td><td><span class="ck" style="--i:4">✓</span>每天開</td></tr><tr><td>雲品大廳酒吧 <span class="lv lv-a">A</span></td><td>10:00–22:00</td><td><span class="ck" style="--i:5">✓</span>每天開</td></tr><tr><td>阿芬素食館 <span class="lv lv-b">B</span></td><td>晚餐 16:30–19:00</td><td>週一</td></tr><tr><td>水社碼頭周邊湖畔 <span class="lv lv-a">A</span></td><td>外圍湖畔晚上可走（碼頭本體 08:00–17:00）</td><td><span class="ck" style="--i:7">✓</span>每天開</td></tr></tbody></table><p class="dayhead">第三天・11/26（四）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>紫南宮 <span class="lv lv-a">A</span></td><td>07:00–21:00</td><td><span class="ck" style="--i:0">✓</span>每天開</td></tr><tr><td>荷緣素食 <span class="lv lv-a">A</span></td><td>11:00–14:00</td><td>週一</td></tr></tbody></table><div class="box">
+<h4>要留意</h4>
+<ul class="bl"><li>11/28（六）地方公職人員選舉，11/26（四）下午起返鄉車潮會變多，回程國道可能較塞。</li></ul>
+</div>
+</section>
+<section id="p5" role="tabpanel" aria-labelledby="t5" hidden>
+<div class="summary"><b>其他餐廳選擇</b><ul class="sl"><li>依可替換的餐別排列（第一天到第三天）</li><li>同一餐裡，越前面越推薦替換</li></ul>
+</div>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><p class="dayhead">可替換：第一天晚餐（無所從來）</p>
+<div class="tl plain">
+<div class="stop meal">
+<h3>蕃茄園蔬食餐坊（林家蕃茄園） <span class="lv lv-b">B</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%95%83%E8%8C%84%E5%9C%92%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%92%B0%E8%B7%AF950%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492915101">📞 打電話</a></div>
+<p class="info">埔里鎮南環路950號<br>電話 <a class="tel" href="tel:0492915101"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2915101</a><br>每天 11:00–14:00、17:00–20:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">素食餐廳（全素＋蛋奶素）</p>
+<p class="gmap"><a href="https://www.facebook.com/LinJiaFanJiaYuan/" target="_blank" rel="noopener">Facebook</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E8%95%83%E8%8C%84%E5%9C%92%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%92%B0%E8%B7%AF950%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+<div class="stop meal">
+<h3>田心心素蔬食餐坊 <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%94%B0%E5%BF%83%E5%BF%83%E7%B4%A0%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E4%B8%89%E8%B7%AF174%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492999351">📞 打電話</a></div>
+<p class="info">埔里鎮中正三路174號<br>電話 <a class="tel" href="tel:0492999351"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2999351</a><br>11:00–14:00、17:00–20:00｜週三公休</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">素食餐廳（全素＋蛋奶素）</p>
+<ul class="pts"><li>義大利麵、燉飯、火鍋、烙餅（南投旅遊網）</li><li>Google 4.3 分</li></ul>
+<p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E7%94%B0%E5%BF%83%E5%BF%83%E7%B4%A0%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%94%B0%E5%BF%83%E5%BF%83%E7%B4%A0%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E4%B8%89%E8%B7%AF174%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+<div class="stop meal">
+<h3>樂川茶食 <span class="lv lv-b">B</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%A8%82%E5%B7%9D%E8%8C%B6%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E8%88%88%E5%B7%B78%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492996076">📞 打電話</a></div>
+<p class="info">埔里鎮永興巷8號<br>電話 <a class="tel" href="tel:0492996076"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2996076</a><br>週二至週日 11:00–14:00、17:30–20:00｜週一公休</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">全素餐廳（不含蛋奶、五辛）</p>
+<ul class="pts"><li>南投旅遊網寫明不含蛋奶、五辛</li></ul>
+<p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E6%A8%82%E5%B7%9D%E8%8C%B6%E9%A3%9F/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%A8%82%E5%B7%9D%E8%8C%B6%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E8%88%88%E5%B7%B78%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+<div class="stop meal">
+<h3>平雲山都 中餐廳 <span class="lv lv-c">C</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）；可能週二公休</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%B9%B3%E9%9B%B2%E5%B1%B1%E9%83%BD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E8%B1%90%E8%B7%AF12%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492930930">📞 打電話</a></div>
+<p class="info">埔里鎮一新里永豐路12號<br>電話 <a class="tel" href="tel:0492930930"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2930930</a>（分機 211、212）</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">素食飯店的中餐廳（全素＋奶素）</p>
+<ul class="pts"><li>素食飯店附設的中餐廳</li><li>兩個舊來源都寫<b>週二公休</b>，11/24 可能不能去</li></ul>
+<p class="gmap"><a href="https://www.cloudvilla.com.tw/restaurant/1.htm" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E5%B9%B3%E9%9B%B2%E5%B1%B1%E9%83%BD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E8%B1%90%E8%B7%AF12%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+</div>
+<p class="dayhead">可替換：第二天下午茶（雲品）</p>
+<div class="tl plain">
+<div class="stop meal">
+<h3>漢來日月行館・星空酒廊 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午茶（雲品）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%BC%A2%E4%BE%86%E6%97%A5%E6%9C%88%E8%A1%8C%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF139%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492212188">📞 打電話</a></div>
+<p class="info">魚池鄉中興路139號<br>電話 <a class="tel" href="tel:0492212188"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212188</a></p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">飯店酒廊（葷素都有）</p>
+<ul class="pts"><li>11 樓景觀酒廊（官網）</li><li>午餐 11:00–14:00、下午茶 14:00–17:00</li><li>每人低消 680 元＋10%</li></ul>
+<p class="gmap"><a href="https://sunmoonlake.grand-hilai.com.tw/dining/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%BC%A2%E4%BE%86%E6%97%A5%E6%9C%88%E8%A1%8C%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF139%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+<div class="stop meal">
+<h3>涵碧樓・湖光軒 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午茶（雲品）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B6%B5%E7%A2%A7%E6%A8%93%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF142%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492855311">📞 打電話</a></div>
+<p class="info">魚池鄉中興路142號<br>電話 <a class="tel" href="tel:0492855311"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855311</a><br>午餐 11:30–15:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">飯店中餐廳（葷素都有）</p>
+<ul class="pts"><li>7 樓港式、上海菜（官網）</li></ul>
+<p class="gmap"><a href="https://www.thelalu.com.tw/zh-tw/Dining/%E6%B9%96%E5%85%89%E8%BB%92" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%B6%B5%E7%A2%A7%E6%A8%93%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF142%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+</div>
+<p class="dayhead">可替換：第二天晚餐（阿芬）</p>
+<div class="tl plain">
+<div class="stop meal">
+<h3>雲品 KEN CAN 粵菜 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天晚餐（阿芬）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492212926">📞 打電話</a></div>
+<p class="info">魚池鄉中正路23號<br>電話 <a class="tel" href="tel:0492212926"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212926</a></p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">飯店中餐廳（葷素都有，有素食套餐）</p>
+<ul class="pts"><li>官網列有素食套餐 2,980 元＋10%／位</li><li>晚餐 18:00–21:00</li></ul>
+<p class="gmap"><a href="https://www.fleurdechinehotel.com/fdc_tw/pages/26/37/66" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+</div>
+<p class="dayhead">可替換：第三天午餐（荷緣）</p>
+<div class="tl plain">
+<div class="stop meal">
+<h3>督賀蔬苑 <span class="lv lv-a">A</span><span class="area">草屯｜可替換：第三天午餐（荷緣）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%9D%A3%E8%B3%80%E8%94%AC%E8%8B%91%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E5%A2%A9%E7%85%8C%E8%B7%AF%E4%B8%89%E6%AE%B5168%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492357166">📞 打電話</a></div>
+<p class="info">草屯鎮墩煌路三段168號<br>電話 <a class="tel" href="tel:0492357166"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2357166</a><br>11:30–13:30、17:30–20:00｜<b>週二、週三公休</b></p>
+<details class="intro"><summary>景點介紹</summary>
+<p class="tag">素食餐廳（全素＋蛋奶素）</p>
+<ul class="pts"><li>大型素食餐廳，也是素食婚宴會館（南投旅遊網）</li></ul>
+<p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E7%9D%A3%E8%B3%80%E8%94%AC%E8%8B%91/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://www.facebook.com/DOHOLIJABN/" target="_blank" rel="noopener">Facebook</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%9D%A3%E8%B3%80%E8%94%AC%E8%8B%91%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E5%A2%A9%E7%85%8C%E8%B7%AF%E4%B8%89%E6%AE%B5168%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
+</details>
+</div>
+</div>
+</section>
+<section id="p6" role="tabpanel" aria-labelledby="t6" hidden>
+<div class="summary"><b>其他景點參考</b><ul class="sl"><li>這次沒排進行程，可以參考的地方</li><li>依可替換的時段排列（第一天到第三天）；同一時段裡，越前面越推薦替換</li></ul>
+</div>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><p class="dayhead">可替換：第一天下午（日月町）</p>
+<div class="tl plain">
+<div class="stop">
+<h3>賴爺爺蜜蜂小森林（原宏基蜜蜂生態農場） <span class="lv lv-b">B</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%B3%B4%E7%88%BA%E7%88%BA%E8%9C%9C%E8%9C%82%E5%B0%8F%E6%A3%AE%E6%9E%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9799%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492980851">📞 打電話</a></div>
+<p class="info">埔里鎮慈恩街99號<br>電話 <a class="tel" href="tel:0492980851"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2980851</a><br>每天 08:00–17:00<br>Google 4.6 分（1,500 多則評論）</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>蜜蜂主題園區，免門票（多篇遊記）</li><li>有蜜蜂故事館、可試喝蜂蜜水（多篇遊記）</li><li>賣場賣蜂蜜產品</li></ul>
+<p class="gmap"><a href="https://www.google.com/maps/search/?api=1&query=%E8%B3%B4%E7%88%BA%E7%88%BA%E8%9C%9C%E8%9C%82%E5%B0%8F%E6%A3%AE%E6%9E%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9799%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>跟 18度C 在同一條慈恩街，開車 2–3 分鐘</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>埔里・廣興紙寮（手工造紙） <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%BB%A3%E8%88%88%E7%B4%99%E5%AF%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E9%90%B5%E5%B1%B1%E8%B7%AF310%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492913037">📞 打電話</a></div>
+<p class="info">埔里鎮鐵山路310號<br>電話 <a class="tel" href="tel:0492913037"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2913037</a><br>週二 09:00–17:00（週三只到 15:00）｜門票 50 元</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>跟著導覽看手工紙怎麼做（官網：每 30 分鐘一場）</li><li>紙店賣傳統手工紙、書畫用紙（官網）</li><li>有 DIY 體驗，另外收費</li><li>Google 4.4 分（6,500 多則評論）；評論提到室內有時較悶熱</li></ul>
+<p class="gmap"><a href="https://taiwanpaper.net/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E5%BB%A3%E8%88%88%E7%B4%99%E5%AF%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E9%90%B5%E5%B1%B1%E8%B7%AF310%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>有停車場（三勰路14-6號）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>埔里・紙教堂新故鄉見學園區 <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%B4%99%E6%95%99%E5%A0%82%E6%96%B0%E6%95%85%E9%84%89%E8%A6%8B%E5%AD%B8%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%A1%83%E7%B1%B3%E5%B7%B752%E4%B9%8B12%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492914922">📞 打電話</a></div>
+<p class="info">埔里鎮桃米巷52之12號<br>電話 <a class="tel" href="tel:0492914922"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2914922</a><br>09:30–17:00（最晚 16:30 入園）｜週三公休（官網）；11/24（二）有開<br>門票 70 元，可折抵園區消費 20 元（官網）</p>
+<details class="intro"><summary>景點介紹</summary>
+<figure class="ph car"><div class="track"><div class="slide"><img src="https://www.sunmoonlake.gov.tw/fapi/Image?type=Attraction&refid=4&l=1&w=1280&h=768&id=2360" alt="紙教堂與水池倒影" loading="lazy"><span class="scap">紙教堂與水池倒影</span></div><div class="slide"><img src="https://www.sunmoonlake.gov.tw/fapi/Image?type=Attraction&refid=4&l=1&w=1280&h=768&id=19" alt="紙教堂內部，用紙管撐起的空間" loading="lazy"><span class="scap">紙教堂內部，用紙管撐起的空間</span></div></div><button type="button" class="cbtn prev" aria-label="上一張">‹</button><button type="button" class="cbtn next" aria-label="下一張">›</button><p class="cnt">1 / 2　左右滑動看更多</p><figcaption>照片：<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=4" target="_blank" rel="noopener">日月潭國家風景區管理處</a></figcaption></figure>
+<ul class="pts"><li>看紙教堂：用 58 根紙管撐起的教堂（日月潭管理處）</li><li>園區有生態池、見學中心，輕食區提供茶飲與甜點</li><li>原本是日本阪神大地震後建的臨時教堂，921 地震後移到桃米社區（日月潭管理處）</li><li>免費導覽約 20 分鐘：平日 15 人以上要 5 天前預約；假日有定時導覽（官網）</li><li>園區輕食區：飲品甜點 09:30–17:00，午餐 11:00–15:30（官網）</li><li>從停車場走到紙教堂約 3–4 分鐘（日月潭管理處）</li><li>Google 3.8 分（4,100 多則評論）</li></ul>
+<p class="gmap"><a href="https://paperdome.homeland.org.tw/" target="_blank" rel="noopener">官網</a>　<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=4" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%B4%99%E6%95%99%E5%A0%82%E6%96%B0%E6%95%85%E9%84%89%E8%A6%8B%E5%AD%B8%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%A1%83%E7%B1%B3%E5%B7%B752%E4%B9%8B12%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>日月町開車約 15 分鐘（Google 9 分）</li><li>園區小型車停車場每次 30 元（官網）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>中台禪寺 <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%AD%E5%8F%B0%E7%A6%AA%E5%AF%BA%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%8F%B0%E8%B7%AF2%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492930215">📞 打電話</a></div>
+<p class="info">埔里鎮一新里中台路2號<br>電話 <a class="tel" href="tel:0492930215"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2930215</a><br>每天 08:00–17:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>埔里的大型佛寺（Google 地圖簡介）</li><li>高樓層參觀需要事先預約（Google 評論）</li></ul>
+<p class="gmap"><a href="https://www.ctworld.org.tw/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E5%8F%B0%E7%A6%AA%E5%AF%BA%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%8F%B0%E8%B7%AF2%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+</details>
+</div>
+</div>
+<p class="dayhead">可替換：第二天下午（日月老茶廠）</p>
+<div class="tl plain">
+<div class="stop">
+<h3>水社碼頭・水社商圈 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492855668">📞 打電話</a></div>
+<p class="info">魚池鄉水社村名勝街11號<br>電話 <a class="tel" href="tel:0492855668"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855668</a></p>
+<details class="intro"><summary>景點介紹</summary>
+<figure class="ph car"><div class="track"><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/%E6%97%A5%E6%9C%88%E6%BD%AD%E6%B9%96%E6%99%AF.jpg?width=800" alt="水社碼頭與湖景" loading="lazy"><span class="scap">水社碼頭與湖景</span></div><div class="slide"><img src="https://www.sunmoonlake.gov.tw/fapi/Image?type=Attraction&refid=18&l=1&w=1280&h=768&id=91" alt="水社旁貼著湖面的水上自行車道，可以步行" loading="lazy"><span class="scap">水社旁貼著湖面的水上自行車道，可以步行</span></div></div><button type="button" class="cbtn prev" aria-label="上一張">‹</button><button type="button" class="cbtn next" aria-label="下一張">›</button><p class="cnt">1 / 2　左右滑動看更多</p><figcaption>照片：Primonemo（CC BY-SA 4.0，<a href="https://commons.wikimedia.org/wiki/File:%E6%97%A5%E6%9C%88%E6%BD%AD%E6%B9%96%E6%99%AF.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>）、<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=18" target="_blank" rel="noopener">日月潭國家風景區管理處</a></figcaption></figure>
+<ul class="pts"><li>水社碼頭旁的商店街，有伴手禮、小吃</li><li>就在住的飯店旁，早上出門前或第三天退房前都能順路逛</li><li>會館開車 3 分鐘</li><li>水社往向山的「水上自行車道」：最貼近水面的一段約 0.4 公里，架在湖面上；人車分道，有無障礙步道、坡道（日月潭管理處）</li></ul>
+<p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=154" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=18" target="_blank" rel="noopener">日月潭管理處：水上自行車道（向山段）</a>　<a href="https://www.sunmoonlake.gov.tw/Attractions/Livecams?a=22&id=4" target="_blank" rel="noopener">即時影像：中興停車場（水社）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>教師會館開車約 5 分鐘（Google 3 分），也可沿湖步道走過去</li><li>停水社中興停車場</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>伊達邵商圈 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%BC%8A%E9%81%94%E9%82%B5%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%96%87%E5%8C%96%E8%A1%97127%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492850660">📞 打電話</a></div>
+<p class="info">伊達邵遊客中心：魚池鄉文化街127號<br>電話 <a class="tel" href="tel:0492850660"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850660</a><br>每天 09:00–17:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>逛商店街：原住民手工藝品、木雕、編織、香菇醬、小米麵線等（遊記）</li><li>日月潭東南岸的邵族商圈，碼頭就在旁邊</li><li>遊客中心與碼頭有坡道、電梯、無障礙廁所，可借代步車</li></ul>
+<p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=166" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E4%BC%8A%E9%81%94%E9%82%B5%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%96%87%E5%8C%96%E8%A1%97127%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>停伊達邵中正停車場，平日每小時 50 元</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>日月潭遊湖船（環湖一圈） <span class="lv lv-b">B</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%BC%8A%E9%81%94%E9%82%B5%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492855120">📞 打電話</a></div>
+<p class="info">水社海觀光遊艇 <a class="tel" href="tel:0492855120"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855120</a></p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>搭船繞日月潭一圈：水社 → 玄光寺 → 伊達邵 → 回到上船的碼頭</li><li>環湖一圈約 1.5 小時，途中碼頭各停約 10 分鐘（水社海觀光遊艇官網）</li><li>09:00–17:00，約 45 分鐘一班（同上）</li><li>全票 300 元，65 歲以上敬老票 150 元（同上）</li><li>也可包船：2–10 人平日 6,500 元（同上）</li><li>颱風、濃霧等天候不佳會停航（同上）</li><li>上下船有沒有階梯、代步車能不能上船，官網沒寫，要打電話問</li></ul>
+<p class="gmap"><a href="https://www.boat.com.tw/time_price_list.php" target="_blank" rel="noopener">遊艇公司船班票價</a>　<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=149" target="_blank" rel="noopener">日月潭管理處：伊達邵碼頭</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E4%BC%8A%E9%81%94%E9%82%B5%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89" target="_blank" rel="noopener">Google 地圖</a></p>
+</details>
+</div>
+</div>
+<p class="dayhead">可替換：第三天上午（紫南宮）</p>
+<div class="tl plain">
+<div class="stop">
+<h3>台灣工藝文化園區 <span class="lv lv-a">A</span><span class="area">草屯｜可替換：第三天上午（紫南宮）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E7%81%A3%E5%B7%A5%E8%97%9D%E6%96%87%E5%8C%96%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF573%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492334141">📞 打電話</a></div>
+<p class="info">草屯鎮中正路573號<br>電話 <a class="tel" href="tel:0492334141"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2334141</a><br>週二至週日 09:00–17:00｜週一休館（三天都有開）</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>免費參觀，以展覽為主</li><li>各樓層電梯、坡道、可借代步車（官網）</li></ul>
+<p class="gmap"><a href="https://www.ntcri.gov.tw/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E7%81%A3%E5%B7%A5%E8%97%9D%E6%96%87%E5%8C%96%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF573%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>停車前 30 分鐘免費，之後每小時 20 元，每天最多 160 元</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>竹山老街（林圮埔）・連興宮 <span class="lv lv-a">A</span><span class="area">竹山｜可替換：第三天上午（紫南宮）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%AB%B9%E5%B1%B1%E9%80%A3%E8%88%88%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E4%B8%8B%E6%A9%AB%E8%A1%9728%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492642487">📞 打電話</a></div>
+<p class="info">連興宮：竹山鎮下橫街28號<br>電話 <a class="tel" href="tel:0492642487"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2642487</a><br>連興宮每天 06:00–21:00</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>兩百五十多年歷史的老街：傳承五代的打鐵舖、賣了四十多年的古早味冷飲、米麩店（南投旅遊網）</li><li>連興宮在老街上</li><li>紫南宮開車約 30 分鐘（Google 20 分）</li><li>各店公休不同</li></ul>
+<p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/linjipu-old-street/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%AB%B9%E5%B1%B1%E9%80%A3%E8%88%88%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E4%B8%8B%E6%A9%AB%E8%A1%9728%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>竹山鎮沒有路邊停車收費</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>集集車站 <span class="lv lv-a">A</span><span class="area">集集｜可替換：第三天上午（紫南宮）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%86%E9%9B%86%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%9B%86%E9%9B%86%E9%8E%AE%E6%B0%91%E7%94%9F%E8%B7%AF75%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492762546">📞 打電話</a></div>
+<p class="info">集集鎮民生路75號<br>電話 <a class="tel" href="tel:0492762546"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2762546</a><br>月台全天開放；大廳與售票窗口 08:00–17:00（日月潭管理處）</p>
+<details class="intro"><summary>景點介紹</summary>
+<figure class="ph car"><div class="track"><div class="slide"><img src="https://www.sunmoonlake.gov.tw/fapi/Image?type=Attraction&refid=46&l=1&w=1280&h=768&id=215" alt="1933 年建的檜木車站" loading="lazy"><span class="scap">1933 年建的檜木車站</span></div><div class="slide"><img src="https://www.sunmoonlake.gov.tw/fapi/Image?type=Attraction&refid=46&l=1&w=1280&h=768&id=2607" alt="車站月台" loading="lazy"><span class="scap">車站月台</span></div></div><button type="button" class="cbtn prev" aria-label="上一張">‹</button><button type="button" class="cbtn next" aria-label="下一張">›</button><p class="cnt">1 / 2　左右滑動看更多</p><figcaption>照片：<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=46" target="_blank" rel="noopener">日月潭國家風景區管理處</a></figcaption></figure>
+<ul class="pts"><li>看 1933 年建的檜木車站、月台</li><li>車站斜對面有除役的蒸汽火車頭（日月潭管理處）</li><li>日治時期留下的木造車站，921 地震後重建（日月潭管理處）</li><li>有無障礙步道、坡道與無障礙廁所（日月潭管理處）</li><li>集集線 2026/1/5 起恢復通車到集集站（新聞）</li></ul>
+<p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=46" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://n.yam.com/Article/20260105729627" target="_blank" rel="noopener">集集線復駛新聞</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E9%9B%86%E9%9B%86%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%9B%86%E9%9B%86%E9%8E%AE%E6%B0%91%E7%94%9F%E8%B7%AF75%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>教師會館開車約 50 分鐘（Google 38 分）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>車埕木業展示館・車埕老街 <span class="lv lv-a">A</span><span class="area">水里｜可替換：第三天上午（紫南宮）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%BB%8A%E5%9F%95%E6%9C%A8%E6%A5%AD%E5%B1%95%E7%A4%BA%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E6%B0%B4%E9%87%8C%E9%84%89%E8%BB%8A%E5%9F%95%E6%9D%91%E6%B0%91%E6%AC%8A%E5%B7%B7110-2%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+</div>
+<p class="info">水里鄉車埕村民權巷110-2號<br>冬季（11/1 起）平日 09:00–17:00，三天都有開<br>電話各來源不同（官網 049-2775668）</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>集集線終點的木業小鎮，免費參觀</li><li>老街上有小吃與小攤</li><li>有無障礙坡道與無障礙廁所</li></ul>
+<p class="gmap"><a href="https://woodate.com.tw/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E8%BB%8A%E5%9F%95%E6%9C%A8%E6%A5%AD%E5%B1%95%E7%A4%BA%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E6%B0%B4%E9%87%8C%E9%84%89%E8%BB%8A%E5%9F%95%E6%9D%91%E6%B0%91%E6%AC%8A%E5%B7%B7110-2%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>停車每次 100 元</li><li>教師會館開車約 45 分鐘（Google 33 分）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>水里蛇窯陶藝文化園區 <span class="lv lv-a">A</span><span class="area">水里｜可替換：第三天上午（紫南宮）；只有 11/26 有開</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E9%87%8C%E8%9B%87%E7%AA%AF%E9%99%B6%E8%97%9D%E6%96%87%E5%8C%96%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E6%B0%B4%E9%87%8C%E9%84%89%E9%A0%82%E5%B4%81%E6%9D%91%E5%9B%9E%E7%AA%AF%E8%B7%AF16%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+<a class="callbtn" href="tel:0492770967">📞 打電話</a></div>
+<p class="info">水里鄉頂崁村回窯路16號<br>電話 <a class="tel" href="tel:0492770967"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2770967</a><br>08:30–17:30｜全票 160 元，65 歲以上 140 元</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>有陶藝商店</li><li><b>週二、週三公休</b></li></ul>
+<p class="gmap"><a href="https://www.snakekiln.com.tw/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%B0%B4%E9%87%8C%E8%9B%87%E7%AA%AF%E9%99%B6%E8%97%9D%E6%96%87%E5%8C%96%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E6%B0%B4%E9%87%8C%E9%84%89%E9%A0%82%E5%B4%81%E6%9D%91%E5%9B%9E%E7%AA%AF%E8%B7%AF16%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+<div class="go"><ul class="gol"><li>入口對面有收費停車場</li><li>教師會館開車約 35 分鐘（Google 25 分）</li></ul>
+</div>
+</details>
+</div>
+<div class="stop">
+<h3>中興新村 <span class="lv lv-c">C</span><span class="area">南投市｜可替換：第三天上午（紫南宮）</span></h3>
+<div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%AD%E8%88%88%E6%96%B0%E6%9D%91%E7%AC%AC%E4%B8%89%E5%B8%82%E5%A0%B4%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
+</div>
+<p class="info">第一市場：光華二路1之2號<br>第三市場：光榮西路13號<br>Google 地圖：第三市場<b>週二休</b>，其他天營業（各攤不同）</p>
+<details class="intro"><summary>景點介紹</summary>
+<ul class="pts"><li>有第一市場、第三市場</li><li>荷緣素食就在這裡</li><li>「臺灣省議會紀念園區」其實在台中霧峰，不在中興新村</li></ul>
+<p class="gmap"><a href="https://www.ndc.gov.tw/Content_List.aspx?n=B79CFFBDF7242042" target="_blank" rel="noopener">國發會中興新村介紹</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E8%88%88%E6%96%B0%E6%9D%91%E7%AC%AC%E4%B8%89%E5%B8%82%E5%A0%B4%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82" target="_blank" rel="noopener">Google 地圖</a></p>
+</details>
+</div>
+</div>
+</section>
+<section id="p7" role="tabpanel" aria-labelledby="t7" hidden>
+<div class="summary"><b>各景點待確認筆記</b><ul class="sl"><li>網路上已查過、仍查不到或說法不一的事</li></ul>
+</div>
+<div class="box">
+<h4>查不到或說法不一</h4>
+<ul class="bl"><li><b>教師會館</b> <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a>：涵曦會館走到迎賓樓早餐餐廳的路線（要不要走戶外、有沒有電梯或坡道），官網與住宿心得都沒寫</li><li><b>無所從來</b> <a class="tel" href="tel:0492919007"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2919007</a>：最後點餐 18:30 或 19:00，兩個來源不同</li><li><b>伊達邵遊客中心</b>：日月潭管理處電話 <a class="tel" href="tel:0492850660"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850660</a>，Google 地圖寫 <a class="tel" href="tel:0492850289"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850289</a>（管理處登記為伊達邵碼頭電話）</li><li><b>紙教堂</b> <a class="tel" href="tel:0492914922"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2914922</a>：公休日官網寫週三，日月潭管理處寫週三、週四（11/24 週二兩邊都有開）；停車場到教堂的步道有沒有坡道，官網沒寫</li><li><b>地母廟</b> <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a>：平日車子能不能開到上方乾坤門停車場，遊記說法不完全一致</li><li><b>日月潭纜車</b>：11 月保養日以官網 10 月底公告為準（原則是每月第一個週三，11/4）</li><li><b>車程</b>：依 Google 地圖 9/28、10/10 查詢結果放寬，實際以當天路況為準</li></ul>
+</div>
+</section>
+<section id="p8" role="tabpanel" aria-labelledby="t8" hidden>
+<div class="summary"><b>應備用品</b><ul class="sl"><li>出發前對照準備，勾選只是方便看，不會存檔</li></ul>
+</div>
+<div class="pprog" id="pprog"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="pr-bg" cx="32" cy="32" r="27"/><circle class="pr-fg" cx="32" cy="32" r="27" pathLength="1"/><g class="pr-lotus"><path style="--r:-55deg;--dl:0.2s" d="M32 46 C27 37 27 26 32 16 C37 26 37 37 32 46 Z" fill="#EDB9C4"/><path style="--r:55deg;--dl:0.2s" d="M32 46 C27 37 27 26 32 16 C37 26 37 37 32 46 Z" fill="#EDB9C4"/><path style="--r:-28deg;--dl:0.1s" d="M32 46 C27 37 27 26 32 16 C37 26 37 37 32 46 Z" fill="#F0C6CF"/><path style="--r:28deg;--dl:0.1s" d="M32 46 C27 37 27 26 32 16 C37 26 37 37 32 46 Z" fill="#F0C6CF"/><path style="--r:0deg;--dl:0s" d="M32 46 C27 37 27 26 32 16 C37 26 37 37 32 46 Z" fill="#F5D6DC"/></g></svg><p><span id="pdone">0</span>／<span id="pall">0</span><br><small id="pmsg">已準備</small></p></div>
+<div class="box">
+<h4>出發前看天氣（中央氣象署一週預報）</h4>
+<ul class="bl"><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000809" target="_blank" rel="noopener">魚池鄉（日月潭，住兩晚）</a></li><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000802" target="_blank" rel="noopener">埔里鎮（第一天）</a></li><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000804" target="_blank" rel="noopener">竹山鎮（第三天紫南宮）</a></li><li><a href="https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000801" target="_blank" rel="noopener">南投市（第三天中興新村）</a></li></ul>
+</div>
+<div class="box">
+<h4>現場畫面（日月潭管理處即時影像）</h4>
+<ul class="bl"><li><a href="https://www.sunmoonlake.gov.tw/Attractions/Livecams?a=22&id=4" target="_blank" rel="noopener">中興停車場（水社，會館旁）</a></li><li><a href="https://www.sunmoonlake.gov.tw/Attractions/Livecams?a=22&id=3" target="_blank" rel="noopener">達克拉哈水上自行車步道</a></li><li><a href="https://www.sunmoonlake.gov.tw/Attractions/Livecams?a=22&id=1" target="_blank" rel="noopener">九蛙疊像（看湖面水位）</a></li><li><a href="https://www.sunmoonlake.gov.tw/Attractions/Livecams?a=22&id=5" target="_blank" rel="noopener">文武廟</a></li><li><a href="https://www.sunmoonlake.gov.tw/Attractions/Livecams?a=22&id=6" target="_blank" rel="noopener">慈恩塔</a></li><li><a href="https://www.sunmoonlake.gov.tw/Attractions/Livecams?a=22&id=7" target="_blank" rel="noopener">金龍山</a></li></ul>
+<p class="bnote">點了會開日月潭管理處網頁，影像是即時直播</p>
+</div>
+<div class="pack"><h4>隨行後背包</h4><label><input type="checkbox"> <span>摺疊傘</span></label><label><input type="checkbox"> <span>行動電源</span></label><label><input type="checkbox"> <span>衛生紙</span></label><label><input type="checkbox"> <span>護墊</span></label><label><input type="checkbox"> <span>遮陽帽</span></label><label><input type="checkbox"> <span>太陽眼鏡</span></label><label><input type="checkbox"> <span>環保袋</span></label><label><input type="checkbox"> <span>環保餐具</span></label><label><input type="checkbox"> <span>保溫杯或水壺</span></label><p class="pnote"><small>會館房內不提供瓶裝水，可到樓層飲水機裝水（會館官網）</small></p></div>
+<div class="pack"><h4>行李</h4><label><input type="checkbox"> <span>手機充電線</span></label><label><input type="checkbox"> <span>牙刷</span></label><label><input type="checkbox"> <span>牙膏</span></label><label><input type="checkbox"> <span>換洗衣物（內衣、內褲、襪子、睡衣、外衣）</span></label><label><input type="checkbox"> <span>防曬</span></label><label><input type="checkbox"> <span>薄外套（看一週預報）</span></label><label><input type="checkbox"> <span>室內拖鞋</span></label><p class="pnote"><small>會館官網客房頁：房內不提供牙膏、牙刷、浴帽、刮鬍刀、紙拖等一次性備品；洗髮精、沐浴乳會館有提供</small></p></div>
+<div class="box">
+<h4>會館有提供（不用帶）</h4>
+<ul class="bl"><li>吹風機、電熱水壺、冷水壺（會館官網客房頁）</li></ul>
+</div>
+<div class="pack"><h4>其他</h4><label><input type="checkbox"> <span>佛卡</span></label></div>
+</section>
+<section id="p9" role="tabpanel" aria-labelledby="t9" hidden>
+<div class="summary"><b>行車總表</b><ul class="sl"><li>開車、查路線用：車程、停車、付款、無障礙</li><li>車程寫法：Google 原始時間 → 放寬後的時間</li><li>每張行程卡片上方也有「行車細節」</li><li>一般版網址（沒有行車資料）：<a href="./">alinalaipy.github.io/nantou-trip/</a></li></ul>
+</div>
+<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="box warn">
+<h4>出發前要準備</h4>
+<ul class="bl"><li><b>現金</b>：日月潭纜車只收現金或國民旅遊卡；阿芬素食館只收現金</li><li><b>纜車停駛日</b>：原則是每月第一個週三（11/4）；11 月公告在纜車官網「設施保養」，10 月底再看一次</li><li><b>11/26 回程</b>：11/28 地方選舉，下午起返鄉車潮可能變多</li></ul>
+</div>
+<p class="dayhead">第一天・11/24（二）</p>
+<div class="plan">
+<div class="plr"><p class="plt">約 09:00</p><h4>汐止出發 → 台中 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>國道 3 號／1 號，Google 2 小時 12 分（172 公里）→ 抓 2 小時 40 分–3 小時</dd></dl></div>
+<div class="plr"><p class="plt">12:00–13:30</p><h4>空也素麵食（龍門店） <span class="lv lv-b">B</span></h4><dl><dt>停車</dt><dd>店家未寫</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 14:40–15:20</p><h4>Feeling18℃ <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 約 55 分 → 抓 1 小時 10 分</dd><dt>停車</dt><dd>店家 P1、P3 收費停車場（南安路），消費可折抵</dd><dt>無障礙</dt><dd>四間門市都有座位（官網）</dd></dl></div>
+<div class="plr"><p class="plt">約 15:30–16:00</p><h4>地母廟 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 6 分 → 抓 10 分</dd><dt>停車</dt><dd>開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</dd><dt>無障礙</dt><dd>主殿前廣場可到；最高的乾元殿要走階梯（遊記）</dd></dl></div>
+<div class="plr"><p class="plt">約 16:30–17:30</p><h4>日月町 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 24 分 → 抓 30 分</dd><dt>停車</dt><dd>免費停車場（食尚玩家）</dd><dt>無障礙</dt><dd>主館有電梯、無障礙坡道（遊記 2026/9）</dd></dl></div>
+<div class="plr"><p class="plt">17:40–19:10</p><h4>無所從來（晚餐） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 7 分 → 抓 10 分</dd><dt>停車</dt><dd>免費停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 19:50</p><h4>日月潭教師會館（入住） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 約 26 分 → 抓 40 分</dd><dt>停車</dt><dd>會館專屬停車場，住客免費（官網）</dd><dt>無障礙</dt><dd>第一晚不外出，在湖景房休息；涵曦會館到早餐餐廳的路線未查到</dd></dl></div>
+</div>
+<p class="dayhead">第二天・11/25（三）</p>
+<div class="plan">
+<div class="plr"><p class="plt">07:30–08:45</p><h4>早餐（會館桃李緣） <span class="lv lv-a">A</span></h4><dl><dt>付款</dt><dd>房價含早餐</dd></dl></div>
+<div class="plr"><p class="plt">約 09:15–10:15</p><h4>向山遊客中心・茶茶小王子 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 9 分 → 抓 15 分</dd><dt>停車</dt><dd>免費，小型車 104 格（管理處）</dd><dt>無障礙</dt><dd>電梯、無障礙廁所與車位、可借輔具（管理處）</dd></dl></div>
+<div class="plr"><p class="plt">約 10:15</p><h4>沿湖南岸開往纜車站 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 23 分 → 抓 35 分；車上看月牙灣、頭社壩、玄光寺、玄奘寺、慈恩塔</dd><dt>無障礙</dt><dd>玄光寺要走台階、慈恩塔約 700 公尺石階，都不下車（管理處）</dd></dl></div>
+<div class="plr"><p class="plt">約 11:00–11:50</p><h4>日月潭纜車（來回） <span class="lv lv-a">A</span></h4><dl><dt>停車</dt><dd>纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</dd><dt>付款</dt><dd><b>只收現金或國民旅遊卡</b>；來回全票 420、65 歲以上 330（官網）</dd><dt>無障礙</dt><dd>電梯、坡道；車廂門寬 80 公分（官網）</dd></dl></div>
+<div class="plr"><p class="plt">12:15–13:45</p><h4>明雅小棧（午餐） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 19 分 → 抓 25 分</dd><dt>停車</dt><dd>門口與附近有停車場（南投旅遊網）</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 13:55–14:55</p><h4>日月老茶廠 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 4 分 → 抓 10 分</dd><dt>停車</dt><dd>有停車場（管理處）</dd><dt>付款</dt><dd>免門票（遊記）</dd><dt>無障礙</dt><dd>遊記：停車後走一段木棧道，有高低落差</dd></dl></div>
+<div class="plr"><p class="plt">約 15:10–17:10</p><h4>雲品大廳酒吧（下午茶） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 約 4 分 → 抓 10 分</dd><dt>停車</dt><dd>飯店室內及戶外停車場（官網）</dd><dt>付款</dt><dd>雙人下午茶 1,980＋10%；或每人低消 350＋10%（官網）</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">17:30–19:00</p><h4>阿芬素食館（晚餐） <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd><b>店家沒有停車位，停路邊</b>（蔬福生活）</dd><dt>付款</dt><dd><b>只收現金</b>（蔬福生活）</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 19:20</p><h4>回教師會館停車 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd>住客免費；車停會館，走路去湖邊</dd></dl></div>
+<div class="plr"><p class="plt">約 19:30–20:15</p><h4>水社碼頭周邊湖畔散步 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>走路約 9 分鐘、700 公尺（Google 多為平坦）</dd><dt>停車</dt><dd>不用開車</dd><dt>付款</dt><dd>免費</dd><dt>無障礙</dt><dd>無障礙斜坡木棧道、碼頭電梯（管理處）；停車場到碼頭有斜坡（評論）</dd></dl></div>
+<div class="plr"><p class="plt">約 20:30</p><h4>回房休息 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>走路約 9 分鐘回會館</dd></dl></div>
+</div>
+<p class="dayhead">第三天・11/26（四）</p>
+<div class="plan">
+<div class="plr"><p class="plt">07:30–08:45</p><h4>早餐，約 09:15 退房 <span class="lv lv-a">A</span></h4><dl></dl></div>
+<div class="plr"><p class="plt">約 10:25–11:20</p><h4>竹山紫南宮 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 47 分 → 抓 1 小時 5–15 分</dd><dt>停車</dt><dd>廟方停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">12:20–13:50</p><h4>荷緣素食（中興新村） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 39 分 → 抓 55 分–1 小時</dd><dt>停車</dt><dd>未查</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 13:50</p><h4>返程 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>回汐止 Google 約 2 小時 50 分（216 公里）→ 抓 3 小時 20–40 分；回台中 Google 34 分 → 抓 45 分</dd></dl></div>
+</div>
+<div class="box">
+<h4>備案</h4>
+<ul class="bl"><li><b>纜車因打雷或天候暫停</b>：直接從向山往明雅（Google 約 14 分），明雅 11:00 開門，午餐可以提早</li><li><b>地母廟上方停車場不能進</b>：停廟前免費停車場，在下方看廟，不上階梯</li><li><b>第一天時間不夠</b>：地母廟可以跳過，日月町恢復 1 小時 50 分</li></ul>
+</div>
+<div class="box">
+<h4>電話</h4>
+<ul class="bl"><li>地母廟 <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a></li><li>日月潭纜車 <a class="tel" href="tel:0492850666"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850666</a></li><li>向山遊客中心 <a class="tel" href="tel:0492341256"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2341256</a></li><li>明雅小棧 <a class="tel" href="tel:0492896929"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2896929</a></li><li>雲品大廳酒吧 <a class="tel" href="tel:0492212926"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212926</a></li><li>阿芬素食館 <a class="tel" href="tel:0492897761"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2897761</a></li><li>教師會館 <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a></li><li>日月潭管理處 24 小時緊急服務 <a class="tel" href="tel:0963067776"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>0963-067776</a></li></ul>
+</div>
+</section>
+
+
+  <button type="button" class="top-btn" id="toTop">↑ 回到最上面（切換頁籤）</button>
+<svg class="lotus" viewBox="0 0 170 74" aria-hidden="true"><ellipse class="lrip" cx="85" cy="63" rx="34" ry="4.5"/><ellipse class="lrip r2" cx="85" cy="63" rx="34" ry="4.5"/><g class="lpad"><path d="M30 63 m-22 0 a22 6 0 1 0 44 0 a22 6 0 1 0 -44 0 M30 63 L44 58" fill="#A9C1A6" stroke="#F6F3EC" stroke-width="1.2"/></g><g class="lpad p2"><path d="M141 64 m-18 0 a18 5 0 1 0 36 0 a18 5 0 1 0 -36 0 M141 64 L128 60" fill="#B6CBB2" stroke="#F6F3EC" stroke-width="1.2"/></g><g transform="translate(43 0)"><path class="pt" style="--r:-62deg;--dl:0.5s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#EDB9C4"/><path class="pt" style="--r:62deg;--dl:0.5s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#EDB9C4"/><path class="pt" style="--r:-32deg;--dl:0.3s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F0C6CF"/><path class="pt" style="--r:32deg;--dl:0.3s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F0C6CF"/><path class="pt" style="--r:0deg;--dl:0.1s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F5D6DC"/><path d="M24 60 Q42 66 60 60" stroke="#8FAA9E" stroke-width="2" fill="none" stroke-linecap="round"/></g></svg>
+  <footer>
+    車程為一般路況概估，實際以當日車況為準。營業時間以店家公告為準。資料查證日：2026 年 10 月 11 日。
+  </footer>
+</div>
+<button type="button" class="top-fab" id="toTopFab" aria-label="回到最上面">↑</button>
+<button type="button" class="fontbtn" id="fontBtn" aria-pressed="false">字放大</button>
+<div class="nextbar" id="nextBar" aria-live="polite"><div class="nb-txt"><p class="nb-a"></p><p class="nb-b"></p><p class="nb-c"></p></div><div class="nb-go"></div></div>
+
+<script>
+  (function () {
+    var rio = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
+    }, { threshold: 0.12 }) : null;
+    document.querySelectorAll('.tl .stop, .pack, .t').forEach(function (el) { if (rio) rio.observe(el); else el.classList.add('in'); });
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function show(id) {
+      tabs.forEach(function (t) {
+        var on = t.id === id;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      arm(document.getElementById(document.getElementById(id).getAttribute('aria-controls')));
+      var hero = document.querySelector('.hero'); if (hero) hero.setAttribute('data-day', { t1: '1', t2: '2', t3: '3' }[id] || hero.getAttribute('data-day'));
+      setTimeout(prog, 50);
+    }
+    var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { go(e.target); io.unobserve(e.target); } });
+    }, { threshold: 0.35 }) : null;
+    function go(m) {
+      m.classList.add('go');
+      var car = m.querySelector('.mcar'); if (!car) return;
+      var an = car.querySelector('animateMotion');
+      clearTimeout(m._ct);
+      m._ct = setTimeout(function () { car.setAttribute('opacity', '1'); try { an.beginElement(); } catch (e) {}
+        m._ct = setTimeout(function () { car.setAttribute('opacity', '0'); }, parseFloat(an.getAttribute('dur')) * 1000 + 700); }, parseFloat(car.getAttribute('data-delay')) * 1000);
+    }
+    function arm(sec) {
+      if (!sec) return;
+      sec.querySelectorAll('.map').forEach(function (m) {
+        m.querySelectorAll('.pop').forEach(function (g) { g.classList.remove('shown', 'hop'); });
+        m.querySelectorAll('.lit, .sel').forEach(function (x) { x.classList.remove('lit', 'sel'); });
+        m.classList.remove('go'); void m.offsetWidth; clearTimeout(m._ct);
+        var car = m.querySelector('.mcar'); if (car) car.setAttribute('opacity', '0');
+        if (io) { io.unobserve(m); io.observe(m); } else { go(m); }
+      });
+    }
+    document.querySelectorAll('[role=tabpanel]:not([hidden])').forEach(arm);
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        document.querySelectorAll('[role=tabpanel]').forEach(function (x) { x.classList.remove('noin'); });
+        show(t.id);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+    document.querySelectorAll('.dsw button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var before = b.parentNode.getBoundingClientRect().top;
+        var root = document.documentElement; root.classList.add('sw');
+        var id = b.getAttribute('data-go');
+        var pn = document.getElementById(document.getElementById(id).getAttribute('aria-controls'));
+        pn.classList.add('noin');
+        pn.querySelectorAll('.tl .stop, .pack, .t').forEach(function (x) { x.classList.add('in'); if (rio) rio.unobserve(x); });
+        show(id);
+        var el = document.querySelector('#' + document.getElementById(id).getAttribute('aria-controls') + ' .dsw');
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - before, behavior: 'auto' });
+        requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.remove('sw'); }); });
+      });
+    });
+    document.querySelectorAll('.car').forEach(function (c) {
+      var tr = c.querySelector('.track'), n = tr.children.length, cnt = c.querySelector('.cnt');
+      function idx() { return Math.round(tr.scrollLeft / tr.clientWidth); }
+      function upd() { cnt.textContent = (idx() + 1) + ' / ' + n + '　左右滑動看更多'; }
+      tr.addEventListener('scroll', upd, { passive: true });
+      c.querySelector('.prev').addEventListener('click', function () { tr.scrollTo({ left: Math.max(0, idx() - 1) * tr.clientWidth, behavior: 'smooth' }); });
+      c.querySelector('.next').addEventListener('click', function () { tr.scrollTo({ left: Math.min(n - 1, idx() + 1) * tr.clientWidth, behavior: 'smooth' }); });
+      // 自動輪播：看得到才播，手動操作後暫停 8 秒
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var seen = false, holdUntil = 0;
+      function hold() { holdUntil = Date.now() + 8000; }
+      ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) { tr.addEventListener(ev, hold, { passive: true }); });
+      c.querySelectorAll('.cbtn').forEach(function (bt) { bt.addEventListener('click', hold); });
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }, { threshold: 0.6 }).observe(c);
+      if (!reduce) setInterval(function () {
+        if (!seen || Date.now() < holdUntil || c.offsetParent === null) return;
+        var nx = (idx() + 1) % n;
+        tr.scrollTo({ left: nx * tr.clientWidth, behavior: nx === 0 ? 'auto' : 'smooth' });
+      }, 4000);
+    });
+    // 時間軸隨捲動長出來、背景遠山微微位移
+    function prog() {
+      var vh = window.innerHeight;
+      document.querySelectorAll('.tl:not(.plain)').forEach(function (tl) {
+        if (tl.offsetParent === null) return;
+        var r = tl.getBoundingClientRect(), h = r.height - 52;
+        var p = Math.max(0, Math.min(1, (vh * 0.75 - r.top - 26) / (h || 1)));
+        tl.style.setProperty('--p', p.toFixed(3));
+      });
+      var ink = document.querySelector('.ink svg'), dh = document.documentElement.scrollHeight - vh;
+      if (ink && dh > 0) ink.style.transform = 'translateY(' + (-(window.pageYOffset / dh) * 40).toFixed(1) + 'px)';
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { prog(); ticking = false; }); } }, { passive: true });
+    window.addEventListener('resize', prog); prog();
+    var lio = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.intersectionRatio >= 0.6) e.target.classList.add('bloom'); else if (!e.isIntersecting) e.target.classList.remove('bloom'); });
+    }, { threshold: [0, 0.6] }) : null;
+    document.querySelectorAll('.lotus').forEach(function (l) { if (lio) lio.observe(l); else l.classList.add('bloom'); });
+    var fb = document.getElementById('fontBtn');
+    function setBig(on) { document.documentElement.classList.toggle('big', on); fb.textContent = on ? '字恢復' : '字放大'; fb.setAttribute('aria-pressed', on ? 'true' : 'false'); setTimeout(prog, 50); }
+    try { if (localStorage.getItem('bigFont') === '1') setBig(true); } catch (e) {}
+    fb.addEventListener('click', function () { var on = !document.documentElement.classList.contains('big'); setBig(on); try { localStorage.setItem('bigFont', on ? '1' : '0'); } catch (e) {} });
+    function up() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    document.getElementById('toTop').addEventListener('click', up);
+    var fab = document.getElementById('toTopFab');
+    fab.addEventListener('click', up);
+    window.addEventListener('scroll', function () { fab.classList.toggle('on', window.scrollY > 600); }, { passive: true });
+
+    // ===== 動畫 v47 =====
+
+    // ===== 行車版：畫面下方「下一站」列（跟著 markNow 每分鐘更新） =====
+    var PLFB = {"回教師會館停車": [["導航", "https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving"]], "中興新村 → 返程（自行開車）": [["回汐止", "https://www.google.com/maps/dir/?api=1&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving"], ["回台中", "https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80&travelmode=driving"]]};
+    function plName(c) { var h = c && c.querySelector('h3'); if (!h) return ''; h = h.cloneNode(true); h.querySelectorAll('.lv, svg, .area').forEach(function (x) { x.remove(); }); return h.textContent.replace(/\s+/g, ' ').trim(); }
+    function plTime(c) { var t = c && c.querySelector('.time'); if (!t) return ''; t = t.cloneNode(true); t.querySelectorAll('.nowtag').forEach(function (x) { x.remove(); }); return t.textContent.trim(); }
+    function plEsc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function plNext(cur, nxt) {
+      var root = document.documentElement, bar = document.getElementById('nextBar');
+      if (!root.classList.contains('planner') || !bar || !cur) return;
+      var all = Array.prototype.slice.call(cur.parentNode.children).filter(function (x) { return x.classList.contains('stop'); });
+      var i = all.indexOf(cur), tgt = nxt ? cur : (all[i + 1] || null), tc = tgt || cur, links = [], dest = '';
+      if (PLFB[plName(tc)]) links = PLFB[plName(tc)];
+      else for (var j = all.indexOf(tc); j >= 0 && j < all.length; j++) {
+        var a = all[j].querySelector('.navbtn');
+        if (a) { links = [['導航', a.getAttribute('href')]]; if (all[j] !== tc) dest = plName(all[j]); break; }
+      }
+      bar.querySelector('.nb-a').textContent = nxt ? '下一站' : (tgt ? '現在：' + plName(cur) : '');
+      bar.querySelector('.nb-b').textContent = (tgt ? (nxt ? '' : '下一站：') : '現在：') + plName(tc);
+      bar.querySelector('.nb-c').textContent = plTime(tc) + (dest ? '　導航到：' + dest : '');
+      bar.querySelector('.nb-go').innerHTML = links.map(function (l) { return '<a href="' + plEsc(l[1]) + '" target="_blank" rel="noopener">' + plEsc(l[0]) + '</a>'; }).join('');
+      root.classList.add('hasnext');
+      root.style.setProperty('--nbh', bar.offsetHeight + 'px');
+    }
+    var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var qs = (location.search.match(/[?&]now=([^&]+)/) || [])[1];
+    var NOW = qs ? new Date(decodeURIComponent(qs)) : new Date();
+    if (isNaN(NOW)) NOW = new Date();
+    var DAYS = [new Date(2026, 10, 24), new Date(2026, 10, 25), new Date(2026, 10, 26)];
+    var today = new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate());
+    // 1 出發倒數（日曆）
+    var cdw = document.getElementById('cdw'), cd = document.getElementById('cd');
+    if (cdw) {
+      var dd = Math.round((DAYS[0] - today) / 864e5), WK = '日一二三四五六';
+      var flip = function (n) { return String(n).split('').map(function (c, i) { return '<span class="fl" style="--dl:' + (1.3 + i * 0.15) + 's">' + c + '</span>'; }).join(''); };
+      var setc = function (dt, h) { document.getElementById('calD').textContent = dt.getDate(); document.getElementById('calW').textContent = '星期' + WK[dt.getDay()]; cd.innerHTML = h; cdw.hidden = false; };
+      if (dd > 0) setc(DAYS[0], '出發日<strong>還有 ' + flip(dd) + ' 天</strong>');
+      else if (dd === 0) setc(DAYS[0], '今天<strong>出發！</strong>');
+      else if (dd >= -2) setc(today, '旅途<strong>第 ' + flip(1 - dd) + ' 天</strong>');
+    }
+    // 2 時間軸「現在到哪了」：依時間標「現在／下一站」，網頁開著時每分鐘更新
+    var di = DAYS.map(function (d) { return +d; }).indexOf(+today), T0 = Date.now();
+    if (di >= 0) {
+      var sec = document.getElementById('p' + (di + 1));
+      var st = Array.prototype.slice.call(sec.querySelectorAll('.tl:not(.plain) > .stop')).map(function (s) {
+        var t = (s.querySelector('.time') || {}).textContent || '', m = t.match(/(\d{1,2}):(\d{2})(?:\s*[–-]\s*(\d{1,2}):(\d{2}))?/);
+        return { el: s, a: m ? +m[1] * 60 + +m[2] : null, b: m && m[3] ? +m[3] * 60 + +m[4] : null };
+      }).filter(function (x) { return x.a !== null; });
+      var markNow = function () {
+        var nw = new Date(+NOW + (Date.now() - T0)), mins = nw.getHours() * 60 + nw.getMinutes(), k = -1, nxt = false;
+        st.forEach(function (x, i) { if (x.a <= mins) k = i; });
+        if (k < 0) { k = 0; nxt = true; }
+        else if (st[k].b !== null && mins > st[k].b && k < st.length - 1) { k += 1; nxt = true; }
+        st.forEach(function (x) { x.el.classList.remove('now'); var g = x.el.querySelector('.nowtag'); if (g) g.remove(); });
+        var cur = st[k].el; cur.classList.add('now', 'in');
+        var tm = cur.querySelector('.time'); if (tm) tm.insertAdjacentHTML('afterbegin', '<span class="nowtag">' + (nxt ? '下一站' : '現在') + '</span>');
+        plNext(cur, nxt);
+        return cur;
+      };
+      if (st.length) {
+        var cur0 = markNow();
+        show('t' + (di + 1));
+        setTimeout(function () { cur0.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' }); }, 900);
+        setInterval(markNow, 60000);
+      }
+    }
+    // 3 地圖與清單連動
+    document.querySelectorAll('.map').forEach(function (m) {
+      function pick(k) {
+        m.querySelectorAll('.m-steps li').forEach(function (li) { li.classList.toggle('sel', li.getAttribute('data-k') === k); });
+        m.querySelectorAll('.pop').forEach(function (g) { g.classList.remove('hop'); });
+        m.querySelectorAll('.pop').forEach(function (x) { x.classList.add('shown'); });
+        var g = m.querySelector('.pop[data-k="' + k + '"]'); if (g) { void g.getBoundingClientRect(); g.classList.add('hop'); }
+      }
+      m.querySelectorAll('.m-steps li[data-k]').forEach(function (li) {
+        li.addEventListener('click', function () { pick(li.getAttribute('data-k')); });
+        li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(li.getAttribute('data-k')); } });
+      });
+      m.querySelectorAll('.pop[data-k]').forEach(function (g) {
+        g.style.cursor = 'pointer'; g.addEventListener('click', function () { pick(g.getAttribute('data-k')); });
+        g.addEventListener('animationend', function (e) { if (e.animationName === 'pop') g.classList.add('shown'); });
+      });
+    });
+    // 6 第二天晚上的星星
+    var stars = document.createElement('div'); stars.className = 'stars'; stars.setAttribute('aria-hidden', 'true');
+    var rnd = function (n) { var x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); };
+    var sh = '<span class="moon"></span><span class="shoot"></span>'; for (var i = 1; i <= 46; i++) sh += '<i style="left:' + (2 + rnd(i) * 96).toFixed(1) + '%;top:' + (2 + rnd(i + 50) * 80).toFixed(1) + '%;--z:' + (2 + Math.round(rnd(i + 30) * 3)) + 'px;--t:' + (1.4 + rnd(i + 99) * 2.2).toFixed(2) + 's;--dl:-' + (rnd(i + 7) * 3).toFixed(2) + 's"></i>';
+    stars.innerHTML = sh;
+    var ink = document.querySelector('.ink'); if (ink && ink.nextSibling) document.body.insertBefore(stars, ink.nextSibling); else document.body.insertBefore(stars, document.body.firstChild);
+    // 1–3 一天的天色：晨光、午後湖光、晚霞
+    function layer(cls, html) { var d = document.createElement('div'); d.className = 'sc ' + cls; d.setAttribute('aria-hidden', 'true'); d.innerHTML = html || ''; stars.parentNode.insertBefore(d, stars); return d; }
+    layer('sc-dawn');
+    var gl = ''; for (var g = 1; g <= 34; g++) gl += '<i style="left:' + (2 + rnd(g + 200) * 96).toFixed(1) + '%;top:' + (30 + rnd(g + 300) * 66).toFixed(1) + '%;--z:' + (3 + Math.round(rnd(g + 400) * 4)) + 'px;--t:' + (1.6 + rnd(g + 500) * 2).toFixed(2) + 's;--dl:-' + (rnd(g + 600) * 3).toFixed(2) + 's"></i>';
+    layer('sc-lake', gl);
+    var bw = '<svg viewBox="0 0 26 12"><path d="M1 8 q6 -7 12 0 q6 -7 12 0"/></svg>';
+    layer('sc-dusk', '<span class="dsun"></span>' + [[18, 16, 0], [26, 19, -6], [12, 22, -11], [34, 24, -3]].map(function (b) { return '<span class="db" style="--y:' + b[0] + 'vh;--t:' + b[1] + 's;--dl:' + b[2] + 's">' + bw + '</span>'; }).join(''));
+    var p2 = document.getElementById('p2'), last = p2 && p2.querySelectorAll('.tl:not(.plain) > .stop');
+    var _c2 = last ? Array.prototype.slice.call(last) : [], _wi = -1;
+    _c2.forEach(function (x, i) { if (_wi < 0 && x.textContent.indexOf('湖畔夜間散步') >= 0) _wi = i; });
+    if (_wi < 0) _wi = _c2.length - 1;
+    last = _c2[_wi];
+    _c2.slice(_wi).forEach(function (x) { x.classList.add('nightcard'); });
+    var p1 = document.getElementById('p1'), p3 = document.getElementById('p3');
+    var first1 = p1 && p1.querySelector('.tl:not(.plain) > .stop');
+    var l3 = p3 && p3.querySelectorAll('.tl:not(.plain) > .stop'); l3 = l3 && l3[l3.length - 1];
+    if (l3) l3.classList.add('duskcard');
+    var yun = p2 && Array.prototype.slice.call(p2.querySelectorAll('.tl:not(.plain) > .stop')).filter(function (x) { return x.textContent.indexOf('雲品溫泉酒店 大廳酒吧') >= 0; })[0];
+    function night() {
+      if (document.documentElement.classList.contains('planner')) return;   // 行車版不換天色
+      var vh = window.innerHeight, sc = '';
+      var inv = function (el) { var r = el.getBoundingClientRect(); return r.top < vh * 0.75 && r.bottom > vh * 0.25; };
+      if (p2 && !p2.hidden) { if (last && last.getBoundingClientRect().top < vh * 0.8) sc = 'night'; else if (yun && inv(yun)) sc = 'lake'; }
+      if (p3 && !p3.hidden && l3 && l3.getBoundingClientRect().top < vh * 0.8) sc = 'dusk';
+      if (p1 && !p1.hidden && first1) { var r1 = first1.getBoundingClientRect(); if (r1.bottom > vh * 0.1 && r1.top < vh * 0.85) sc = 'dawn'; }
+      var root = document.documentElement;
+      ['night', 'lake', 'dusk', 'dawn'].forEach(function (c) { root.classList.toggle(c, sc === c); });
+    }
+    // 8 落羽松漸層（第二天捲動越下面越紅）
+    function leafp() {
+      if (!p2 || p2.hidden) return;
+      var r = p2.getBoundingClientRect(), h = r.height - window.innerHeight;
+      var v = Math.max(0, Math.min(1, -r.top / (h > 0 ? h : 1)));
+      p2.style.setProperty('--lp', v.toFixed(3));
+    }
+    var tk2 = false;
+    function onsc() { if (!tk2) { tk2 = true; requestAnimationFrame(function () { night(); leafp(); tk2 = false; }); } }
+    window.addEventListener('scroll', onsc, { passive: true });
+    tabs.forEach(function (t) { t.addEventListener('click', function () { setTimeout(onsc, 60); }); });
+    document.querySelectorAll('.dsw button').forEach(function (b) { b.addEventListener('click', function () { setTimeout(onsc, 60); }); });
+    onsc();
+    // 9 應備用品進度
+    var pp = document.getElementById('pprog');
+    if (pp) {
+      var boxes = Array.prototype.slice.call(document.querySelectorAll('#p8 .pack input[type=checkbox]'));
+      var pd = document.getElementById('pdone'), pm = document.getElementById('pmsg');
+      document.getElementById('pall').textContent = boxes.length;
+      var upd = function () {
+        var n = boxes.filter(function (b) { return b.checked; }).length;
+        pd.textContent = n; pp.style.setProperty('--pp', (n / boxes.length).toFixed(3));
+        var all = n === boxes.length; pp.classList.toggle('done', all); pm.textContent = all ? '全部準備好了' : '已準備';
+      };
+      boxes.forEach(function (b) { b.addEventListener('change', upd); }); upd();
+    }
+    // 4 點照片放大
+    var lb = document.createElement('div'); lb.className = 'lb'; lb.hidden = true; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-label', '照片放大');
+    lb.innerHTML = '<div class="lb-track"></div><p class="lb-cap"></p><p class="lb-cnt"></p><button type="button" class="lb-x" aria-label="關閉">✕</button>';
+    document.body.appendChild(lb);
+    var lbt = lb.querySelector('.lb-track'), lbc = lb.querySelector('.lb-cap'), lbn = lb.querySelector('.lb-cnt'), lbImgs = [];
+    function lbIdx() { return Math.round(lbt.scrollLeft / (lbt.clientWidth || 1)); }
+    function lbUpd() { var k = lbIdx(); lbc.textContent = (lbImgs[k] && lbImgs[k].alt) || ''; lbn.textContent = lbImgs.length > 1 ? (k + 1) + ' / ' + lbImgs.length + '　左右滑動' : ''; }
+    lbt.addEventListener('scroll', lbUpd, { passive: true });
+    function lbOpen(img) {
+      var fig = img.closest('.ph'); lbImgs = Array.prototype.slice.call(fig.querySelectorAll('img')); var k = lbImgs.indexOf(img);
+      lbt.innerHTML = lbImgs.map(function (x) { return '<div class="lb-s"><img src="' + x.src + '" alt=""></div>'; }).join('');
+      lb.hidden = false; document.documentElement.classList.add('lbopen');
+      lbt.scrollLeft = k * lbt.clientWidth; lbUpd();
+      var tgt = lbt.children[k].querySelector('img');
+      var go = function () {
+        var a = img.getBoundingClientRect(), b = tgt.getBoundingClientRect();
+        if (!RM && b.width) { tgt.style.transition = 'none'; tgt.style.transform = 'translate(' + (a.left - b.left) + 'px,' + (a.top - b.top) + 'px) scale(' + (a.width / b.width) + ',' + (a.height / b.height) + ')';
+          void tgt.offsetWidth; tgt.style.transition = 'transform .45s cubic-bezier(.2,.8,.2,1)'; tgt.style.transform = ''; }
+        lb.classList.add('on');
+      };
+      if (tgt.complete) go(); else { tgt.onload = go; setTimeout(function () { lb.classList.add('on'); }, 300); }
+      lb.querySelector('.lb-x').focus();
+    }
+    function lbClose() { lb.classList.remove('on'); document.documentElement.classList.remove('lbopen'); setTimeout(function () { lb.hidden = true; lbt.innerHTML = ''; }, RM ? 0 : 350); }
+    document.querySelectorAll('.ph img').forEach(function (img) { img.addEventListener('click', function () { lbOpen(img); }); });
+    lb.querySelector('.lb-x').addEventListener('click', lbClose);
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lb-s')) lbClose(); });
+    document.addEventListener('keydown', function (e) { if (!lb.hidden && e.key === 'Escape') lbClose(); });
+    // 10 電話按鈕
+    document.querySelectorAll('a.tel').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        if (RM) return;
+        e.preventDefault(); a.classList.remove('ring'); void a.offsetWidth; a.classList.add('ring');
+        setTimeout(function () { window.location.href = a.getAttribute('href'); }, 450);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
