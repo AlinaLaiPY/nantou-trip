@@ -116,6 +116,7 @@
   .m-route3 { fill: none; stroke: #7A5C2E; stroke-width: 2.6; stroke-dasharray: 3 5; stroke-linecap: round; opacity: .85; }
   .tab { grid-column: span 2; }
   .tab.wide { grid-column: span 3; }
+  .tab.full { grid-column: 1 / -1; }
   .m-town { fill: #F3EEE4; stroke: #DDD5C6; }
   .m-leg-on { fill: none; stroke: var(--vermilion); stroke-width: 2.6; stroke-linecap: round; opacity: .9; }
   .m-leg-off { fill: none; stroke: #D9D1C3; stroke-width: 2; stroke-dasharray: 4 5; stroke-linecap: round; }
@@ -416,6 +417,101 @@
   @keyframes refl { from { transform: translateX(-3px) scaleY(1); } to { transform: translateX(3px) scaleY(.94); } }
   @media (prefers-reduced-motion: reduce) { .cal, .cd .fl { opacity: 1; transform: none; } .t .ck { transform: none; } .lotus .lpad { opacity: 1; transform: none; } .lb, .lb.on { transition: none; } }
   @media (prefers-reduced-motion: reduce) { .stars { display: none; } .pprog.done .pr-lotus path { transform: rotate(var(--r)) scale(1); opacity: 1; } .cd .fl { opacity: 1; transform: none; } .map .pop.hop { transform: scale(1.12); opacity: 1; } }
+  /* ---- 出發前 10 天倒數 ---- */
+  .cdw.l10 { background: rgba(255,255,255,.78); padding: 6px 16px 6px 8px; }
+  .cdw.l10 .cal { box-shadow: 0 0 0 2px var(--vermilion), 0 0 14px 3px rgba(168,66,42,.35);
+    animation: calflip .9s cubic-bezier(.3,1.4,.5,1) .7s both, l10glow 2.6s ease-in-out 1.8s infinite alternate; }
+  @keyframes l10glow { from { box-shadow: 0 0 0 2px var(--vermilion), 0 0 8px 1px rgba(168,66,42,.25); } to { box-shadow: 0 0 0 2px var(--vermilion), 0 0 18px 5px rgba(168,66,42,.45); } }
+  .cdw.l10 .cd strong { font-size: 20px; line-height: 1.2; }
+  .cdw.l10 .cd .fl { font-size: 32px; line-height: 1; }
+  .cdots { display: flex; gap: 5px; margin-top: 5px; }
+  .cdots i { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(168,66,42,.5); box-sizing: border-box; }
+  .cdots i.on { background: var(--vermilion); border-color: var(--vermilion); animation: dotin .4s ease-out calc(1.6s + var(--i) * .06s) both; }
+  @keyframes dotin { from { transform: scale(0); } to { transform: none; } }
+  .hero.l10 { height: 252px; }
+  .cdtip { margin: -8px 0 18px !important; padding: 10px 14px; border-left: 4px solid var(--vermilion); border-radius: 0 6px 6px 0; background: var(--vermilion-soft); color: var(--ink); font-size: 17px; line-height: 1.6; text-wrap: pretty; }
+  .cdtip a, .cdtip .tiplink { color: var(--vermilion); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .cdtip .tiplink { appearance: none; border: 0; background: none; padding: 8px 0; margin: -8px 0; font: inherit; font-weight: 700; cursor: pointer; }
+  /* ---- 一般版／行車版切換、上方天數列 ---- */
+  html { scroll-padding-top: 64px; }
+  .vsw.hv { position: absolute; right: 8px; top: 8px; z-index: 2; display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; border-radius: 999px;
+    background: rgba(255,255,255,.88); border: 1px solid var(--jade); color: var(--jade); font-size: 14px; font-weight: 700; text-decoration: none; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  html.big .vsw.hv { zoom: .8334; }   /* 字放大時切換鈕維持原大小，不壓到標題 */
+  html.big .hero h1 { font-size: 30px; }
+  /* 上方天數鈕：捲過頁籤後浮在畫面上方，一顆顆分開的毛玻璃膠囊，後面沒有底條（容器透明、不擋點擊） */
+  .daybar { position: fixed; left: 0; right: 0; top: 0; z-index: 9; display: flex; align-items: center; gap: 6px; padding: calc(env(safe-area-inset-top) + 6px) 8px 0;
+    background: none; pointer-events: none; visibility: hidden; transform: translateY(-130%); transition: transform .25s ease, visibility 0s linear .25s; }
+  html.dbon .daybar { visibility: visible; transform: none; transition: transform .25s ease; }
+  html.lbopen .daybar { visibility: hidden; }
+  .db-seg { display: flex; flex: 0 1 auto; min-width: 0; gap: 6px; }
+  .daybar button, .daybar a { pointer-events: auto; appearance: none; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; min-width: 44px; min-height: 44px; margin: 0; padding: 0 11px;
+    border-radius: 999px; border: 1px solid var(--glass-bd); background: rgba(255, 255, 255, .86); color: var(--jade);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 4px 14px rgba(0, 0, 0, .16), 0 1px 3px rgba(0, 0, 0, .1);
+    font: 700 16px/1 var(--sans); letter-spacing: .02em; text-decoration: none; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease; }
+  .db-seg .db-d { flex: 0 1 auto; min-width: 0; }
+  .daybar .db-d.on, .daybar .db-x.on { background: var(--btn-grad); border-color: transparent; color: #fff; box-shadow: var(--btn-sh), 0 4px 14px rgba(0, 0, 0, .16); }
+  .daybar button:active, .daybar a:active { transform: translateY(1px); }
+  .daybar .db-x, .db-seg + .db-v { margin-left: auto; }
+  html.dbon .pprog { top: 64px; }
+  section[role=tabpanel].noin.dbin { animation: dbfade .35s ease-out both; }
+  @keyframes dbfade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .cdots i.on { transform: none; } }
+  /* ---- 精緻質感 v59（兩版共用；顏色全部從 --jade 推出來，行車版自動變深藍） ---- */
+  :root { --jade-rgb: 42, 99, 85; --jade-hi: #347766; --jade-deep: #1F4D42;
+          --r-card: 14px; --r-btn: 14px;
+          --card-bd: rgba(var(--jade-rgb), .14);
+          --card-sh: 0 6px 22px rgba(var(--jade-rgb), .08), 0 1px 2px rgba(var(--jade-rgb), .05);
+          --glass: rgba(255, 255, 255, .66); --glass-bd: rgba(var(--jade-rgb), .22);
+          --glass-blur: blur(10px) saturate(1.2);
+          --glass-sh: inset 0 1px 0 rgba(255, 255, 255, .9), 0 3px 12px rgba(var(--jade-rgb), .12);
+          --btn-grad: linear-gradient(180deg, var(--jade-hi) 0%, var(--jade) 55%, var(--jade-deep) 100%);
+          --btn-sh: inset 0 1px 0 rgba(255, 255, 255, .25), 0 6px 16px rgba(var(--jade-rgb), .26), 0 1px 3px rgba(var(--jade-rgb), .2); }
+  html.planner { --jade-rgb: 44, 68, 112; --jade-hi: #3A5788; --jade-deep: #1E3152; }
+  /* 主要按鈕：主題色漸層＋上緣亮線＋柔和陰影 */
+  .tab[aria-selected="true"], .dsw button.on { background: var(--btn-grad); border-color: transparent; color: #fff; box-shadow: var(--btn-sh); }
+  /* 次要按鈕：毛玻璃 */
+  .tab, .dsw button, .top-btn, .top-fab, .fontbtn, .vsw.hv, .car .cbtn, .glass {
+    background: var(--glass); border: 1px solid var(--glass-bd); color: var(--jade); box-shadow: var(--glass-sh);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+  .tab { border-radius: var(--r-btn); }
+  .tab[aria-selected="false"] { color: var(--ink-soft); }
+  .dsw button { font-weight: 700; min-height: 44px; }
+  .top-btn { border-radius: var(--r-btn); font-weight: 700; }
+  .top-fab { box-shadow: var(--glass-sh), 0 6px 18px rgba(0, 0, 0, .1); font-weight: 700; }
+  .fontbtn { box-shadow: var(--glass-sh), 0 6px 18px rgba(0, 0, 0, .1); font-weight: 700; }
+  .vsw.hv { background: rgba(255, 255, 255, .72); border-color: var(--glass-bd); }
+  .car .cbtn { width: 44px; height: 44px; top: calc(50% - 34px); line-height: 40px; background: rgba(255, 255, 255, .8); border-color: rgba(255, 255, 255, .7); color: var(--jade); font-weight: 700; }
+  .tab, .dsw button, .top-btn, .top-fab, .fontbtn, .vsw.hv, .car .cbtn { transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease; }
+  .tab:active, .dsw button:active, .top-btn:active, .fontbtn:active, .vsw.hv:active { transform: translateY(1px); }
+  .top-fab.on:active { transform: translateY(1px); }
+  /* 卡片：圓角大一點、細邊、很淡的陰影 */
+  .stop, .box, .pack, .map, .summary, .plr { border-radius: var(--r-card); }
+  .stop, .box, .pack, .map { border-color: var(--card-bd); box-shadow: var(--card-sh); }
+  .ride { border-color: rgba(var(--jade-rgb), .1); box-shadow: 0 2px 10px rgba(var(--jade-rgb), .05); }
+  .summary { border: 1px solid var(--card-bd); background: linear-gradient(165deg, var(--jade-soft) 0%, rgba(255, 255, 255, .75) 100%); box-shadow: var(--card-sh); }
+  .t { border-collapse: separate; border-spacing: 0; border-radius: var(--r-card); overflow: hidden; border-color: var(--card-bd); box-shadow: var(--card-sh); }
+  .t th { background: rgba(var(--jade-rgb), .05); }
+  .ph img, .car .track { border-radius: 10px; }
+  .car .slide img { border-radius: 0; }
+  .lv { border-radius: 6px; cursor: help; }
+  .cdw { border: 1px solid rgba(255, 255, 255, .7); box-shadow: 0 4px 16px rgba(var(--jade-rgb), .1); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+  .pprog { background: rgba(255, 255, 255, .78); border-color: var(--card-bd); box-shadow: var(--card-sh); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+  /* 時間數字等寬，上下對齊 */
+  .time, .m-steps span, .plt, .cd, .ov-chip, .car .cnt, .lb-cnt, .route .bt, .nextbar .nb-c, .t td { font-variant-numeric: tabular-nums; }
+  /* 資料等級說明：整頁只一次，在頁籤格子下面 */
+  .pick + .legend { margin: -16px 0 24px; padding: 8px 14px; border-radius: 12px; background: rgba(255, 255, 255, .55); border: 1px solid var(--card-bd); line-height: 1.8; }
+  /* 每天的標題卡（行車版＝當天總覽） */
+  .ovw { position: relative; margin: 0 0 16px; padding: 16px 16px 14px 20px; border-radius: 16px; border: 1px solid var(--card-bd); overflow: hidden;
+         background: linear-gradient(165deg, #FFFFFF 0%, rgba(255, 255, 255, .92) 50%, var(--jade-soft) 100%); box-shadow: var(--card-sh); }
+  .ovw::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(var(--jade-hi), var(--jade-deep)); }
+  .ov-eb { margin: 0 0 2px; font-size: 14px; font-weight: 700; letter-spacing: .2em; color: var(--jade); }
+  .ovh { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin: 0; font-family: var(--serif); font-weight: 700; }
+  .ov-d { font-size: 26px; letter-spacing: .1em; color: var(--ink); line-height: 1.35; }
+  .ov-chip { font-family: var(--sans); font-size: 16px; font-weight: 700; line-height: 1; padding: 7px 12px; border-radius: 999px; letter-spacing: .02em;
+             color: var(--jade); background: rgba(var(--jade-rgb), .09); border: 1px solid rgba(var(--jade-rgb), .2); }
+  .ov-theme { margin: 6px 0 0; font-family: var(--serif); font-size: 18px; line-height: 1.6; color: var(--ink-soft); letter-spacing: .05em; }
   .box.warn { border-color: #E6D3A8; background: #FFFBF2; }
 
   .t { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 16px; line-height: 1.6; }
@@ -440,13 +536,13 @@
   html.planner.js .tl .stop::before { transform: none !important; transition: none !important; }
   html.planner.js .tl .stop .time { animation: none !important; }
   html.planner a.navbtn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; margin: 8px 0 12px; padding: 8px 16px;
-    border-radius: 999px; background: #2C4470; color: #fff !important; font-size: 19px; font-weight: 700; letter-spacing: .08em; text-decoration: none; border: 0; box-shadow: 0 2px 6px rgba(44,68,112,.3); }
+    border-radius: var(--r-btn); background: var(--btn-grad); color: #fff !important; font-size: 19px; font-weight: 700; letter-spacing: .08em; text-decoration: none; border: 0; box-shadow: var(--btn-sh); }
   html.planner a.navbtn::before { content: "➤"; margin-right: 8px; font-size: 17px; }
-  html.planner a.navbtn:active { background: #1E3152; }
-  .route { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid #2C4470; padding: 12px 14px 14px; margin: 0 0 16px; }
-  .route h4 { margin: 0 0 8px; font-size: 21px; color: #2C4470; }
-  .route .board { list-style: none; margin: 0 0 12px; padding: 0; }
-  .route .br { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; column-gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+  html.planner a.navbtn:active { background: var(--jade-deep); transform: translateY(1px); }
+  /* 當天總覽卡片裡：行車看板＋全程路線 */
+  .ovw .route { margin: 12px 0 0; padding: 4px 0 0; border-top: 1px solid var(--card-bd); }
+  .route .board { list-style: none; margin: 0; padding: 0; }
+  .route .br { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; column-gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid var(--card-bd); }
   .route .br:first-child { border-top: 0; padding-top: 2px; }
   .route .bt { display: flex; flex-direction: column; line-height: 1.2; color: #2C4470; }
   .route .bt b { font-size: 18px; font-weight: 700; }
@@ -461,28 +557,35 @@
   .route .bb { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; max-width: 96px; }
   .route a.bnav, .route a.bcall { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 8px; border-radius: 10px; box-sizing: border-box;
     font-size: 15px; font-weight: 700; text-decoration: none; white-space: nowrap; }
-  .route a.bnav { background: #2C4470; color: #fff; }
-  .route a.bcall { background: #E7ECF4; color: #2C4470; font-size: 19px; border: 1px solid #C9D2E1; }
+  .route a.bnav, .route a.bcall, .legs a.lgp, html.planner a.callbtn {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(var(--jade-rgb), .07)); border: 1px solid var(--glass-bd); color: var(--jade) !important;
+    box-shadow: var(--glass-sh); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+  .route a.bnav, .route a.bcall { border-radius: 12px; }
+  .route a.bcall { font-size: 19px; }
+  .route a.bnav:active, .route a.bcall:active, .legs a.lgp:active, html.planner a.callbtn:active { background: rgba(var(--jade-rgb), .12); transform: translateY(1px); }
+  .legs { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 4px 0 0; padding-top: 12px; border-top: 1px solid var(--card-bd); }
+  .lg-h { font-size: 17px; font-weight: 700; color: var(--jade); margin-right: 2px; letter-spacing: .04em; }
+  .legs a.lgp { display: inline-flex; align-items: center; justify-content: center; min-width: 54px; min-height: 46px; padding: 0 14px; border-radius: 999px;
+    font-size: 22px; line-height: 1; font-weight: 700; text-decoration: none; transition: transform .15s ease; }
+  .lgd { list-style: none; margin: 8px 0 0; padding: 0; font-size: 15px; line-height: 1.55; color: #4A5568; }
+  .lgd li { display: flex; gap: 6px; margin: 0; }
+  .lgd b { flex: 0 0 auto; color: var(--jade); }
   html.planner .tl .stop[id] { scroll-margin-top: 12px; }
   html.planner .act { display: flex; gap: 8px; margin: 8px 0 12px; }
   html.planner .act > a { flex: 1 1 0; min-width: 0; }
   html.planner .act a.navbtn { width: auto; margin: 0; padding: 6px 8px; font-size: 17px; line-height: 1.25; letter-spacing: 0; text-align: center; }
   html.planner .act a.navbtn::before { margin-right: 4px; font-size: 15px; }
-  html.planner a.callbtn { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 8px 10px; border-radius: 999px;
-    background: #fff; color: #2C4470 !important; border: 2px solid #2C4470; font-size: 17px; line-height: 1.25; font-weight: 700; text-decoration: none; white-space: nowrap; }
-  html.planner a.callbtn:active { background: #E7ECF4; }
+  html.planner a.callbtn { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 8px 10px; border-radius: var(--r-btn);
+    font-size: 17px; line-height: 1.25; font-weight: 700; text-decoration: none; white-space: nowrap; }
   html.planner .stop .pd { margin: 0 0 4px; }
   html.planner details.intro { margin-top: 10px; border-top: 1px dashed var(--line); }
   html.planner details.intro > summary { cursor: pointer; padding: 10px 0 4px; min-height: 44px; box-sizing: border-box; font-size: 17px; font-weight: 700; color: #2C4470; list-style: none; }
   html.planner details.intro > summary::-webkit-details-marker { display: none; }
   html.planner details.intro > summary::before { content: "▸ "; } html.planner details.intro[open] > summary::before { content: "▾ "; }
-  .route .rbh { margin: 0 0 6px; font-size: 15px; color: #6B7385; }
-  .route .rbtns { display: grid; gap: 8px; }
-  .route a.rbtn { display: flex; align-items: center; min-height: 48px; padding: 8px 14px; border-radius: 12px; background: #2C4470; color: #fff; font-size: 17px; font-weight: 700; line-height: 1.4; text-decoration: none; }
-  .route a.rbtn::before { content: "➤"; margin-right: 8px; font-size: 15px; }
   .nextbar { display: none; }
   html.planner.hasnext .nextbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 8; align-items: center; gap: 10px; min-height: 68px;
-    padding: 6px 12px calc(6px + env(safe-area-inset-bottom)); background: #2C4470; color: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,.25); }
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom)); background: rgba(44, 68, 112, .88); color: #fff;
+    -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 -6px 24px rgba(20, 30, 50, .22); }
   html.lbopen .nextbar { display: none !important; }
   .nextbar .nb-txt { flex: 1; min-width: 0; }
   .nextbar p { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -491,8 +594,12 @@
   .nextbar .nb-c { font-size: 14px; line-height: 1.35; color: #F2CF7A; }
   .nextbar .nb-c:empty, .nextbar .nb-a:empty { display: none; }
   .nextbar .nb-go { display: flex; gap: 6px; flex-shrink: 0; }
-  .nextbar .nb-go a { display: flex; align-items: center; justify-content: center; min-width: 72px; min-height: 52px; padding: 0 12px; border-radius: 12px;
-    background: #fff; color: #2C4470; font-size: 19px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .nextbar .nb-go a { display: flex; align-items: center; justify-content: center; min-width: 72px; min-height: 52px; padding: 0 12px; border-radius: var(--r-btn);
+    background: linear-gradient(180deg, #FFFFFF 0%, #EEF2F8 55%, #DCE3EF 100%); color: #2C4470; font-size: 19px; font-weight: 700; text-decoration: none; white-space: nowrap;
+    box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(0, 0, 0, .25), 0 1px 2px rgba(0, 0, 0, .2); }
+  .nextbar .nb-go a:active { transform: translateY(1px); background: #DCE3EF; }
+  html.planner .pd { border-radius: 12px; overflow: hidden; border-color: var(--card-bd); }
+  html.planner .plr { border-color: var(--card-bd); box-shadow: var(--card-sh); }
   html.planner.hasnext .fontbtn, html.planner.hasnext .top-fab { bottom: calc(var(--nbh, 72px) + 12px); }
   html.planner.hasnext body { padding-bottom: calc(var(--nbh, 72px) + 16px); }
 </style>
@@ -535,8 +642,10 @@
   </svg>
   <div class="ttl"><h1>南投行程</h1><p class="sub">三天兩夜・11/24（二）– 11/26（四）</p><div class="cdw" id="cdw" hidden><div class="cal"><b>十一月</b><span id="calD">24</span><small id="calW">星期二</small></div><p class="cd" id="cd" aria-live="polite"></p></div></div>
   <p class="plbadge">行車版</p>
+  <a class="vsw hv" href="./">← 一般版</a>
   <p class="dayline"><span data-d="1">☀ 第一天・晨光出發</span><span data-d="2">☀ 第二天・湖畔日光</span><span data-d="3">☀ 第三天・夕陽回程</span></p>
 </div>
+  <p class="cdtip" id="cdtip" hidden></p>
 
   <div class="pick" role="tablist">
     <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">第一天<br>11/24（二）</button>
@@ -550,24 +659,22 @@
     <button class="tab pl" role="tab" id="t9" aria-controls="p9" aria-selected="false">行車<br>總表</button>
   </div>
 
+  <p class="legend">資料等級：<span class="lv lv-a" title="A＝官方來源">A</span> 官方來源　<span class="lv lv-b" title="B＝多個來源一致">B</span> 多個來源一致　<span class="lv lv-c" title="C＝單一來源或說法不一">C</span> 單一來源或說法不一</p>
 <section id="p1" role="tabpanel" aria-labelledby="t1">
 <div class="amb" aria-hidden="true"><span class="bfly c1" style="--y:23vh;--t:19s;--dl:-8s"><i></i></span><span class="bfly c2" style="--y:22vh;--t:25s;--dl:-14s"><i></i></span><span class="bfly c3" style="--y:45vh;--t:24s;--dl:-6s"><i></i></span></div>
-<div class="summary"><b>第一天・11/24（二）</b><ul class="sl"><li>約 09:00 汐止開車出發</li><li>台中空也午餐 → 埔里 18度C → 地母廟看埔里盆地 → 日月町</li><li>埔里晚餐 → 約 19:50 入住教師會館，在湖景房休息、看夜湖</li></ul>
-</div>
-<div class="route"><h4>行車看板</h4><ol class="board"><li class="br"><span class="bt"><small>約</small><b>09:00</b></span><div class="bm"><a class="bn" href="#d1s1">汐止出發 → 台中</a><p class="bs"><span>車程 約 2 小時 40 分–3 小時（Google 2 小時 12 分）</span></p></div></li><li class="br"><span class="bt"><b>12:00</b><small class="be">至 13:30</small></span><div class="bm"><a class="bn" href="#d1s2">空也素麵食（龍門店）</a><p class="bs"><span>停車 店家未寫</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0422523722" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>14:40</b><small class="be">至 15:20</small></span><div class="bm"><a class="bn" href="#d1s3">Feeling18℃</a><p class="bs"><span>車程 約 1 小時 10 分（Google 55 分）</span><span>停車 店家 P1、P3 收費停車場（南安路），消費可折抵</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492984863" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>15:30</b><small class="be">至 16:00</small></span><div class="bm"><a class="bn" href="#d1s4">地母廟</a><p class="bs"><span>車程 約 10 分（Google 6 分）</span><span>停車 開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492982873" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>16:30</b><small class="be">至 17:30</small></span><div class="bm"><a class="bn" href="#d1s5">日月町</a><p class="bs"><span>車程 約 30 分（Google 24 分）</span><span>停車 免費停車場（食尚玩家）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492009296" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>17:40</b><small class="be">至 19:10</small></span><div class="bm"><a class="bn" href="#d1s6">無所從來（晚餐）</a><p class="bs"><span>車程 約 10 分（Google 7 分）</span><span>停車 免費停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492919007" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:50</b></span><div class="bm"><a class="bn" href="#d1s7">日月潭教師會館（入住）</a><p class="bs"><span>車程 約 40 分（Google 26 分）</span><span>停車 會館專屬停車場，住客免費（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492855991" aria-label="打電話">📞</a></span></li></ol><p class="rbh">Google 地圖開車路線（含中途點）</p><div class="rbtns"><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%B1%90%E6%AD%A2%E5%8D%80&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">汐止 → 台中空也</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&waypoints=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F%7C%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">空也 → 18度C → 地母廟 → 日月町</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&waypoints=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">日月町 → 無所從來 → 教師會館</a></div></div>
-<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="dsw" role="group" aria-label="切換天數"><button type="button" data-go="t1" class=on>第一天</button><button type="button" data-go="t2">第二天</button><button type="button" data-go="t3">第三天</button></div>
+<div class="ovw"><p class="ov-eb">當天總覽</p><h2 class="ovh"><span class="ov-d">第一天</span><span class="ov-chip">11/24（二）</span></h2><p class="ov-theme">汐止出發・埔里逛街・入住日月潭</p><div class="route"><ol class="board"><li class="br"><span class="bt"><small>約</small><b>09:00</b></span><div class="bm"><a class="bn" href="#d1s1">汐止出發 → 台中</a><p class="bs"><span>車程 約 2 小時 40 分–3 小時（Google 2 小時 12 分）</span></p></div></li><li class="br"><span class="bt"><b>12:00</b><small class="be">至 13:30</small></span><div class="bm"><a class="bn" href="#d1s2">空也素麵食（龍門店）</a><p class="bs"><span>停車 店家未寫</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0422523722" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>14:40</b><small class="be">至 15:20</small></span><div class="bm"><a class="bn" href="#d1s3">Feeling18℃</a><p class="bs"><span>車程 約 1 小時 10 分（Google 55 分）</span><span>停車 店家 P1、P3 收費停車場（南安路），消費可折抵</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492984863" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>15:30</b><small class="be">至 16:00</small></span><div class="bm"><a class="bn" href="#d1s4">地母廟</a><p class="bs"><span>車程 約 10 分（Google 6 分）</span><span>停車 開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492982873" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>16:30</b><small class="be">至 17:30</small></span><div class="bm"><a class="bn" href="#d1s5">日月町</a><p class="bs"><span>車程 約 30 分（Google 24 分）</span><span>停車 免費停車場（食尚玩家）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492009296" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>17:40</b><small class="be">至 19:10</small></span><div class="bm"><a class="bn" href="#d1s6">無所從來（晚餐）</a><p class="bs"><span>車程 約 10 分（Google 7 分）</span><span>停車 免費停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492919007" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:50</b></span><div class="bm"><a class="bn" href="#d1s7">日月潭教師會館（入住）</a><p class="bs"><span>車程 約 40 分（Google 26 分）</span><span>停車 會館專屬停車場，住客免費（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492855991" aria-label="打電話">📞</a></span></li></ol><div class="legs"><span class="lg-h">全程路線</span><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E6%B1%90%E6%AD%A2%E5%8D%80&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener" title="① 汐止 → 台中空也" aria-label="全程路線 ①：汐止 → 台中空也（Google 地圖開車路線）">①</a><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&waypoints=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F%7C%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener" title="② 空也 → 18度C → 地母廟 → 日月町" aria-label="全程路線 ②：空也 → 18度C → 地母廟 → 日月町（Google 地圖開車路線）">②</a><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&waypoints=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener" title="③ 日月町 → 無所從來 → 教師會館" aria-label="全程路線 ③：日月町 → 無所從來 → 教師會館（Google 地圖開車路線）">③</a></div><ul class="lgd"><li><b>①</b>汐止 → 台中空也</li><li><b>②</b>空也 → 18度C → 地母廟 → 日月町</li><li><b>③</b>日月町 → 無所從來 → 教師會館</li></ul></div></div>
 <div class="tl">
 <div class="stop ride" id="d1s1">
 <p class="time">約 09:00</p>
 <h3>汐止 → 台中（自行開車）</h3>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>國道 3 號／1 號，Google 2 小時 12 分（172 公里）→ 抓 2 小時 40 分–3 小時</dd></dl></details><ul class="pts"><li>走國道 3 號／國道 1 號，Google 地圖約 2 小時 12 分（172 公里）；含中途休息，抓 2 小時 40 分–3 小時</li><li>台中兩位直接到空也素麵食會合</li></ul>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>國道 3 號／1 號，Google 2 小時 12 分（172 公里）→ 抓 2 小時 40 分–3 小時</dd></dl></details><ul class="pts"><li>走國道 3 號／國道 1 號，Google 地圖約 2 小時 12 分（172 公里）；含中途休息，抓 2 小時 40 分–3 小時</li><li>台中兩位直接到空也素麵食會合</li></ul>
 </div>
 <div class="stop meal" id="d1s2">
 <p class="time">12:00–13:30</p>
-<h3>午餐・空也素麵食（龍門店） <span class="lv lv-b">B</span></h3>
+<h3>午餐・空也素麵食（龍門店） <span class="lv lv-b" title="B＝多個來源一致">B</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0422523722">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>停車</dt><dd>店家未寫</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">台中市西屯區朝富五街10號<br>電話 <a class="tel" href="tel:0422523722"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>04-2252-3722</a><br>11:00–21:00</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b" title="B＝多個來源一致">B</span></summary><dl><dt>停車</dt><dd>店家未寫</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">台中市西屯區朝富五街10號<br>電話 <a class="tel" href="tel:0422523722"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>04-2252-3722</a><br>11:00–21:00</p>
 <details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>素食麵館</li></ul>
 <p class="gmap"><a href="https://www.facebook.com/kongye.vegetable/" target="_blank" rel="noopener">Facebook 粉專</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%A9%BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%9710%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
@@ -575,184 +682,159 @@
 </div>
 <div class="stop" id="d1s3">
 <p class="time">約 14:40–15:20</p>
-<h3>埔里・Feeling18℃ 巧克力工房 <span class="lv lv-a">A</span></h3>
+<h3>埔里・Feeling18℃ 巧克力工房 <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492984863">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 約 55 分 → 抓 1 小時 10 分</dd><dt>停車</dt><dd>店家 P1、P3 收費停車場（南安路），消費可折抵</dd><dt>無障礙</dt><dd>四間門市都有座位（官網）</dd></dl></details><p class="info">埔里鎮慈恩街20號<br>電話 <a class="tel" href="tel:0492984863"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2984863</a><br>平日 10:00–18:00（咖啡門市 09:00 開）</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 約 55 分 → 抓 1 小時 10 分</dd><dt>停車</dt><dd>店家 P1、P3 收費停車場（南安路），消費可折抵</dd><dt>無障礙</dt><dd>四間門市都有座位（官網）</dd></dl></details><p class="info">埔里鎮慈恩街20號<br>電話 <a class="tel" href="tel:0492984863"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2984863</a><br>平日 10:00–18:00（咖啡門市 09:00 開）</p>
 <details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>逛巧克力、生吐司、冰淇淋門市，買伴手禮</li><li>同一地址四間相連的門市：巧克力、義式冰淇淋、生吐司、咖啡（官網）</li><li>四間都有座位（官網）</li><li>四間門市相連，不是大型園區，行程抓 40 分鐘</li><li>Google 4.2 分（22,000 多則評論）</li></ul>
 <p class="gmap"><a href="https://www.feeling18c.com/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>空也開車約 1 小時 10 分（Google 約 55 分，走國道 6 號）</li><li>停店家 P1、P3 收費停車場（南安路上），消費可折抵</li></ul>
-</div>
 </details>
 </div>
 <div class="stop" id="d1s4">
 <p class="time">約 15:30–16:00</p>
-<h3>寶湖宮天地堂地母廟 <span class="lv lv-b">B</span></h3>
+<h3>寶湖宮天地堂地母廟 <span class="lv lv-b" title="B＝多個來源一致">B</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492982873">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 6 分 → 抓 10 分</dd><dt>停車</dt><dd>開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</dd><dt>無障礙</dt><dd>主殿前廣場可到；最高的乾元殿要走階梯（遊記）</dd><dt>備案</dt><dd>上方停車場不能進：停廟前免費停車場，在下方看廟，不上階梯；時間不夠可跳過，日月町恢復 1 小時 50 分</dd><dt>要確認</dt><dd>平日車子能不能開到乾坤門停車場（遊記說法不完全一致）<a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a></dd></dl></details><p class="info">埔里鎮枇杷路94號<br>電話 <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a><br>每天 06:00–21:00</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b" title="B＝多個來源一致">B</span></summary><dl><dt>車程</dt><dd>Google 6 分 → 抓 10 分</dd><dt>停車</dt><dd>開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</dd><dt>無障礙</dt><dd>主殿前廣場可到；最高的乾元殿要走階梯（遊記）</dd><dt>備案</dt><dd>上方停車場不能進：停廟前免費停車場，在下方看廟，不上階梯；時間不夠可跳過，日月町恢復 1 小時 50 分</dd><dt>要確認</dt><dd>平日車子能不能開到乾坤門停車場（遊記說法不完全一致）<a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a></dd></dl></details><p class="info">埔里鎮枇杷路94號<br>電話 <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a><br>每天 06:00–21:00</p>
 <details class="intro"><summary>景點介紹</summary>
 <figure class="ph car"><div class="track"><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Puli_Demu_Temple.jpg?width=800" alt="地母廟主殿與廟前廣場" loading="lazy"><span class="scap">地母廟主殿與廟前廣場</span></div><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/View_from_Puli_Demu_Temple.jpg?width=800" alt="從地母廟看埔里" loading="lazy"><span class="scap">從地母廟看埔里</span></div><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Puli_Baohu_Temple_in_the_afternoon_on_16_December_2015.jpg?width=800" alt="依山坡層層往上蓋的地母廟" loading="lazy"><span class="scap">依山坡層層往上蓋的地母廟</span></div><div class="slide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Qiankun_Gate_of_Puli_Demu_Temple_20151216.jpg?width=800" alt="乾坤門" loading="lazy"><span class="scap">乾坤門</span></div></div><button type="button" class="cbtn prev" aria-label="上一張">‹</button><button type="button" class="cbtn next" aria-label="下一張">›</button><p class="cnt">1 / 4　左右滑動看更多</p><figcaption>照片：ixmatex wu（CC BY 2.0）、Husky221（CC BY-SA 4.0），<a href="https://commons.wikimedia.org/w/index.php?search=Puli+Demu+Temple&title=Special:MediaSearch&type=image" target="_blank" rel="noopener">Wikimedia Commons</a></figcaption></figure>
 <ul class="pts"><li>車開到上方乾坤門旁停車場</li><li>在主殿前廣場看埔里盆地，停留約 30 分鐘</li><li>色彩繽紛的多層樓廟宇，蓋在山坡上（Google 地圖簡介）</li><li>從廟區可以看到整座廟宇與埔里盆地（遊記）</li><li>最高的乾元殿要從側邊步道、階梯上去（遊記）</li><li>Google 4.7 分（14,000 多則評論）</li></ul>
 <p class="gmap"><a href="https://travel.yam.com/article/131967" target="_blank" rel="noopener">遊記（2024/8，乾坤門停車場）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>18度C 開車約 10 分鐘（Google 6 分）</li><li><b>車可開往乾坤門方向，那裡有停車場</b>（遊記 2024/8；另兩篇遊記寫廟區上方有無障礙車位）</li><li>廟前另有免費停車場</li></ul>
-</div>
 </details>
 </div>
 <div class="stop" id="d1s5">
 <p class="time">約 16:30–17:30</p>
-<h3>埔里・日月町複合式商場（Hizuki Town） <span class="lv lv-b">B</span></h3>
+<h3>埔里・日月町複合式商場（Hizuki Town） <span class="lv lv-b" title="B＝多個來源一致">B</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492009296">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 24 分 → 抓 30 分</dd><dt>停車</dt><dd>免費停車場（食尚玩家）</dd><dt>無障礙</dt><dd>主館有電梯、無障礙坡道（遊記 2026/9）</dd></dl></details><p class="info">埔里鎮中山路四段235-8號<br>電話 <a class="tel" href="tel:0492009296"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2009296</a><br>每天 09:00–18:00（Google 地圖）</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b" title="B＝多個來源一致">B</span></summary><dl><dt>車程</dt><dd>Google 24 分 → 抓 30 分</dd><dt>停車</dt><dd>免費停車場（食尚玩家）</dd><dt>無障礙</dt><dd>主館有電梯、無障礙坡道（遊記 2026/9）</dd></dl></details><p class="info">埔里鎮中山路四段235-8號<br>電話 <a class="tel" href="tel:0492009296"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2009296</a><br>每天 09:00–18:00（Google 地圖）</p>
 <details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>逛各樓層店家與戶外餐車區</li><li>可在 2 樓茶飲店或咖啡廳坐下休息</li><li>國道 6 號愛蘭交流道旁（食尚玩家）</li><li>1 樓日月本家：伴手禮（食尚玩家）</li><li>2 樓朝霧茶莊（台茶 18 號紅玉）、有益帖（草本茶）（食尚玩家）</li><li>2–3 樓 WIRED CAFE；3–4 樓蔦屋書店 TSUTAYA BOOKSTORE（食尚玩家）</li><li>戶外有餐車區（食尚玩家）</li><li><b>主館有電梯，也有無障礙坡道</b>；沒有手扶梯（兩篇遊記，最新一篇 2026/9）</li><li>Google 4.4 分（3,400 多則評論）</li></ul>
 <p class="gmap"><a href="https://supertaste.tvbs.com.tw/travel/350501" target="_blank" rel="noopener">食尚玩家介紹</a>　<a href="https://fullfenblog.tw/hizuki-town/" target="_blank" rel="noopener">遊記（2026/9，有電梯）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20Hizuki%20Town%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>地母廟開車約 30 分鐘（Google 24 分）</li><li>有免費停車場（食尚玩家）</li></ul>
-</div>
 </details>
 </div>
 <div class="stop meal" id="d1s6">
 <p class="time">17:40–19:10</p>
-<h3>晚餐・無所從來蔬食文創館 <span class="lv lv-a">A</span></h3>
+<h3>晚餐・無所從來蔬食文創館 <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492919007">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 7 分 → 抓 10 分</dd><dt>停車</dt><dd>免費停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">埔里鎮南安路788號<br>電話 <a class="tel" href="tel:0492919007"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2919007</a><br>每天 11:00–20:00，全年無休<br>最後點餐：官網寫 19:00，南投旅遊網寫 18:30</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 7 分 → 抓 10 分</dd><dt>停車</dt><dd>免費停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">埔里鎮南安路788號<br>電話 <a class="tel" href="tel:0492919007"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2919007</a><br>每天 11:00–20:00，全年無休<br>最後點餐：官網寫 19:00，南投旅遊網寫 18:30</p>
 <details class="intro"><summary>景點介紹</summary>
 <p class="tag">素食餐廳（全素＋蛋奶素）</p>
 <ul class="pts"><li>享用晚餐（套餐）</li><li>館內有文創商品區可以順便逛</li><li>Google 4.8 分</li></ul>
 <p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://www.instagram.com/nwnheewh/" target="_blank" rel="noopener">Instagram（店家）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
-<div class="go"><ul class="gol"><li>日月町開車約 10 分鐘（Google 7 分）</li><li>有免費停車場</li></ul>
-</div>
 </details>
 </div>
 <div class="stop stay" id="d1s7">
 <p class="time">約 19:50</p>
-<h3>入住・日月潭教師會館（住兩晚） <span class="lv lv-a">A</span></h3>
+<h3>入住・日月潭教師會館（住兩晚） <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492855991">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 約 26 分 → 抓 40 分</dd><dt>停車</dt><dd>會館專屬停車場，住客免費（官網）</dd><dt>無障礙</dt><dd>第一晚不外出，在湖景房休息；涵曦會館到早餐餐廳的路線未查到</dd></dl></details><p class="info">魚池鄉水社村中興路136號<br>電話 <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a><br>15:00 後入住、11:00 前退房</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 約 26 分 → 抓 40 分</dd><dt>停車</dt><dd>會館專屬停車場，住客免費（官網）</dd><dt>無障礙</dt><dd>第一晚不外出，在湖景房休息；涵曦會館到早餐餐廳的路線未查到</dd></dl></details><p class="info">魚池鄉水社村中興路136號<br>電話 <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a><br>15:00 後入住、11:00 前退房</p>
 <details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>房間是涵曦湖景房（官網房型名稱），入住後在房內休息、看夜湖</li><li>在涵碧半島上，緊鄰涵碧樓（官網）</li><li>會館有三棟：迎賓樓、涵曦會館、白如樓（官網）</li><li><b>辦入住在迎賓樓大廳</b>（兩篇住宿心得）</li><li>兩間房都在<b>涵曦會館</b>，含早餐：</li><li>涵曦湖景四人房（2 張雙人床），平日 4,800 元</li><li>涵曦湖景雙人房（1 張雙人床），平日 3,720 元</li><li>房內不提供拋棄式盥洗用品，須自備唷</li></ul>
 <p class="gmap"><a href="https://www.smlthotel.com.tw/" target="_blank" rel="noopener">官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>無所從來開車約 40 分鐘（Google 約 26 分）</li><li>會館專屬停車場，住客免費（官網）</li></ul>
-</div>
 </details>
 </div>
 </div>
 </section>
 <section id="p2" role="tabpanel" aria-labelledby="t2" hidden>
 <div class="amb" aria-hidden="true"><span class="leaf" style="--x:10vw;--t:15s;--dl:-2s;--s:0.89"></span><span class="leaf" style="--x:24vw;--t:18s;--dl:-8s;--s:0.99"></span><span class="leaf" style="--x:80vw;--t:14s;--dl:-18s;--s:1.02"></span><span class="leaf" style="--x:58vw;--t:20s;--dl:-16s;--s:1.13"></span><span class="leaf" style="--x:72vw;--t:21s;--dl:-16s;--s:0.86"></span><span class="leaf" style="--x:7vw;--t:14s;--dl:-11s;--s:0.94"></span><span class="leaf" style="--x:43vw;--t:20s;--dl:-13s;--s:1.11"></span></div>
-<div class="summary"><b>第二天・11/25（三）環湖・纜車</b><ul class="sl"><li>早餐 07:30–08:45，09:00 出發</li><li>上午：向山品嚐抹茶 → 沿湖南岸 → 日月潭纜車來回</li><li>中午魚池明雅午餐；下午：日月老茶廠買紅茶 → 雲品湖景下午茶兩小時</li><li>晚餐魚池阿芬素食館（全素），約 19:20 回會館停車，19:30 水社湖畔夜間散步，約 20:30 回房休息</li></ul>
-</div>
-<div class="route"><h4>行車看板</h4><ol class="board"><li class="br"><span class="bt"><b>07:30</b><small class="be">至 08:45</small></span><div class="bm"><a class="bn" href="#d2s1">早餐（會館桃李緣）</a></div></li><li class="br"><span class="bt"><small>約</small><b>09:15</b><small class="be">至 10:15</small></span><div class="bm"><a class="bn" href="#d2s2">向山遊客中心・茶茶小王子</a><p class="bs"><span>車程 約 15 分（Google 9 分）</span><span>停車 免費，小型車 104 格（管理處）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492341256" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>10:15</b></span><div class="bm"><a class="bn" href="#d2s3">沿湖南岸開往纜車站</a><p class="bs"><span>車程 約 35 分（Google 23 分）</span></p></div></li><li class="br"><span class="bt"><small>約</small><b>11:00</b><small class="be">至 11:50</small></span><div class="bm"><a class="bn" href="#d2s4">日月潭纜車（來回）</a><p class="bs"><span>停車 纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492850666" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>12:15</b><small class="be">至 13:45</small></span><div class="bm"><a class="bn" href="#d2s5">明雅小棧（午餐）</a><p class="bs"><span>車程 約 25 分（Google 19 分）</span><span>停車 門口與附近有停車場（南投旅遊網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492896929" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>13:55</b><small class="be">至 14:55</small></span><div class="bm"><a class="bn" href="#d2s6">日月老茶廠</a><p class="bs"><span>車程 約 10 分（Google 4 分）</span><span>停車 有停車場（管理處）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492895508" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>15:10</b><small class="be">至 17:10</small></span><div class="bm"><a class="bn" href="#d2s7">雲品大廳酒吧（下午茶）</a><p class="bs"><span>車程 約 10 分（Google 4 分）</span><span>停車 飯店室內及戶外停車場（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492212926" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>17:30</b><small class="be">至 19:00</small></span><div class="bm"><a class="bn" href="#d2s8">阿芬素食館（晚餐）</a><p class="bs"><span>車程 約 20 分（Google 12 分）</span><span>停車 <b>店家沒有停車位，停路邊</b>（蔬福生活）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492897761" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:20</b></span><div class="bm"><a class="bn" href="#d2s9">回教師會館停車</a><p class="bs"><span>車程 約 20 分（Google 12 分）</span><span>停車 住客免費；車停會館，走路去湖邊</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:30</b><small class="be">至 20:15</small></span><div class="bm"><a class="bn" href="#d2s10">水社碼頭周邊湖畔散步</a><p class="bs"><span>車程 走路約 9 分鐘、700 公尺（Google 多為平坦）</span><span>停車 不用開車</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmode=walking" target="_blank" rel="noopener">導航</a></span></li><li class="br"><span class="bt"><small>約</small><b>20:30</b></span><div class="bm"><a class="bn" href="#d2s11">回房休息</a><p class="bs"><span>車程 走路約 9 分鐘回會館</span></p></div></li></ol><p class="rbh">Google 地圖開車路線（含中途點）</p><div class="rbtns"><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&waypoints=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F%7C%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">會館 → 向山 → 纜車站 → 明雅</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&waypoints=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F%7C%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F%7C%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">明雅 → 日月老茶廠 → 雲品 → 阿芬 → 會館</a></div></div>
-<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="dsw" role="group" aria-label="切換天數"><button type="button" data-go="t1">第一天</button><button type="button" data-go="t2" class=on>第二天</button><button type="button" data-go="t3">第三天</button></div>
+<div class="ovw"><p class="ov-eb">當天總覽</p><h2 class="ovh"><span class="ov-d">第二天</span><span class="ov-chip">11/25（三）</span></h2><p class="ov-theme">向山抹茶・纜車環湖・雲品湖景・水社夜散步</p><div class="route"><ol class="board"><li class="br"><span class="bt"><b>07:30</b><small class="be">至 08:45</small></span><div class="bm"><a class="bn" href="#d2s1">早餐（會館桃李緣）</a></div></li><li class="br"><span class="bt"><small>約</small><b>09:15</b><small class="be">至 10:15</small></span><div class="bm"><a class="bn" href="#d2s2">向山遊客中心・茶茶小王子</a><p class="bs"><span>車程 約 15 分（Google 9 分）</span><span>停車 免費，小型車 104 格（管理處）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492341256" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>10:15</b></span><div class="bm"><a class="bn" href="#d2s3">沿湖南岸開往纜車站</a><p class="bs"><span>車程 約 35 分（Google 23 分）</span></p></div></li><li class="br"><span class="bt"><small>約</small><b>11:00</b><small class="be">至 11:50</small></span><div class="bm"><a class="bn" href="#d2s4">日月潭纜車（來回）</a><p class="bs"><span>停車 纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492850666" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>12:15</b><small class="be">至 13:45</small></span><div class="bm"><a class="bn" href="#d2s5">明雅小棧（午餐）</a><p class="bs"><span>車程 約 25 分（Google 19 分）</span><span>停車 門口與附近有停車場（南投旅遊網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492896929" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>13:55</b><small class="be">至 14:55</small></span><div class="bm"><a class="bn" href="#d2s6">日月老茶廠</a><p class="bs"><span>車程 約 10 分（Google 4 分）</span><span>停車 有停車場（管理處）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492895508" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>15:10</b><small class="be">至 17:10</small></span><div class="bm"><a class="bn" href="#d2s7">雲品大廳酒吧（下午茶）</a><p class="bs"><span>車程 約 10 分（Google 4 分）</span><span>停車 飯店室內及戶外停車場（官網）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492212926" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>17:30</b><small class="be">至 19:00</small></span><div class="bm"><a class="bn" href="#d2s8">阿芬素食館（晚餐）</a><p class="bs"><span>車程 約 20 分（Google 12 分）</span><span>停車 <b>店家沒有停車位，停路邊</b>（蔬福生活）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492897761" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:20</b></span><div class="bm"><a class="bn" href="#d2s9">回教師會館停車</a><p class="bs"><span>車程 約 20 分（Google 12 分）</span><span>停車 住客免費；車停會館，走路去湖邊</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a></span></li><li class="br"><span class="bt"><small>約</small><b>19:30</b><small class="be">至 20:15</small></span><div class="bm"><a class="bn" href="#d2s10">水社碼頭周邊湖畔散步</a><p class="bs"><span>車程 走路約 9 分鐘、700 公尺（Google 多為平坦）</span><span>停車 不用開車</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmode=walking" target="_blank" rel="noopener">導航</a></span></li><li class="br"><span class="bt"><small>約</small><b>20:30</b></span><div class="bm"><a class="bn" href="#d2s11">回房休息</a><p class="bs"><span>車程 走路約 9 分鐘回會館</span></p></div></li></ol><div class="legs"><span class="lg-h">全程路線</span><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&waypoints=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F%7C%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener" title="① 會館 → 向山 → 纜車站 → 明雅" aria-label="全程路線 ①：會館 → 向山 → 纜車站 → 明雅（Google 地圖開車路線）">①</a><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&waypoints=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F%7C%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F%7C%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener" title="② 明雅 → 日月老茶廠 → 雲品 → 阿芬 → 會館" aria-label="全程路線 ②：明雅 → 日月老茶廠 → 雲品 → 阿芬 → 會館（Google 地圖開車路線）">②</a></div><ul class="lgd"><li><b>①</b>會館 → 向山 → 纜車站 → 明雅</li><li><b>②</b>明雅 → 日月老茶廠 → 雲品 → 阿芬 → 會館</li></ul></div></div>
 <div class="tl">
 <div class="stop meal" id="d2s1">
 <p class="time">07:30–08:45</p>
 <h3>早餐・教師會館 桃李緣餐廳</h3>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>付款</dt><dd>房價含早餐</dd></dl></details><ul class="pts"><li>房價已含早餐，中式自助式（官網）</li><li>粥、包子饅頭、炒青菜、吐司麵包、水果等（住宿心得）</li><li><b>餐廳在一樓</b>（Google 地圖）；住宿心得寫在迎賓樓一樓</li><li>07:30 下樓，從容用餐一個多小時（官網：供應到 09:30）</li></ul>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>付款</dt><dd>房價含早餐</dd></dl></details><ul class="pts"><li>房價已含早餐，中式自助式（官網）</li><li>粥、包子饅頭、炒青菜、吐司麵包、水果等（住宿心得）</li><li><b>餐廳在一樓</b>（Google 地圖）；住宿心得寫在迎賓樓一樓</li><li>07:30 下樓，從容用餐一個多小時（官網：供應到 09:30）</li></ul>
 </div>
 <div class="stop" id="d2s2">
 <p class="time">約 09:15–10:15</p>
-<h3>向山遊客中心・茶茶小王子（抹茶） <span class="lv lv-a">A</span></h3>
+<h3>向山遊客中心・茶茶小王子（抹茶） <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492341256">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 9 分 → 抓 15 分</dd><dt>停車</dt><dd>免費，小型車 104 格（管理處）</dd><dt>無障礙</dt><dd>電梯、無障礙廁所與車位、可借輔具（管理處）</dd></dl></details><p class="info">魚池鄉中山路599號<br>遊客中心 <a class="tel" href="tel:0492341256"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2341256</a>：每天 09:00–17:00，全年無休<br>茶茶小王子 <a class="tel" href="tel:0492855027"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855027</a>：每天 09:30–17:30</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 9 分 → 抓 15 分</dd><dt>停車</dt><dd>免費，小型車 104 格（管理處）</dd><dt>無障礙</dt><dd>電梯、無障礙廁所與車位、可借輔具（管理處）</dd></dl></details><p class="info">魚池鄉中山路599號<br>遊客中心 <a class="tel" href="tel:0492341256"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2341256</a>：每天 09:00–17:00，全年無休<br>茶茶小王子 <a class="tel" href="tel:0492855027"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855027</a>：每天 09:30–17:30</p>
 <details class="intro"><summary>景點介紹</summary>
 <figure class="ph"><img src="https://www.sunmoonlake.gov.tw/fapi/Image?type=Attraction&refid=78&l=1&w=1280&h=768&id=324" alt="遊客中心的水池倒影" loading="lazy"><figcaption>照片：<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=78" target="_blank" rel="noopener">日月潭國家風景區管理處</a></figcaption></figure>
 <ul class="pts"><li>在遊客中心看湖：清水模建築，整片落地窗</li><li>「茶茶小王子」品嚐抹茶與抹茶甜點</li><li>遊客中心有電梯、無障礙廁所、無障礙車位，可借輔具（日月潭管理處）</li><li>這次不走步道，只在遊客中心</li></ul>
 <p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=78" target="_blank" rel="noopener">日月潭管理處：向山遊客中心</a>　<a href="https://www.matchaprince.com.tw/pages/store_xiangshang" target="_blank" rel="noopener">茶茶小王子官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E8%8C%B6%E8%8C%B6%E5%B0%8F%E7%8E%8B%E5%AD%90%20%E5%90%91%E5%B1%B1%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F" target="_blank" rel="noopener">Google 地圖網友照片（茶茶小王子）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>會館開車約 15 分鐘（Google 9 分）</li><li>停車免費，小型車 104 格（日月潭管理處）</li></ul>
-</div>
 </details>
 </div>
 <div class="stop ride" id="d2s3">
 <p class="time">約 10:15</p>
 <h3>向山 → 日月潭纜車站（沿湖南岸）</h3>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 23 分 → 抓 35 分；車上看月牙灣、頭社壩、玄光寺、玄奘寺、慈恩塔</dd><dt>無障礙</dt><dd>玄光寺要走台階、慈恩塔約 700 公尺石階，都不下車（管理處）</dd></dl></details><ul class="pts"><li>開車約 35 分鐘（Google 23 分）</li><li>車上可看月牙灣、頭社壩，經過玄光寺、玄奘寺、慈恩塔（不下車）</li></ul>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 23 分 → 抓 35 分；車上看月牙灣、頭社壩、玄光寺、玄奘寺、慈恩塔</dd><dt>無障礙</dt><dd>玄光寺要走台階、慈恩塔約 700 公尺石階，都不下車（管理處）</dd></dl></details><ul class="pts"><li>開車約 35 分鐘（Google 23 分）</li><li>車上可看月牙灣、頭社壩，經過玄光寺、玄奘寺、慈恩塔（不下車）</li></ul>
 </div>
 <div class="stop" id="d2s4">
 <p class="time">約 11:00–11:50</p>
-<h3>日月潭纜車（來回） <span class="lv lv-a">A</span></h3>
+<h3>日月潭纜車（來回） <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492850666">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>停車</dt><dd>纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</dd><dt>付款</dt><dd><b>只收現金或國民旅遊卡</b>；來回全票 420、65 歲以上 330（官網）</dd><dt>無障礙</dt><dd>電梯、坡道；車廂門寬 80 公分（官網）</dd><dt>備案</dt><dd>打雷或天候暫停：直接從向山往明雅（Google 約 14 分），明雅 11:00 開門，午餐可提早</dd><dt>要確認</dt><dd>11 月保養日：纜車官網「設施保養」10 月底公告</dd></dl></details><p class="info">魚池鄉日月村中正路102號<br>電話 <a class="tel" href="tel:0492850666"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850666</a><br>平日 10:30–16:00（售票 10:00–15:30）<br>來回：全票 420 元，65 歲以上 330 元（官網，2026/6/1 起）</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>停車</dt><dd>纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</dd><dt>付款</dt><dd><b>只收現金或國民旅遊卡</b>；來回全票 420、65 歲以上 330（官網）</dd><dt>無障礙</dt><dd>電梯、坡道；車廂門寬 80 公分（官網）</dd><dt>備案</dt><dd>打雷或天候暫停：直接從向山往明雅（Google 約 14 分），明雅 11:00 開門，午餐可提早</dd><dt>要確認</dt><dd>11 月保養日：纜車官網「設施保養」10 月底公告</dd></dl></details><p class="info">魚池鄉日月村中正路102號<br>電話 <a class="tel" href="tel:0492850666"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850666</a><br>平日 10:30–16:00（售票 10:00–15:30）<br>來回：全票 420 元，65 歲以上 330 元（官網，2026/6/1 起）</p>
 <details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>搭纜車到九族端再坐回來，從空中看日月潭與群山</li><li>只搭來回，不進九族文化村</li><li>單程約 7–10 分鐘（日月潭管理處）；到站一律下車，不能坐著直接回程（官網）</li><li>九族端一樓有紀念品店，給只搭纜車的旅客短暫停留再回去（官網）</li><li><b>只收現金或國民旅遊卡</b>（官網）</li><li>車廂門寬 80 公分、深 140 公分，代步車可以直接推進車廂；站內有電梯、坡道（官網）</li><li>每月第一個週三保養停駛（11 月是 11/4），11/25 有營運；打雷時會暫停（官網）</li><li>官網：懼高、心臟病、高血壓者不能搭</li></ul>
 <p class="gmap"><a href="https://www.ropeway.com.tw/page/about/index.aspx?kind=34" target="_blank" rel="noopener">纜車官網：票價</a>　<a href="https://www.ropeway.com.tw/page/about/index.aspx?kind=35" target="_blank" rel="noopener">纜車官網：營業時間</a>　<a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=58" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>纜車站停車場 381 格，09:00–18:00，每車停車清潔費 150 元（官網）</li></ul>
-</div>
 </details>
 </div>
 <div class="stop meal" id="d2s5">
 <p class="time">12:15–13:45</p>
-<h3>午餐・明雅小棧（魚池） <span class="lv lv-a">A</span></h3>
+<h3>午餐・明雅小棧（魚池） <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492896929">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 19 分 → 抓 25 分</dd><dt>停車</dt><dd>門口與附近有停車場（南投旅遊網）</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉魚池街557巷1號<br>電話 <a class="tel" href="tel:0492896929"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2896929</a><br>週一至週六 11:00–14:00｜週日公休</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 19 分 → 抓 25 分</dd><dt>停車</dt><dd>門口與附近有停車場（南投旅遊網）</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉魚池街557巷1號<br>電話 <a class="tel" href="tel:0492896929"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2896929</a><br>週一至週六 11:00–14:00｜週日公休</p>
 <details class="intro"><summary>景點介紹</summary>
 <p class="tag">素食餐廳（全素＋蛋奶素）</p>
 <ul class="pts"><li>享用午餐</li><li>2005 年開業，用自家栽種的有機蔬菜（南投旅遊網）</li><li>中式簡餐、鍋物、燴飯、麵食（南投旅遊網）</li></ul>
 <p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://vegemap.merit-times.com/restaurant_detail/%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7?list=2" target="_blank" rel="noopener">菜單照片（蔬福生活）</a>　<a href="https://www.facebook.com/%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7-123329284427517/" target="_blank" rel="noopener">Facebook</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
-<div class="go"><ul class="gol"><li>纜車站開車約 25 分鐘（Google 19 分）</li><li>門口與附近有停車場（南投旅遊網）</li></ul>
-</div>
 </details>
 </div>
 <div class="stop" id="d2s6">
 <p class="time">約 13:55–14:55</p>
-<h3>日月老茶廠（買日月潭紅茶）<svg class="teacup" viewBox="0 0 34 30" aria-hidden="true"><path class="stm" d="M11 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s2" d="M17 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s3" d="M23 11 q-3 -4 0 -7 q3 -3 0 -6"/><path d="M6 14 h22 v4 a9 9 0 0 1 -9 9 h-4 a9 9 0 0 1 -9 -9 z" fill="#B5835A"/><path d="M28 16 h2 a3 3 0 0 1 0 6 h-3" fill="none" stroke="#B5835A" stroke-width="2"/></svg> <span class="lv lv-b">B</span></h3>
+<h3>日月老茶廠（買日月潭紅茶）<svg class="teacup" viewBox="0 0 34 30" aria-hidden="true"><path class="stm" d="M11 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s2" d="M17 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s3" d="M23 11 q-3 -4 0 -7 q3 -3 0 -6"/><path d="M6 14 h22 v4 a9 9 0 0 1 -9 9 h-4 a9 9 0 0 1 -9 -9 z" fill="#B5835A"/><path d="M28 16 h2 a3 3 0 0 1 0 6 h-3" fill="none" stroke="#B5835A" stroke-width="2"/></svg> <span class="lv lv-b" title="B＝多個來源一致">B</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492895508">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 4 分 → 抓 10 分</dd><dt>停車</dt><dd>有停車場（管理處）</dd><dt>付款</dt><dd>免門票（遊記）</dd><dt>無障礙</dt><dd>遊記：停車後走一段木棧道，有高低落差</dd></dl></details><p class="info">魚池鄉中明村有水巷38號<br>電話 <a class="tel" href="tel:0492895508"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2895508</a><br>每天 08:00–17:00</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b" title="B＝多個來源一致">B</span></summary><dl><dt>車程</dt><dd>Google 4 分 → 抓 10 分</dd><dt>停車</dt><dd>有停車場（管理處）</dd><dt>付款</dt><dd>免門票（遊記）</dd><dt>無障礙</dt><dd>遊記：停車後走一段木棧道，有高低落差</dd></dl></details><p class="info">魚池鄉中明村有水巷38號<br>電話 <a class="tel" href="tel:0492895508"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2895508</a><br>每天 08:00–17:00</p>
 <details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>逛老茶廠、看傳統製茶機具</li><li>販售區試喝、買日月潭紅茶（紅玉、阿薩姆等）</li><li>前身是 1959 年建的「台灣農林公司魚池茶廠」（日月潭管理處）</li><li>有茶文化展示區、產品販售區可試喝；二樓餐廳要預約（日月潭管理處）</li><li>魚池一帶的紅茶有台茶 8 號阿薩姆、台茶 18 號紅玉、台茶 21 號紅韻（日月潭管理處）</li><li>免門票（多篇遊記）</li><li>Google 4.4 分（2,700 多則評論）</li></ul>
 <p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=96" target="_blank" rel="noopener">日月潭管理處</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>明雅開車約 10 分鐘（Google 4 分）</li><li>管理處寫有停車場、無障礙設施；遊記寫停車後要走一段木棧道，有高低落差</li></ul>
-</div>
 </details>
 </div>
 <div class="stop meal" id="d2s7">
 <p class="time">約 15:10–17:10</p>
-<h3>湖景下午茶・雲品溫泉酒店 大廳酒吧<svg class="teacup" viewBox="0 0 34 30" aria-hidden="true"><path class="stm" d="M11 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s2" d="M17 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s3" d="M23 11 q-3 -4 0 -7 q3 -3 0 -6"/><path d="M6 14 h22 v4 a9 9 0 0 1 -9 9 h-4 a9 9 0 0 1 -9 -9 z" fill="#B5835A"/><path d="M28 16 h2 a3 3 0 0 1 0 6 h-3" fill="none" stroke="#B5835A" stroke-width="2"/></svg> <span class="lv lv-a">A</span></h3>
+<h3>湖景下午茶・雲品溫泉酒店 大廳酒吧<svg class="teacup" viewBox="0 0 34 30" aria-hidden="true"><path class="stm" d="M11 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s2" d="M17 11 q-3 -4 0 -7 q3 -3 0 -6"/><path class="stm s3" d="M23 11 q-3 -4 0 -7 q3 -3 0 -6"/><path d="M6 14 h22 v4 a9 9 0 0 1 -9 9 h-4 a9 9 0 0 1 -9 -9 z" fill="#B5835A"/><path d="M28 16 h2 a3 3 0 0 1 0 6 h-3" fill="none" stroke="#B5835A" stroke-width="2"/></svg> <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492212926">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 約 4 分 → 抓 10 分</dd><dt>停車</dt><dd>飯店室內及戶外停車場（官網）</dd><dt>付款</dt><dd>雙人下午茶 1,980＋10%；或每人低消 350＋10%（官網）</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉中正路23號（3 樓大廳）<br>大廳酒吧訂位 <a class="tel" href="tel:0492212926"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212926</a>｜飯店總機 <a class="tel" href="tel:0492856788"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2856788</a><br>10:00–22:00</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 約 4 分 → 抓 10 分</dd><dt>停車</dt><dd>飯店室內及戶外停車場（官網）</dd><dt>付款</dt><dd>雙人下午茶 1,980＋10%；或每人低消 350＋10%（官網）</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉中正路23號（3 樓大廳）<br>大廳酒吧訂位 <a class="tel" href="tel:0492212926"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212926</a>｜飯店總機 <a class="tel" href="tel:0492856788"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2856788</a><br>10:00–22:00</p>
 <details class="intro"><summary>景點介紹</summary>
 <figure class="ph"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sun_Moon_Lake_View_from_Fleur_de_Chine_Hotel.JPG?width=640" alt="" loading="lazy"><figcaption>從雲品飯店看出去的日月潭｜照片：WeiHsiang Wang／CC BY-SA 4.0（<a href="https://commons.wikimedia.org/wiki/File:Sun_Moon_Lake_View_from_Fleur_de_Chine_Hotel.JPG" target="_blank" rel="noopener">Wikimedia Commons</a>）</figcaption></figure>
 <p class="tag">飯店酒吧（葷素都有）</p>
 <ul class="pts"><li>享用下午茶，坐看湖景、從容聊天兩小時</li><li>3 樓大廳酒吧，面對日月潭湖景，50 個座位（官網）</li><li>英式下午茶雙人 1,980 元＋10%（14:00–17:00）</li><li>也可只點飲品甜點，每人低消 350 元＋10%</li></ul>
 <p class="gmap"><a href="https://www.fleurdechinehotel.com/fdc_tw/pages/26/37/96" target="_blank" rel="noopener">官網（含下午茶內容）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
-<div class="go"><ul class="gol"><li>日月老茶廠開車約 10 分鐘（Google 約 4 分）</li><li>飯店有室內及戶外停車場</li></ul>
-</div>
 </details>
 </div>
 <div class="stop meal" id="d2s8">
 <p class="time">17:30–19:00</p>
-<h3>晚餐・阿芬素食館 <span class="lv lv-b">B</span></h3>
+<h3>晚餐・阿芬素食館 <span class="lv lv-b" title="B＝多個來源一致">B</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492897761">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd><b>店家沒有停車位，停路邊</b>（蔬福生活）</dd><dt>付款</dt><dd><b>只收現金</b>（蔬福生活）</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉魚池街349號<br>電話 <a class="tel" href="tel:0492897761"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2897761</a><br>晚餐 16:30–19:00｜週一公休</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b" title="B＝多個來源一致">B</span></summary><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd><b>店家沒有停車位，停路邊</b>（蔬福生活）</dd><dt>付款</dt><dd><b>只收現金</b>（蔬福生活）</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">魚池鄉魚池街349號<br>電話 <a class="tel" href="tel:0492897761"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2897761</a><br>晚餐 16:30–19:00｜週一公休</p>
 <details class="intro"><summary>景點介紹</summary>
 <p class="tag">全素餐廳</p>
 <ul class="pts"><li>享用晚餐</li><li>只收現金（蔬福生活）</li><li>19:00 打烊</li></ul>
 <p class="gmap"><a href="https://vegemap.merit-times.com/restaurant_detail/%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8" target="_blank" rel="noopener">蔬福生活（素食平台）</a>　<a href="https://food.suiis.com/menu.aspx?id=700096282" target="_blank" rel="noopener">菜單（素易食，網友整理）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
-<div class="go"><ul class="gol"><li>雲品開車約 20 分鐘（Google 約 12 分）</li><li>店家沒有停車位（蔬福生活），停路邊</li></ul>
-</div>
 </details>
 </div>
 <div class="stop ride" id="d2s9">
 <p class="time">約 19:20</p>
 <h3>回教師會館停車</h3>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd>住客免費；車停會館，走路去湖邊</dd></dl></details><ul class="pts"><li>阿芬開車約 20 分鐘（Google 12 分）</li><li>車停會館（住客免費），從會館直接推代步車去湖邊</li></ul>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd>住客免費；車停會館，走路去湖邊</dd></dl></details><ul class="pts"><li>阿芬開車約 20 分鐘（Google 12 分）</li><li>車停會館（住客免費），從會館直接推代步車去湖邊</li></ul>
 </div>
 <div class="stop" id="d2s10">
 <p class="time">約 19:30–20:15</p>
-<h3>水社碼頭周邊・湖畔夜間散步 <span class="lv lv-b">B</span></h3>
+<h3>水社碼頭周邊・湖畔夜間散步 <span class="lv lv-b" title="B＝多個來源一致">B</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmode=walking" target="_blank" rel="noopener">走路導航到這裡</a>
 </div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-b">B</span></summary><dl><dt>車程</dt><dd>走路約 9 分鐘、700 公尺（Google 多為平坦）</dd><dt>停車</dt><dd>不用開車</dd><dt>付款</dt><dd>免費</dd><dt>無障礙</dt><dd>無障礙斜坡木棧道、碼頭電梯（管理處）；停車場到碼頭有斜坡（評論）</dd></dl></details><details class="intro"><summary>景點介紹</summary>
+<details class="pd" open><summary>行車細節 <span class="lv lv-b" title="B＝多個來源一致">B</span></summary><dl><dt>車程</dt><dd>走路約 9 分鐘、700 公尺（Google 多為平坦）</dd><dt>停車</dt><dd>不用開車</dd><dt>付款</dt><dd>免費</dd><dt>無障礙</dt><dd>無障礙斜坡木棧道、碼頭電梯（管理處）；停車場到碼頭有斜坡（評論）</dd></dl></details><details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>從會館推代步車走到水社碼頭周邊，沿湖畔木棧道散步、看夜湖</li><li>會館走到碼頭約 700 公尺、9 分鐘，Google 步行路線標示多為平坦</li><li>碼頭周邊有無障礙斜坡木棧道，碼頭有電梯（日月潭管理處）</li><li>碼頭本體冬令 08:00–17:00 關閉，晚上在外圍湖畔走（日月潭管理處）</li><li>Google 評論（2026）：晚上寧靜、燈光穩定，有遊客散步</li><li>停車場到碼頭有不少斜坡，代步車慢慢走（Google 評論 2026/9）</li></ul>
 <p class="gmap"><a href="https://www.sunmoonlake.gov.tw/Attractions/Attractions?A=20&Id=148" target="_blank" rel="noopener">日月潭管理處 水社碼頭</a>　<a href="https://www.renkai1001.com/sun-moon-lake/night/walk/" target="_blank" rel="noopener">遊記（2026/2，夜間散步）</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
 </details>
@@ -760,21 +842,18 @@
 <div class="stop stay" id="d2s11">
 <p class="time">約 20:30</p>
 <h3>回房休息</h3>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>走路約 9 分鐘回會館</dd></dl></details><ul class="pts"><li>沿原路走回會館（約 9 分鐘）</li><li>早點休息，隔天 07:30 早餐</li></ul>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>走路約 9 分鐘回會館</dd></dl></details><ul class="pts"><li>沿原路走回會館（約 9 分鐘）</li><li>早點休息，隔天 07:30 早餐</li></ul>
 </div>
 </div>
 </section>
 <section id="p3" role="tabpanel" aria-labelledby="t3" hidden>
 <div class="amb" aria-hidden="true"><span class="petal" style="--x:33vw;--t:17s;--dl:-11s;--s:1.07"></span><span class="petal" style="--x:63vw;--t:16s;--dl:-19s;--s:0.71"></span><span class="petal" style="--x:63vw;--t:19s;--dl:-17s;--s:0.79"></span><span class="petal" style="--x:94vw;--t:22s;--dl:-17s;--s:1.03"></span><span class="petal" style="--x:63vw;--t:21s;--dl:-20s;--s:1.04"></span><span class="petal" style="--x:32vw;--t:17s;--dl:-16s;--s:0.86"></span></div>
-<div class="summary"><b>第三天・11/26（四）</b><ul class="sl"><li>早餐 07:30–08:45，約 09:15 退房</li><li>紫南宮商店街 → 中興新村午餐</li><li>約 13:50 返程，汐止約 17:30 到家</li></ul>
-</div>
-<div class="route"><h4>行車看板</h4><ol class="board"><li class="br"><span class="bt"><b>07:30</b><small class="be">至 08:45</small></span><div class="bm"><span class="bn">早餐，約 09:15 退房</span></div></li><li class="br"><span class="bt"><small>約</small><b>10:25</b><small class="be">至 11:20</small></span><div class="bm"><a class="bn" href="#d3s3">竹山紫南宮</a><p class="bs"><span>車程 約 1 小時 5–15 分（Google 47 分）</span><span>停車 廟方停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492623722" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>12:20</b><small class="be">至 13:50</small></span><div class="bm"><a class="bn" href="#d3s4">荷緣素食（中興新村）</a><p class="bs"><span>車程 約 55 分–1 小時（Google 39 分）</span><span>停車 未查</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492390455" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>13:50</b></span><div class="bm"><a class="bn" href="#d3s5">返程</a><p class="bs"><span>車程 回汐止 約 3 小時 20–40 分（Google 2 小時 50 分）；回台中 約 45 分（Google 34 分）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">回汐止</a><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">回台中</a></span></li></ol><p class="rbh">Google 地圖開車路線（含中途點）</p><div class="rbtns"><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&waypoints=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">會館 → 紫南宮 → 荷緣</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">荷緣 → 汐止</a><a class="rbtn" href="https://www.google.com/maps/dir/?api=1&origin=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&destination=%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">荷緣 → 台中</a></div></div>
-<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="dsw" role="group" aria-label="切換天數"><button type="button" data-go="t1">第一天</button><button type="button" data-go="t2">第二天</button><button type="button" data-go="t3" class=on>第三天</button></div>
+<div class="ovw"><p class="ov-eb">當天總覽</p><h2 class="ovh"><span class="ov-d">第三天</span><span class="ov-chip">11/26（四）</span></h2><p class="ov-theme">紫南宮・中興新村午餐・返程</p><div class="route"><ol class="board"><li class="br"><span class="bt"><b>07:30</b><small class="be">至 08:45</small></span><div class="bm"><span class="bn">早餐，約 09:15 退房</span></div></li><li class="br"><span class="bt"><small>約</small><b>10:25</b><small class="be">至 11:20</small></span><div class="bm"><a class="bn" href="#d3s3">竹山紫南宮</a><p class="bs"><span>車程 約 1 小時 5–15 分（Google 47 分）</span><span>停車 廟方停車場</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492623722" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><b>12:20</b><small class="be">至 13:50</small></span><div class="bm"><a class="bn" href="#d3s4">荷緣素食（中興新村）</a><p class="bs"><span>車程 約 55 分–1 小時（Google 39 分）</span><span>停車 未查</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航</a><a class="bcall" href="tel:0492390455" aria-label="打電話">📞</a></span></li><li class="br"><span class="bt"><small>約</small><b>13:50</b></span><div class="bm"><a class="bn" href="#d3s5">返程</a><p class="bs"><span>車程 回汐止 約 3 小時 20–40 分（Google 2 小時 50 分）；回台中 約 45 分（Google 34 分）</span></p></div><span class="bb"><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">回汐止</a><a class="bnav" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80&travelmode=driving" target="_blank" rel="noopener">回台中</a></span></li></ol><div class="legs"><span class="lg-h">全程路線</span><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&waypoints=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener" title="① 會館 → 紫南宮 → 荷緣" aria-label="全程路線 ①：會館 → 紫南宮 → 荷緣（Google 地圖開車路線）">①</a><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving" target="_blank" rel="noopener" title="② 荷緣 → 汐止" aria-label="全程路線 ②：荷緣 → 汐止（Google 地圖開車路線）">②</a><a class="lgp" href="https://www.google.com/maps/dir/?api=1&origin=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&destination=%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80&travelmode=driving" target="_blank" rel="noopener" title="③ 荷緣 → 台中" aria-label="全程路線 ③：荷緣 → 台中（Google 地圖開車路線）">③</a></div><ul class="lgd"><li><b>①</b>會館 → 紫南宮 → 荷緣</li><li><b>②</b>荷緣 → 汐止</li><li><b>③</b>荷緣 → 台中</li></ul></div></div>
 <div class="tl">
 <div class="stop meal" id="d3s1">
 <p class="time">07:30–08:45</p>
 <h3>早餐・教師會館 桃李緣餐廳</h3>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>付款</dt><dd>房價含早餐</dd></dl></details><ul class="pts"><li>房價已含早餐，中式自助式（官網）</li><li>粥、包子饅頭、炒青菜、吐司麵包、水果等（住宿心得）</li><li><b>餐廳在一樓</b>（Google 地圖）；住宿心得寫在迎賓樓一樓</li><li>07:30 下樓，從容用餐一個多小時（官網：供應到 09:30）</li></ul>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>付款</dt><dd>房價含早餐</dd></dl></details><ul class="pts"><li>房價已含早餐，中式自助式（官網）</li><li>粥、包子饅頭、炒青菜、吐司麵包、水果等（住宿心得）</li><li><b>餐廳在一樓</b>（Google 地圖）；住宿心得寫在迎賓樓一樓</li><li>07:30 下樓，從容用餐一個多小時（官網：供應到 09:30）</li></ul>
 </div>
 <div class="stop ride" id="d3s2">
 <p class="time">約 09:15</p>
@@ -783,35 +862,31 @@
 </div>
 <div class="stop" id="d3s3">
 <p class="time">約 10:25–11:20</p>
-<h3>竹山紫南宮・周邊商店街 <span class="lv lv-a">A</span></h3>
+<h3>竹山紫南宮・周邊商店街 <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492623722">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 47 分 → 抓 1 小時 5–15 分</dd><dt>停車</dt><dd>廟方停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">竹山鎮社寮里大公街40號<br>電話 <a class="tel" href="tel:0492623722"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2623722</a><br>每天 07:00–21:00</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 47 分 → 抓 1 小時 5–15 分</dd><dt>停車</dt><dd>廟方停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">竹山鎮社寮里大公街40號<br>電話 <a class="tel" href="tel:0492623722"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2623722</a><br>每天 07:00–21:00</p>
 <details class="intro"><summary>景點介紹</summary>
 <ul class="pts"><li>到紫南宮</li><li>逛廟前與周邊好幾條街的小吃、冷飲、水果攤、伴手禮店</li><li>竹山社寮的土地公廟（主祀福德正神），以「借發財金」聞名</li></ul>
 <p class="gmap"><a href="https://www.xn--6kry7q182a.tw/" target="_blank" rel="noopener">紫南宮官網</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
-<div class="go"><ul class="gol"><li>教師會館開車約 1 小時 5–15 分（Google 47 分）</li><li>廟方有停車場</li></ul>
-</div>
 </details>
 </div>
 <div class="stop meal" id="d3s4">
 <p class="time">12:20–13:50</p>
-<h3>午餐・荷緣素食（中興新村） <span class="lv lv-a">A</span></h3>
+<h3>午餐・荷緣素食（中興新村） <span class="lv lv-a" title="A＝官方來源">A</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492390455">📞 打電話</a></div>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>Google 39 分 → 抓 55 分–1 小時</dd><dt>停車</dt><dd>未查</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">南投市省府路89號<br>電話 <a class="tel" href="tel:0492390455"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2390455</a><br>週二至週日 11:00–14:00、17:00–19:30｜週一公休</p>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>Google 39 分 → 抓 55 分–1 小時</dd><dt>停車</dt><dd>未查</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></details><p class="info">南投市省府路89號<br>電話 <a class="tel" href="tel:0492390455"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2390455</a><br>週二至週日 11:00–14:00、17:00–19:30｜週一公休</p>
 <details class="intro"><summary>景點介紹</summary>
 <p class="tag">全素餐廳</p>
 <ul class="pts"><li>享用午餐（蔬食火鍋）</li><li>南投旅遊網：火鍋料不用加工品，有無糖豆漿</li></ul>
 <p class="gmap"><a href="https://travel.nantou.gov.tw/attractions/%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F/" target="_blank" rel="noopener">南投旅遊網</a>　<a href="https://food.suiis.com/menu.aspx?id=700020396" target="_blank" rel="noopener">菜單（素易食，網友整理）</a>　<a href="https://www.facebook.com/p/%E5%8D%97%E6%8A%95%E4%B8%AD%E8%88%88%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F-100057610382688/" target="_blank" rel="noopener">Facebook</a>　<a href="https://www.google.com/maps/search/?api=1&query=%E8%8D%B7%E7%B7%A3%E7%B4%A0%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82%E7%9C%81%E5%BA%9C%E8%B7%AF89%E8%99%9F" target="_blank" rel="noopener">Google 地圖（可看網友拍的店內照片）</a></p>
-<div class="go"><ul class="gol"><li>紫南宮開車約 55 分鐘–1 小時（Google 39 分）</li></ul>
-</div>
 </details>
 </div>
 <div class="stop ride" id="d3s5">
 <p class="time">約 13:50</p>
 <h3>中興新村 → 返程（自行開車）</h3>
-<details class="pd" open><summary>行車細節 <span class="lv lv-a">A</span></summary><dl><dt>車程</dt><dd>回汐止 Google 約 2 小時 50 分（216 公里）→ 抓 3 小時 20–40 分；回台中 Google 34 分 → 抓 45 分</dd></dl></details><ul class="pts"><li>回汐止：Google 約 2 小時 50 分（216 公里），含休息抓 3 小時 20–40 分，約 17:30 到家</li><li>回台中：約 45 分鐘（Google 34 分）</li></ul>
+<details class="pd" open><summary>行車細節 <span class="lv lv-a" title="A＝官方來源">A</span></summary><dl><dt>車程</dt><dd>回汐止 Google 約 2 小時 50 分（216 公里）→ 抓 3 小時 20–40 分；回台中 Google 34 分 → 抓 45 分</dd></dl></details><ul class="pts"><li>回汐止：Google 約 2 小時 50 分（216 公里），含休息抓 3 小時 20–40 分，約 17:30 到家</li><li>回台中：約 45 分鐘（Google 34 分）</li></ul>
 </div>
 </div>
 <div class="box">
@@ -822,7 +897,7 @@
 <section id="p4" role="tabpanel" aria-labelledby="t4" hidden>
 <div class="summary"><b>營業時間・公休</b><ul class="sl"><li>11/24–11/26 行程裡每個地點當天都有營業</li></ul>
 </div>
-<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><p class="dayhead">第一天・11/24（二）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>空也素麵食 <span class="lv lv-b">B</span></td><td>11:00–21:00</td><td><span class="ck" style="--i:0">✓</span>每天開</td></tr><tr><td>Feeling18℃ <span class="lv lv-a">A</span></td><td>平日 10:00–18:00</td><td><span class="ck" style="--i:1">✓</span>每天開</td></tr><tr><td>地母廟 <span class="lv lv-b">B</span></td><td>06:00–21:00</td><td><span class="ck" style="--i:2">✓</span>每天開</td></tr><tr><td>日月町 <span class="lv lv-b">B</span></td><td>09:00–18:00</td><td><span class="ck" style="--i:3">✓</span>每天開</td></tr><tr><td>無所從來 <span class="lv lv-a">A</span></td><td>11:00–20:00</td><td><span class="ck" style="--i:4">✓</span>全年無休</td></tr></tbody></table><p class="dayhead">第二天・11/25（三）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>向山遊客中心 <span class="lv lv-a">A</span></td><td>09:00–17:00</td><td><span class="ck" style="--i:0">✓</span>全年無休</td></tr><tr><td>茶茶小王子（向山） <span class="lv lv-b">B</span></td><td>09:30–17:30</td><td><span class="ck" style="--i:1">✓</span>每天開</td></tr><tr><td>日月潭纜車 <span class="lv lv-a">A</span></td><td>平日 10:30–16:00（售票到 15:30）</td><td>每月第一個週三（11/4）</td></tr><tr><td>明雅小棧 <span class="lv lv-a">A</span></td><td>11:00–14:00</td><td>週日</td></tr><tr><td>日月老茶廠 <span class="lv lv-a">A</span></td><td>08:00–17:00</td><td><span class="ck" style="--i:4">✓</span>每天開</td></tr><tr><td>雲品大廳酒吧 <span class="lv lv-a">A</span></td><td>10:00–22:00</td><td><span class="ck" style="--i:5">✓</span>每天開</td></tr><tr><td>阿芬素食館 <span class="lv lv-b">B</span></td><td>晚餐 16:30–19:00</td><td>週一</td></tr><tr><td>水社碼頭周邊湖畔 <span class="lv lv-a">A</span></td><td>外圍湖畔晚上可走（碼頭本體 08:00–17:00）</td><td><span class="ck" style="--i:7">✓</span>每天開</td></tr></tbody></table><p class="dayhead">第三天・11/26（四）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>紫南宮 <span class="lv lv-a">A</span></td><td>07:00–21:00</td><td><span class="ck" style="--i:0">✓</span>每天開</td></tr><tr><td>荷緣素食 <span class="lv lv-a">A</span></td><td>11:00–14:00</td><td>週一</td></tr></tbody></table><div class="box">
+<p class="dayhead">第一天・11/24（二）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>空也素麵食 <span class="lv lv-b" title="B＝多個來源一致">B</span></td><td>11:00–21:00</td><td><span class="ck" style="--i:0">✓</span>每天開</td></tr><tr><td>Feeling18℃ <span class="lv lv-a" title="A＝官方來源">A</span></td><td>平日 10:00–18:00</td><td><span class="ck" style="--i:1">✓</span>每天開</td></tr><tr><td>地母廟 <span class="lv lv-b" title="B＝多個來源一致">B</span></td><td>06:00–21:00</td><td><span class="ck" style="--i:2">✓</span>每天開</td></tr><tr><td>日月町 <span class="lv lv-b" title="B＝多個來源一致">B</span></td><td>09:00–18:00</td><td><span class="ck" style="--i:3">✓</span>每天開</td></tr><tr><td>無所從來 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>11:00–20:00</td><td><span class="ck" style="--i:4">✓</span>全年無休</td></tr></tbody></table><p class="dayhead">第二天・11/25（三）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>向山遊客中心 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>09:00–17:00</td><td><span class="ck" style="--i:0">✓</span>全年無休</td></tr><tr><td>茶茶小王子（向山） <span class="lv lv-b" title="B＝多個來源一致">B</span></td><td>09:30–17:30</td><td><span class="ck" style="--i:1">✓</span>每天開</td></tr><tr><td>日月潭纜車 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>平日 10:30–16:00（售票到 15:30）</td><td>每月第一個週三（11/4）</td></tr><tr><td>明雅小棧 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>11:00–14:00</td><td>週日</td></tr><tr><td>日月老茶廠 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>08:00–17:00</td><td><span class="ck" style="--i:4">✓</span>每天開</td></tr><tr><td>雲品大廳酒吧 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>10:00–22:00</td><td><span class="ck" style="--i:5">✓</span>每天開</td></tr><tr><td>阿芬素食館 <span class="lv lv-b" title="B＝多個來源一致">B</span></td><td>晚餐 16:30–19:00</td><td>週一</td></tr><tr><td>水社碼頭周邊湖畔 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>外圍湖畔晚上可走（碼頭本體 08:00–17:00）</td><td><span class="ck" style="--i:7">✓</span>每天開</td></tr></tbody></table><p class="dayhead">第三天・11/26（四）</p><table class="t"><thead><tr><th>地點</th><th>營業時間</th><th>公休</th></tr></thead><tbody><tr><td>紫南宮 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>07:00–21:00</td><td><span class="ck" style="--i:0">✓</span>每天開</td></tr><tr><td>荷緣素食 <span class="lv lv-a" title="A＝官方來源">A</span></td><td>11:00–14:00</td><td>週一</td></tr></tbody></table><div class="box">
 <h4>要留意</h4>
 <ul class="bl"><li>11/28（六）地方公職人員選舉，11/26（四）下午起返鄉車潮會變多，回程國道可能較塞。</li></ul>
 </div>
@@ -830,10 +905,10 @@
 <section id="p5" role="tabpanel" aria-labelledby="t5" hidden>
 <div class="summary"><b>其他餐廳選擇</b><ul class="sl"><li>依可替換的餐別排列（第一天到第三天）</li><li>同一餐裡，越前面越推薦替換</li></ul>
 </div>
-<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><p class="dayhead">可替換：第一天晚餐（無所從來）</p>
+<p class="dayhead">可替換：第一天晚餐（無所從來）</p>
 <div class="tl plain">
 <div class="stop meal">
-<h3>蕃茄園蔬食餐坊（林家蕃茄園） <span class="lv lv-b">B</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
+<h3>蕃茄園蔬食餐坊（林家蕃茄園） <span class="lv lv-b" title="B＝多個來源一致">B</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%95%83%E8%8C%84%E5%9C%92%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%92%B0%E8%B7%AF950%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492915101">📞 打電話</a></div>
 <p class="info">埔里鎮南環路950號<br>電話 <a class="tel" href="tel:0492915101"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2915101</a><br>每天 11:00–14:00、17:00–20:00</p>
@@ -843,7 +918,7 @@
 </details>
 </div>
 <div class="stop meal">
-<h3>田心心素蔬食餐坊 <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
+<h3>田心心素蔬食餐坊 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%94%B0%E5%BF%83%E5%BF%83%E7%B4%A0%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E4%B8%89%E8%B7%AF174%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492999351">📞 打電話</a></div>
 <p class="info">埔里鎮中正三路174號<br>電話 <a class="tel" href="tel:0492999351"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2999351</a><br>11:00–14:00、17:00–20:00｜週三公休</p>
@@ -854,7 +929,7 @@
 </details>
 </div>
 <div class="stop meal">
-<h3>樂川茶食 <span class="lv lv-b">B</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
+<h3>樂川茶食 <span class="lv lv-b" title="B＝多個來源一致">B</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%A8%82%E5%B7%9D%E8%8C%B6%E9%A3%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E8%88%88%E5%B7%B78%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492996076">📞 打電話</a></div>
 <p class="info">埔里鎮永興巷8號<br>電話 <a class="tel" href="tel:0492996076"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2996076</a><br>週二至週日 11:00–14:00、17:30–20:00｜週一公休</p>
@@ -865,7 +940,7 @@
 </details>
 </div>
 <div class="stop meal">
-<h3>平雲山都 中餐廳 <span class="lv lv-c">C</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）；可能週二公休</span></h3>
+<h3>平雲山都 中餐廳 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span><span class="area">埔里｜可替換：第一天晚餐（無所從來）；可能週二公休</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%B9%B3%E9%9B%B2%E5%B1%B1%E9%83%BD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E8%B1%90%E8%B7%AF12%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492930930">📞 打電話</a></div>
 <p class="info">埔里鎮一新里永豐路12號<br>電話 <a class="tel" href="tel:0492930930"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2930930</a>（分機 211、212）</p>
@@ -879,7 +954,7 @@
 <p class="dayhead">可替換：第二天下午茶（雲品）</p>
 <div class="tl plain">
 <div class="stop meal">
-<h3>漢來日月行館・星空酒廊 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午茶（雲品）</span></h3>
+<h3>漢來日月行館・星空酒廊 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">日月潭｜可替換：第二天下午茶（雲品）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%BC%A2%E4%BE%86%E6%97%A5%E6%9C%88%E8%A1%8C%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF139%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492212188">📞 打電話</a></div>
 <p class="info">魚池鄉中興路139號<br>電話 <a class="tel" href="tel:0492212188"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212188</a></p>
@@ -890,7 +965,7 @@
 </details>
 </div>
 <div class="stop meal">
-<h3>涵碧樓・湖光軒 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午茶（雲品）</span></h3>
+<h3>涵碧樓・湖光軒 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">日月潭｜可替換：第二天下午茶（雲品）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B6%B5%E7%A2%A7%E6%A8%93%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF142%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492855311">📞 打電話</a></div>
 <p class="info">魚池鄉中興路142號<br>電話 <a class="tel" href="tel:0492855311"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855311</a><br>午餐 11:30–15:00</p>
@@ -904,7 +979,7 @@
 <p class="dayhead">可替換：第二天晚餐（阿芬）</p>
 <div class="tl plain">
 <div class="stop meal">
-<h3>雲品 KEN CAN 粵菜 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天晚餐（阿芬）</span></h3>
+<h3>雲品 KEN CAN 粵菜 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">日月潭｜可替換：第二天晚餐（阿芬）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492212926">📞 打電話</a></div>
 <p class="info">魚池鄉中正路23號<br>電話 <a class="tel" href="tel:0492212926"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2212926</a></p>
@@ -918,7 +993,7 @@
 <p class="dayhead">可替換：第三天午餐（荷緣）</p>
 <div class="tl plain">
 <div class="stop meal">
-<h3>督賀蔬苑 <span class="lv lv-a">A</span><span class="area">草屯｜可替換：第三天午餐（荷緣）</span></h3>
+<h3>督賀蔬苑 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">草屯｜可替換：第三天午餐（荷緣）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%9D%A3%E8%B3%80%E8%94%AC%E8%8B%91%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E5%A2%A9%E7%85%8C%E8%B7%AF%E4%B8%89%E6%AE%B5168%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492357166">📞 打電話</a></div>
 <p class="info">草屯鎮墩煌路三段168號<br>電話 <a class="tel" href="tel:0492357166"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2357166</a><br>11:30–13:30、17:30–20:00｜<b>週二、週三公休</b></p>
@@ -933,10 +1008,10 @@
 <section id="p6" role="tabpanel" aria-labelledby="t6" hidden>
 <div class="summary"><b>其他景點參考</b><ul class="sl"><li>這次沒排進行程，可以參考的地方</li><li>依可替換的時段排列（第一天到第三天）；同一時段裡，越前面越推薦替換</li></ul>
 </div>
-<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><p class="dayhead">可替換：第一天下午（日月町）</p>
+<p class="dayhead">可替換：第一天下午（日月町）</p>
 <div class="tl plain">
 <div class="stop">
-<h3>賴爺爺蜜蜂小森林（原宏基蜜蜂生態農場） <span class="lv lv-b">B</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<h3>賴爺爺蜜蜂小森林（原宏基蜜蜂生態農場） <span class="lv lv-b" title="B＝多個來源一致">B</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%B3%B4%E7%88%BA%E7%88%BA%E8%9C%9C%E8%9C%82%E5%B0%8F%E6%A3%AE%E6%9E%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9799%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492980851">📞 打電話</a></div>
 <p class="info">埔里鎮慈恩街99號<br>電話 <a class="tel" href="tel:0492980851"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2980851</a><br>每天 08:00–17:00<br>Google 4.6 分（1,500 多則評論）</p>
@@ -948,7 +1023,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>埔里・廣興紙寮（手工造紙） <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<h3>埔里・廣興紙寮（手工造紙） <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%BB%A3%E8%88%88%E7%B4%99%E5%AF%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E9%90%B5%E5%B1%B1%E8%B7%AF310%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492913037">📞 打電話</a></div>
 <p class="info">埔里鎮鐵山路310號<br>電話 <a class="tel" href="tel:0492913037"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2913037</a><br>週二 09:00–17:00（週三只到 15:00）｜門票 50 元</p>
@@ -960,7 +1035,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>埔里・紙教堂新故鄉見學園區 <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<h3>埔里・紙教堂新故鄉見學園區 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%B4%99%E6%95%99%E5%A0%82%E6%96%B0%E6%95%85%E9%84%89%E8%A6%8B%E5%AD%B8%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%A1%83%E7%B1%B3%E5%B7%B752%E4%B9%8B12%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492914922">📞 打電話</a></div>
 <p class="info">埔里鎮桃米巷52之12號<br>電話 <a class="tel" href="tel:0492914922"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2914922</a><br>09:30–17:00（最晚 16:30 入園）｜週三公休（官網）；11/24（二）有開<br>門票 70 元，可折抵園區消費 20 元（官網）</p>
@@ -973,7 +1048,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>中台禪寺 <span class="lv lv-a">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
+<h3>中台禪寺 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">埔里｜可替換：第一天下午（日月町）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%AD%E5%8F%B0%E7%A6%AA%E5%AF%BA%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%8F%B0%E8%B7%AF2%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492930215">📞 打電話</a></div>
 <p class="info">埔里鎮一新里中台路2號<br>電話 <a class="tel" href="tel:0492930215"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2930215</a><br>每天 08:00–17:00</p>
@@ -986,7 +1061,7 @@
 <p class="dayhead">可替換：第二天下午（日月老茶廠）</p>
 <div class="tl plain">
 <div class="stop">
-<h3>水社碼頭・水社商圈 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
+<h3>水社碼頭・水社商圈 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492855668">📞 打電話</a></div>
 <p class="info">魚池鄉水社村名勝街11號<br>電話 <a class="tel" href="tel:0492855668"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855668</a></p>
@@ -999,7 +1074,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>伊達邵商圈 <span class="lv lv-a">A</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
+<h3>伊達邵商圈 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%BC%8A%E9%81%94%E9%82%B5%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E6%96%87%E5%8C%96%E8%A1%97127%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492850660">📞 打電話</a></div>
 <p class="info">伊達邵遊客中心：魚池鄉文化街127號<br>電話 <a class="tel" href="tel:0492850660"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850660</a><br>每天 09:00–17:00</p>
@@ -1011,7 +1086,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>日月潭遊湖船（環湖一圈） <span class="lv lv-b">B</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
+<h3>日月潭遊湖船（環湖一圈） <span class="lv lv-b" title="B＝多個來源一致">B</span><span class="area">日月潭｜可替換：第二天下午（日月老茶廠）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%BC%8A%E9%81%94%E9%82%B5%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492855120">📞 打電話</a></div>
 <p class="info">水社海觀光遊艇 <a class="tel" href="tel:0492855120"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855120</a></p>
@@ -1024,7 +1099,7 @@
 <p class="dayhead">可替換：第三天上午（紫南宮）</p>
 <div class="tl plain">
 <div class="stop">
-<h3>台灣工藝文化園區 <span class="lv lv-a">A</span><span class="area">草屯｜可替換：第三天上午（紫南宮）</span></h3>
+<h3>台灣工藝文化園區 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">草屯｜可替換：第三天上午（紫南宮）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E7%81%A3%E5%B7%A5%E8%97%9D%E6%96%87%E5%8C%96%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF573%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492334141">📞 打電話</a></div>
 <p class="info">草屯鎮中正路573號<br>電話 <a class="tel" href="tel:0492334141"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2334141</a><br>週二至週日 09:00–17:00｜週一休館（三天都有開）</p>
@@ -1036,7 +1111,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>竹山老街（林圮埔）・連興宮 <span class="lv lv-a">A</span><span class="area">竹山｜可替換：第三天上午（紫南宮）</span></h3>
+<h3>竹山老街（林圮埔）・連興宮 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">竹山｜可替換：第三天上午（紫南宮）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E7%AB%B9%E5%B1%B1%E9%80%A3%E8%88%88%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E4%B8%8B%E6%A9%AB%E8%A1%9728%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492642487">📞 打電話</a></div>
 <p class="info">連興宮：竹山鎮下橫街28號<br>電話 <a class="tel" href="tel:0492642487"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2642487</a><br>連興宮每天 06:00–21:00</p>
@@ -1048,7 +1123,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>集集車站 <span class="lv lv-a">A</span><span class="area">集集｜可替換：第三天上午（紫南宮）</span></h3>
+<h3>集集車站 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">集集｜可替換：第三天上午（紫南宮）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E9%9B%86%E9%9B%86%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%9B%86%E9%9B%86%E9%8E%AE%E6%B0%91%E7%94%9F%E8%B7%AF75%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492762546">📞 打電話</a></div>
 <p class="info">集集鎮民生路75號<br>電話 <a class="tel" href="tel:0492762546"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2762546</a><br>月台全天開放；大廳與售票窗口 08:00–17:00（日月潭管理處）</p>
@@ -1061,7 +1136,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>車埕木業展示館・車埕老街 <span class="lv lv-a">A</span><span class="area">水里｜可替換：第三天上午（紫南宮）</span></h3>
+<h3>車埕木業展示館・車埕老街 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">水里｜可替換：第三天上午（紫南宮）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E8%BB%8A%E5%9F%95%E6%9C%A8%E6%A5%AD%E5%B1%95%E7%A4%BA%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E6%B0%B4%E9%87%8C%E9%84%89%E8%BB%8A%E5%9F%95%E6%9D%91%E6%B0%91%E6%AC%8A%E5%B7%B7110-2%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 </div>
 <p class="info">水里鄉車埕村民權巷110-2號<br>冬季（11/1 起）平日 09:00–17:00，三天都有開<br>電話各來源不同（官網 049-2775668）</p>
@@ -1073,7 +1148,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>水里蛇窯陶藝文化園區 <span class="lv lv-a">A</span><span class="area">水里｜可替換：第三天上午（紫南宮）；只有 11/26 有開</span></h3>
+<h3>水里蛇窯陶藝文化園區 <span class="lv lv-a" title="A＝官方來源">A</span><span class="area">水里｜可替換：第三天上午（紫南宮）；只有 11/26 有開</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E9%87%8C%E8%9B%87%E7%AA%AF%E9%99%B6%E8%97%9D%E6%96%87%E5%8C%96%E5%9C%92%E5%8D%80%20%E5%8D%97%E6%8A%95%E7%B8%A3%E6%B0%B4%E9%87%8C%E9%84%89%E9%A0%82%E5%B4%81%E6%9D%91%E5%9B%9E%E7%AA%AF%E8%B7%AF16%E8%99%9F&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 <a class="callbtn" href="tel:0492770967">📞 打電話</a></div>
 <p class="info">水里鄉頂崁村回窯路16號<br>電話 <a class="tel" href="tel:0492770967"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2770967</a><br>08:30–17:30｜全票 160 元，65 歲以上 140 元</p>
@@ -1085,7 +1160,7 @@
 </details>
 </div>
 <div class="stop">
-<h3>中興新村 <span class="lv lv-c">C</span><span class="area">南投市｜可替換：第三天上午（紫南宮）</span></h3>
+<h3>中興新村 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span><span class="area">南投市｜可替換：第三天上午（紫南宮）</span></h3>
 <div class="act"><a class="navbtn" href="https://www.google.com/maps/dir/?api=1&destination=%E4%B8%AD%E8%88%88%E6%96%B0%E6%9D%91%E7%AC%AC%E4%B8%89%E5%B8%82%E5%A0%B4%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%8D%97%E6%8A%95%E5%B8%82&travelmode=driving" target="_blank" rel="noopener">導航到這裡</a>
 </div>
 <p class="info">第一市場：光華二路1之2號<br>第三市場：光榮西路13號<br>Google 地圖：第三市場<b>週二休</b>，其他天營業（各攤不同）</p>
@@ -1101,7 +1176,7 @@
 </div>
 <div class="box">
 <h4>查不到或說法不一</h4>
-<ul class="bl"><li><b>教師會館</b> <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a>：涵曦會館走到迎賓樓早餐餐廳的路線（要不要走戶外、有沒有電梯或坡道），官網與住宿心得都沒寫</li><li><b>無所從來</b> <a class="tel" href="tel:0492919007"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2919007</a>：最後點餐 18:30 或 19:00，兩個來源不同</li><li><b>伊達邵遊客中心</b>：日月潭管理處電話 <a class="tel" href="tel:0492850660"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850660</a>，Google 地圖寫 <a class="tel" href="tel:0492850289"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850289</a>（管理處登記為伊達邵碼頭電話）</li><li><b>紙教堂</b> <a class="tel" href="tel:0492914922"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2914922</a>：公休日官網寫週三，日月潭管理處寫週三、週四（11/24 週二兩邊都有開）；停車場到教堂的步道有沒有坡道，官網沒寫</li><li><b>地母廟</b> <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a>：平日車子能不能開到上方乾坤門停車場，遊記說法不完全一致</li><li><b>日月潭纜車</b>：11 月保養日以官網 10 月底公告為準（原則是每月第一個週三，11/4）</li><li><b>車程</b>：依 Google 地圖 9/28、10/10 查詢結果放寬，實際以當天路況為準</li></ul>
+<ul class="bl"><li><b>教師會館</b> <a class="tel" href="tel:0492855991"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2855991</a>：涵曦會館走到迎賓樓早餐餐廳的路線（要不要走戶外、有沒有電梯或坡道），官網與住宿心得都沒寫</li><li><b>無所從來</b> <a class="tel" href="tel:0492919007"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2919007</a>：最後點餐 18:30 或 19:00，兩個來源不同</li><li><b>伊達邵遊客中心</b>：日月潭管理處電話 <a class="tel" href="tel:0492850660"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850660</a>，Google 地圖寫 <a class="tel" href="tel:0492850289"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2850289</a>（管理處登記為伊達邵碼頭電話）</li><li><b>紙教堂</b> <a class="tel" href="tel:0492914922"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2914922</a>：公休日官網寫週三，日月潭管理處寫週三、週四（11/24 週二兩邊都有開）；停車場到教堂的步道有沒有坡道，官網沒寫</li><li><b>地母廟</b> <a class="tel" href="tel:0492982873"><svg class="hs" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>049-2982873</a>：平日車子能不能開到上方乾坤門停車場，遊記說法不完全一致</li><li><b>日月潭纜車</b>：11 月保養日以官網 10 月底公告為準（原則是每月第一個週三，11/4）</li></ul>
 </div>
 </section>
 <section id="p8" role="tabpanel" aria-labelledby="t8" hidden>
@@ -1126,42 +1201,42 @@
 <div class="pack"><h4>其他</h4><label><input type="checkbox"> <span>佛卡</span></label></div>
 </section>
 <section id="p9" role="tabpanel" aria-labelledby="t9" hidden>
-<div class="summary"><b>行車總表</b><ul class="sl"><li>開車、查路線用：車程、停車、付款、無障礙</li><li>車程寫法：Google 原始時間 → 放寬後的時間</li><li>每張行程卡片上方也有「行車細節」</li><li>一般版網址（沒有行車資料）：<a href="./">alinalaipy.github.io/nantou-trip/</a></li></ul>
+<div class="summary"><b>行車總表</b><ul class="sl"><li>開車、查路線用：車程、停車、付款、無障礙</li><li>每張行程卡片上方也有「行車細節」</li><li>一般版網址（沒有行車資料）：<a href="./">alinalaipy.github.io/nantou-trip/</a></li></ul>
 </div>
-<p class="legend">資料等級：<span class="lv lv-a">A</span> 官方來源　<span class="lv lv-b">B</span> 多個來源一致　<span class="lv lv-c">C</span> 單一來源或說法不一<br>車程以 Google 地圖（9/28 查詢）為準再放寬，含上下車、收放代步車的時間。</p><div class="box warn">
+<div class="box warn">
 <h4>出發前要準備</h4>
 <ul class="bl"><li><b>現金</b>：日月潭纜車只收現金或國民旅遊卡；阿芬素食館只收現金</li><li><b>纜車停駛日</b>：原則是每月第一個週三（11/4）；11 月公告在纜車官網「設施保養」，10 月底再看一次</li><li><b>11/26 回程</b>：11/28 地方選舉，下午起返鄉車潮可能變多</li></ul>
 </div>
 <p class="dayhead">第一天・11/24（二）</p>
 <div class="plan">
-<div class="plr"><p class="plt">約 09:00</p><h4>汐止出發 → 台中 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>國道 3 號／1 號，Google 2 小時 12 分（172 公里）→ 抓 2 小時 40 分–3 小時</dd></dl></div>
-<div class="plr"><p class="plt">12:00–13:30</p><h4>空也素麵食（龍門店） <span class="lv lv-b">B</span></h4><dl><dt>停車</dt><dd>店家未寫</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
-<div class="plr"><p class="plt">約 14:40–15:20</p><h4>Feeling18℃ <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 約 55 分 → 抓 1 小時 10 分</dd><dt>停車</dt><dd>店家 P1、P3 收費停車場（南安路），消費可折抵</dd><dt>無障礙</dt><dd>四間門市都有座位（官網）</dd></dl></div>
-<div class="plr"><p class="plt">約 15:30–16:00</p><h4>地母廟 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 6 分 → 抓 10 分</dd><dt>停車</dt><dd>開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</dd><dt>無障礙</dt><dd>主殿前廣場可到；最高的乾元殿要走階梯（遊記）</dd></dl></div>
-<div class="plr"><p class="plt">約 16:30–17:30</p><h4>日月町 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 24 分 → 抓 30 分</dd><dt>停車</dt><dd>免費停車場（食尚玩家）</dd><dt>無障礙</dt><dd>主館有電梯、無障礙坡道（遊記 2026/9）</dd></dl></div>
-<div class="plr"><p class="plt">17:40–19:10</p><h4>無所從來（晚餐） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 7 分 → 抓 10 分</dd><dt>停車</dt><dd>免費停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
-<div class="plr"><p class="plt">約 19:50</p><h4>日月潭教師會館（入住） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 約 26 分 → 抓 40 分</dd><dt>停車</dt><dd>會館專屬停車場，住客免費（官網）</dd><dt>無障礙</dt><dd>第一晚不外出，在湖景房休息；涵曦會館到早餐餐廳的路線未查到</dd></dl></div>
+<div class="plr"><p class="plt">約 09:00</p><h4>汐止出發 → 台中 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>國道 3 號／1 號，Google 2 小時 12 分（172 公里）→ 抓 2 小時 40 分–3 小時</dd></dl></div>
+<div class="plr"><p class="plt">12:00–13:30</p><h4>空也素麵食（龍門店） <span class="lv lv-b" title="B＝多個來源一致">B</span></h4><dl><dt>停車</dt><dd>店家未寫</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 14:40–15:20</p><h4>Feeling18℃ <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 約 55 分 → 抓 1 小時 10 分</dd><dt>停車</dt><dd>店家 P1、P3 收費停車場（南安路），消費可折抵</dd><dt>無障礙</dt><dd>四間門市都有座位（官網）</dd></dl></div>
+<div class="plr"><p class="plt">約 15:30–16:00</p><h4>地母廟 <span class="lv lv-b" title="B＝多個來源一致">B</span></h4><dl><dt>車程</dt><dd>Google 6 分 → 抓 10 分</dd><dt>停車</dt><dd>開往乾坤門方向的停車場（遊記）；廟前另有免費停車場</dd><dt>無障礙</dt><dd>主殿前廣場可到；最高的乾元殿要走階梯（遊記）</dd></dl></div>
+<div class="plr"><p class="plt">約 16:30–17:30</p><h4>日月町 <span class="lv lv-b" title="B＝多個來源一致">B</span></h4><dl><dt>車程</dt><dd>Google 24 分 → 抓 30 分</dd><dt>停車</dt><dd>免費停車場（食尚玩家）</dd><dt>無障礙</dt><dd>主館有電梯、無障礙坡道（遊記 2026/9）</dd></dl></div>
+<div class="plr"><p class="plt">17:40–19:10</p><h4>無所從來（晚餐） <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 7 分 → 抓 10 分</dd><dt>停車</dt><dd>免費停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 19:50</p><h4>日月潭教師會館（入住） <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 約 26 分 → 抓 40 分</dd><dt>停車</dt><dd>會館專屬停車場，住客免費（官網）</dd><dt>無障礙</dt><dd>第一晚不外出，在湖景房休息；涵曦會館到早餐餐廳的路線未查到</dd></dl></div>
 </div>
 <p class="dayhead">第二天・11/25（三）</p>
 <div class="plan">
-<div class="plr"><p class="plt">07:30–08:45</p><h4>早餐（會館桃李緣） <span class="lv lv-a">A</span></h4><dl><dt>付款</dt><dd>房價含早餐</dd></dl></div>
-<div class="plr"><p class="plt">約 09:15–10:15</p><h4>向山遊客中心・茶茶小王子 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 9 分 → 抓 15 分</dd><dt>停車</dt><dd>免費，小型車 104 格（管理處）</dd><dt>無障礙</dt><dd>電梯、無障礙廁所與車位、可借輔具（管理處）</dd></dl></div>
-<div class="plr"><p class="plt">約 10:15</p><h4>沿湖南岸開往纜車站 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 23 分 → 抓 35 分；車上看月牙灣、頭社壩、玄光寺、玄奘寺、慈恩塔</dd><dt>無障礙</dt><dd>玄光寺要走台階、慈恩塔約 700 公尺石階，都不下車（管理處）</dd></dl></div>
-<div class="plr"><p class="plt">約 11:00–11:50</p><h4>日月潭纜車（來回） <span class="lv lv-a">A</span></h4><dl><dt>停車</dt><dd>纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</dd><dt>付款</dt><dd><b>只收現金或國民旅遊卡</b>；來回全票 420、65 歲以上 330（官網）</dd><dt>無障礙</dt><dd>電梯、坡道；車廂門寬 80 公分（官網）</dd></dl></div>
-<div class="plr"><p class="plt">12:15–13:45</p><h4>明雅小棧（午餐） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 19 分 → 抓 25 分</dd><dt>停車</dt><dd>門口與附近有停車場（南投旅遊網）</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
-<div class="plr"><p class="plt">約 13:55–14:55</p><h4>日月老茶廠 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 4 分 → 抓 10 分</dd><dt>停車</dt><dd>有停車場（管理處）</dd><dt>付款</dt><dd>免門票（遊記）</dd><dt>無障礙</dt><dd>遊記：停車後走一段木棧道，有高低落差</dd></dl></div>
-<div class="plr"><p class="plt">約 15:10–17:10</p><h4>雲品大廳酒吧（下午茶） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 約 4 分 → 抓 10 分</dd><dt>停車</dt><dd>飯店室內及戶外停車場（官網）</dd><dt>付款</dt><dd>雙人下午茶 1,980＋10%；或每人低消 350＋10%（官網）</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
-<div class="plr"><p class="plt">17:30–19:00</p><h4>阿芬素食館（晚餐） <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd><b>店家沒有停車位，停路邊</b>（蔬福生活）</dd><dt>付款</dt><dd><b>只收現金</b>（蔬福生活）</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
-<div class="plr"><p class="plt">約 19:20</p><h4>回教師會館停車 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd>住客免費；車停會館，走路去湖邊</dd></dl></div>
-<div class="plr"><p class="plt">約 19:30–20:15</p><h4>水社碼頭周邊湖畔散步 <span class="lv lv-b">B</span></h4><dl><dt>車程</dt><dd>走路約 9 分鐘、700 公尺（Google 多為平坦）</dd><dt>停車</dt><dd>不用開車</dd><dt>付款</dt><dd>免費</dd><dt>無障礙</dt><dd>無障礙斜坡木棧道、碼頭電梯（管理處）；停車場到碼頭有斜坡（評論）</dd></dl></div>
-<div class="plr"><p class="plt">約 20:30</p><h4>回房休息 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>走路約 9 分鐘回會館</dd></dl></div>
+<div class="plr"><p class="plt">07:30–08:45</p><h4>早餐（會館桃李緣） <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>付款</dt><dd>房價含早餐</dd></dl></div>
+<div class="plr"><p class="plt">約 09:15–10:15</p><h4>向山遊客中心・茶茶小王子 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 9 分 → 抓 15 分</dd><dt>停車</dt><dd>免費，小型車 104 格（管理處）</dd><dt>無障礙</dt><dd>電梯、無障礙廁所與車位、可借輔具（管理處）</dd></dl></div>
+<div class="plr"><p class="plt">約 10:15</p><h4>沿湖南岸開往纜車站 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 23 分 → 抓 35 分；車上看月牙灣、頭社壩、玄光寺、玄奘寺、慈恩塔</dd><dt>無障礙</dt><dd>玄光寺要走台階、慈恩塔約 700 公尺石階，都不下車（管理處）</dd></dl></div>
+<div class="plr"><p class="plt">約 11:00–11:50</p><h4>日月潭纜車（來回） <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>停車</dt><dd>纜車站停車場 381 格，09:00–18:00，每車 150 元（官網）</dd><dt>付款</dt><dd><b>只收現金或國民旅遊卡</b>；來回全票 420、65 歲以上 330（官網）</dd><dt>無障礙</dt><dd>電梯、坡道；車廂門寬 80 公分（官網）</dd></dl></div>
+<div class="plr"><p class="plt">12:15–13:45</p><h4>明雅小棧（午餐） <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 19 分 → 抓 25 分</dd><dt>停車</dt><dd>門口與附近有停車場（南投旅遊網）</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 13:55–14:55</p><h4>日月老茶廠 <span class="lv lv-b" title="B＝多個來源一致">B</span></h4><dl><dt>車程</dt><dd>Google 4 分 → 抓 10 分</dd><dt>停車</dt><dd>有停車場（管理處）</dd><dt>付款</dt><dd>免門票（遊記）</dd><dt>無障礙</dt><dd>遊記：停車後走一段木棧道，有高低落差</dd></dl></div>
+<div class="plr"><p class="plt">約 15:10–17:10</p><h4>雲品大廳酒吧（下午茶） <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 約 4 分 → 抓 10 分</dd><dt>停車</dt><dd>飯店室內及戶外停車場（官網）</dd><dt>付款</dt><dd>雙人下午茶 1,980＋10%；或每人低消 350＋10%（官網）</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">17:30–19:00</p><h4>阿芬素食館（晚餐） <span class="lv lv-b" title="B＝多個來源一致">B</span></h4><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd><b>店家沒有停車位，停路邊</b>（蔬福生活）</dd><dt>付款</dt><dd><b>只收現金</b>（蔬福生活）</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 19:20</p><h4>回教師會館停車 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 12 分 → 抓 20 分</dd><dt>停車</dt><dd>住客免費；車停會館，走路去湖邊</dd></dl></div>
+<div class="plr"><p class="plt">約 19:30–20:15</p><h4>水社碼頭周邊湖畔散步 <span class="lv lv-b" title="B＝多個來源一致">B</span></h4><dl><dt>車程</dt><dd>走路約 9 分鐘、700 公尺（Google 多為平坦）</dd><dt>停車</dt><dd>不用開車</dd><dt>付款</dt><dd>免費</dd><dt>無障礙</dt><dd>無障礙斜坡木棧道、碼頭電梯（管理處）；停車場到碼頭有斜坡（評論）</dd></dl></div>
+<div class="plr"><p class="plt">約 20:30</p><h4>回房休息 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>走路約 9 分鐘回會館</dd></dl></div>
 </div>
 <p class="dayhead">第三天・11/26（四）</p>
 <div class="plan">
-<div class="plr"><p class="plt">07:30–08:45</p><h4>早餐，約 09:15 退房 <span class="lv lv-a">A</span></h4><dl></dl></div>
-<div class="plr"><p class="plt">約 10:25–11:20</p><h4>竹山紫南宮 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 47 分 → 抓 1 小時 5–15 分</dd><dt>停車</dt><dd>廟方停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
-<div class="plr"><p class="plt">12:20–13:50</p><h4>荷緣素食（中興新村） <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>Google 39 分 → 抓 55 分–1 小時</dd><dt>停車</dt><dd>未查</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
-<div class="plr"><p class="plt">約 13:50</p><h4>返程 <span class="lv lv-a">A</span></h4><dl><dt>車程</dt><dd>回汐止 Google 約 2 小時 50 分（216 公里）→ 抓 3 小時 20–40 分；回台中 Google 34 分 → 抓 45 分</dd></dl></div>
+<div class="plr"><p class="plt">07:30–08:45</p><h4>早餐，約 09:15 退房 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl></dl></div>
+<div class="plr"><p class="plt">約 10:25–11:20</p><h4>竹山紫南宮 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 47 分 → 抓 1 小時 5–15 分</dd><dt>停車</dt><dd>廟方停車場</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">12:20–13:50</p><h4>荷緣素食（中興新村） <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>Google 39 分 → 抓 55 分–1 小時</dd><dt>停車</dt><dd>未查</dd><dt>付款</dt><dd>未查</dd><dt>無障礙</dt><dd>未查</dd></dl></div>
+<div class="plr"><p class="plt">約 13:50</p><h4>返程 <span class="lv lv-a" title="A＝官方來源">A</span></h4><dl><dt>車程</dt><dd>回汐止 Google 約 2 小時 50 分（216 公里）→ 抓 3 小時 20–40 分；回台中 Google 34 分 → 抓 45 分</dd></dl></div>
 </div>
 <div class="box">
 <h4>備案</h4>
@@ -1183,6 +1258,9 @@
 <button type="button" class="top-fab" id="toTopFab" aria-label="回到最上面">↑</button>
 <button type="button" class="fontbtn" id="fontBtn" aria-pressed="false">字放大</button>
 <div class="nextbar" id="nextBar" aria-live="polite"><div class="nb-txt"><p class="nb-a"></p><p class="nb-b"></p><p class="nb-c"></p></div><div class="nb-go"></div></div>
+<nav class="daybar" id="dayBar" aria-label="快速切換">
+  <div class="db-seg"><button type="button" class="db-d" data-go="t1">第一天</button><button type="button" class="db-d" data-go="t2">第二天</button><button type="button" class="db-d" data-go="t3">第三天</button></div><button type="button" class="db-x" data-go="t9">總表</button><a class="vsw db-v" href="./">一般版</a>
+</nav>
 
 <script>
   (function () {
@@ -1329,7 +1407,16 @@
       var dd = Math.round((DAYS[0] - today) / 864e5), WK = '日一二三四五六';
       var flip = function (n) { return String(n).split('').map(function (c, i) { return '<span class="fl" style="--dl:' + (1.3 + i * 0.15) + 's">' + c + '</span>'; }).join(''); };
       var setc = function (dt, h) { document.getElementById('calD').textContent = dt.getDate(); document.getElementById('calW').textContent = '星期' + WK[dt.getDay()]; cd.innerHTML = h; cdw.hidden = false; };
-      if (dd > 0) setc(DAYS[0], '出發日<strong>還有 ' + flip(dd) + ' 天</strong>');
+      if (dd > 10) setc(DAYS[0], '出發日<strong>還有 ' + flip(dd) + ' 天</strong>');
+      else if (dd > 0) {   // 出發前 10 天：日曆外框發光、數字放大、10 顆點每過一天亮一顆、當天提醒
+        var dots = '<span class="cdots" aria-hidden="true">';
+        for (var di0 = 0; di0 < 10; di0++) dots += '<i' + (di0 < 10 - dd ? ' class="on" style="--i:' + di0 + '"' : '') + '></i>';
+        setc(DAYS[0], '出發日<strong>還有 ' + flip(dd) + ' 天</strong>' + dots + '</span>');
+        cdw.classList.add('l10');
+        var hr0 = document.querySelector('.hero'); if (hr0) hr0.classList.add('l10');
+        var CDTIPS = {"10": "開始準備行李，可以對照「<button type=\"button\" class=\"tiplink\" data-go=\"t8\">應備用品</button>」頁籤", "7": "中央氣象署一週預報已涵蓋出發日，可以<a href=\"https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000809\" target=\"_blank\" rel=\"noopener\">看天氣</a>", "5": "日月潭纜車 11 月保養日，看<a href=\"https://www.ropeway.com.tw/page/news/index.aspx?kind=15\" target=\"_blank\" rel=\"noopener\">纜車官網公告</a>", "2": "再看一次<a href=\"https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=1000809\" target=\"_blank\" rel=\"noopener\">天氣預報</a>，準備薄外套", "1": "手機、行動電源充飽電，行李對照應備用品"}, tip = document.getElementById('cdtip');
+        if (tip && CDTIPS[dd]) { tip.innerHTML = CDTIPS[dd]; tip.hidden = false; }
+      }
       else if (dd === 0) setc(DAYS[0], '今天<strong>出發！</strong>');
       else if (dd >= -2) setc(today, '旅途<strong>第 ' + flip(1 - dd) + ' 天</strong>');
     }
@@ -1472,6 +1559,41 @@
         setTimeout(function () { window.location.href = a.getAttribute('href'); }, 450);
       });
     });
+    // 11 一般版／行車版切換：保留網址 ?參數（例如 ?now= 測試）
+    if (location.search) document.querySelectorAll('a.vsw').forEach(function (a) { a.setAttribute('href', a.getAttribute('href').split('?')[0] + location.search); });
+    // 12 上方天數列：捲過頁籤才出現；點了切到那天、捲到那天內容的開頭
+    var dbar = document.getElementById('dayBar'), pick = document.querySelector('.pick'), html0 = document.documentElement;
+    function goTab(id) {
+      var t = document.getElementById(id); if (!t) return;
+      var pn = document.getElementById(t.getAttribute('aria-controls'));
+      document.querySelectorAll('[role=tabpanel]').forEach(function (x) { x.classList.remove('noin', 'dbin'); });
+      pn.classList.add('noin'); if (!RM) pn.classList.add('dbin');
+      show(id);
+      var y = pn.getBoundingClientRect().top + window.pageYOffset - (dbar ? 52 : 0) - 12;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+      setTimeout(onsc, 60); dbUpd();
+    }
+    function dbSel() {
+      if (!dbar) return;
+      dbar.querySelectorAll('.db-d, .db-x').forEach(function (b) { b.classList.toggle('on', document.getElementById(b.getAttribute('data-go')).getAttribute('aria-selected') === 'true'); });
+    }
+    function dbUpd() {
+      if (!dbar || !pick) return;
+      var on = pick.getBoundingClientRect().bottom < 56;
+      if (on !== html0.classList.contains('dbon')) { html0.classList.toggle('dbon', on); dbar.setAttribute('aria-hidden', on ? 'false' : 'true'); }
+    }
+    if (dbar) {
+      dbar.setAttribute('aria-hidden', 'true');
+      dbar.querySelectorAll('button[data-go]').forEach(function (b) { b.addEventListener('click', function () { goTab(b.getAttribute('data-go')); }); });
+      if ('MutationObserver' in window) new MutationObserver(dbSel).observe(pick, { subtree: true, attributes: true, attributeFilter: ['aria-selected'] });
+      var tk3 = false;
+      window.addEventListener('scroll', function () { if (!tk3) { tk3 = true; requestAnimationFrame(function () { dbUpd(); tk3 = false; }); } }, { passive: true });
+      window.addEventListener('resize', dbUpd);
+      document.getElementById('fontBtn').addEventListener('click', function () { setTimeout(dbUpd, 60); });
+      dbSel(); dbUpd();
+    }
+    // 出發前提醒裡的「應備用品」：開那個頁籤
+    document.querySelectorAll('.tiplink[data-go]').forEach(function (b) { b.addEventListener('click', function () { goTab(b.getAttribute('data-go')); }); });
   })();
 </script>
 </body>
