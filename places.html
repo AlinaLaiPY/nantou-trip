@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>埔里候選清單</title>
+<meta property="og:title" content="埔里候選清單">
+<meta property="og:description" content="Google 地圖清單 30 個埔里地點的營業時間、代步車、素食、停車查證，給同行者勾選。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #F6F3EC; --surface: #FFFFFF; --ink: #1F1D19; --ink-soft: #4E483F; --line: #DDD5C6;
+    --jade: #2A6355; --jade-soft: #E6EEEA; --vermilion: #A8422A; --vermilion-soft: #F7E9E3;
+    --amber: #9A6A12; --amber-soft: #F6EDD9;
+    --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+    --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --jade-rgb: 42, 99, 85; --jade-hi: #347766; --jade-deep: #1F4D42;
+    --r-card: 14px; --r-btn: 14px;
+    --card-bd: rgba(var(--jade-rgb), .14);
+    --card-sh: 0 6px 22px rgba(var(--jade-rgb), .08), 0 1px 2px rgba(var(--jade-rgb), .05);
+    --glass: rgba(255, 255, 255, .66); --glass-bd: rgba(var(--jade-rgb), .22);
+    --glass-blur: blur(10px) saturate(1.2);
+    --glass-sh: inset 0 1px 0 rgba(255, 255, 255, .9), 0 3px 12px rgba(var(--jade-rgb), .12);
+    --btn-grad: linear-gradient(180deg, var(--jade-hi) 0%, var(--jade) 55%, var(--jade-deep) 100%);
+    --btn-sh: inset 0 1px 0 rgba(255, 255, 255, .25), 0 6px 16px rgba(var(--jade-rgb), .26), 0 1px 3px rgba(var(--jade-rgb), .2);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 18px; line-height: 1.85;
+         -webkit-text-size-adjust: 100%; padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 30px 16px 40px; }
+  a { color: var(--jade); }
+  .top { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+  .gbtn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 16px; border-radius: var(--r-btn);
+          background: var(--glass); border: 1px solid var(--glass-bd); box-shadow: var(--glass-sh);
+          -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+          color: var(--jade-deep); font: 500 16px/1.3 var(--sans); text-decoration: none; cursor: pointer; }
+  h1 { font-family: var(--serif); font-weight: 700; font-size: 32px; line-height: 1.3; letter-spacing: .03em; margin: 0 0 6px; }
+  .subt { font-size: 16px; color: var(--ink-soft); margin: 0 0 18px; }
+  .summary { background: var(--jade-soft); border-radius: var(--r-card); padding: 14px 18px; margin: 0 0 12px; color: var(--ink-soft); }
+  .summary ul { margin: 0; padding-left: 20px; }
+  .summary b { color: var(--ink); }
+  .jump { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 12px; }
+  .jump a { justify-content: center; text-align: center; font-size: 16px; padding: 10px 6px; flex-direction: column; gap: 0; }
+  .jump a b { font-family: var(--serif); font-size: 22px; line-height: 1.2; }
+  .legend { font-size: 14px; color: var(--ink-soft); margin: 0 0 8px; line-height: 2; }
+  .lv { display: inline-block; font-family: var(--sans); font-size: 12px; font-weight: 700; line-height: 1; padding: 4px 6px;
+        border-radius: 4px; vertical-align: 2px; margin-left: 2px; letter-spacing: 0; }
+  .lv-a { background: var(--jade-soft); color: var(--jade); }
+  .lv-b { background: #ECEAE4; color: #5A5448; }
+  .lv-c { background: var(--amber-soft); color: var(--amber); }
+  section { scroll-margin-top: 12px; }
+  h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; letter-spacing: .05em; margin: 34px 0 6px;
+       padding-bottom: 8px; border-bottom: 2px solid var(--jade); display: flex; align-items: center; gap: 10px; }
+  #g-no h2 { border-color: #9C968C; }
+  h2 .n { display: inline-grid; place-items: center; min-width: 34px; height: 34px; border-radius: 50%; background: var(--btn-grad);
+          color: #fff; font: 700 17px/1 var(--sans); box-shadow: var(--btn-sh); }
+  #g-no h2 .n { background: #8A847A; box-shadow: none; }
+  .sub { font-family: var(--serif); font-weight: 700; font-size: 19px; color: var(--jade-deep); margin: 20px 0 8px; }
+  .card { background: var(--surface); border: 1px solid var(--card-bd); border-radius: var(--r-card); box-shadow: var(--card-sh);
+          padding: 16px 18px; margin: 0 0 12px; overflow: hidden; }
+  .card.on { border-color: var(--jade); box-shadow: 0 0 0 2px rgba(var(--jade-rgb), .35), var(--card-sh); }
+  .ph { margin: -16px -18px 12px; }
+  .ph img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--jade-soft); }
+  .ph figcaption { font-size: 13px; color: var(--ink-soft); padding: 4px 18px 0; }
+  .hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  h3 { font-family: var(--serif); font-size: 22px; line-height: 1.4; margin: 4px 0 6px; letter-spacing: .02em; }
+  .pick { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px 6px 10px;
+          border-radius: var(--r-btn); background: var(--glass); border: 1px solid var(--glass-bd); box-shadow: var(--glass-sh);
+          -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+          font: 500 17px/1 var(--sans); color: var(--jade-deep); cursor: pointer; }
+  .pick .box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--jade); background: #fff; position: relative; }
+  .pick[aria-pressed="true"] { background: var(--btn-grad); border-color: var(--jade-deep); box-shadow: var(--btn-sh); color: #fff; }
+  .pick[aria-pressed="true"] .box { border-color: #fff; background: rgba(255,255,255,.18); }
+  .pick[aria-pressed="true"] .box::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px;
+          border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+  .pick:focus-visible, .gbtn:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .tag { display: inline-block; margin: 0 0 8px; padding: 2px 12px; border-radius: 999px; background: var(--vermilion-soft);
+         color: var(--vermilion); font-size: 15px; }
+  .sell { margin: 0 0 8px; color: var(--ink-soft); }
+  .plan { margin: 0 0 10px; padding: 10px 14px 10px 32px; background: var(--jade-soft); border-radius: 10px; }
+  .plan li { margin: 2px 0; }
+  .row { border-top: 1px solid var(--line); padding: 10px 0 8px; }
+  .row p { margin: 0; color: var(--ink-soft); }
+  .row .k { font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .hrs { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .hrs li { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hrs .d { min-width: 6.2em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .hrs .on { font-variant-numeric: tabular-nums; }
+  .hrs .off { color: var(--vermilion); font-weight: 700; }
+  .src { font-size: 14px; }
+  .info { border-top: 1px solid var(--line); padding-top: 10px; margin: 2px 0 6px; font-size: 16px; color: var(--ink-soft); }
+  .links { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+  .links a { font-size: 16px; text-decoration: none; border-bottom: 1px solid var(--jade); }
+  .nowrap > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+          min-height: 48px; margin: 12px 0; border-radius: var(--r-btn); background: var(--glass); border: 1px solid var(--glass-bd);
+          box-shadow: var(--glass-sh); color: var(--jade-deep); font: 500 17px/1.3 var(--sans); }
+  .nowrap > summary::-webkit-details-marker { display: none; }
+  .nowrap > summary::after { content: "▾"; font-size: 14px; }
+  .nowrap[open] > summary::after { content: "▴"; }
+  .card.no { padding: 12px 16px; }
+  .card.no h3 { font-size: 19px; }
+  .why { margin: 0; color: var(--vermilion); }
+  .ex { margin: 4px 0 0; font-size: 16px; color: var(--ink-soft); }
+  footer { margin-top: 30px; font-size: 14px; color: var(--ink-soft); line-height: 1.9; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+         background: rgba(246, 243, 236, .78); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+         border-top: 1px solid var(--glass-bd); }
+  .bar .in { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
+  .bar .cnt { flex: 1; font-size: 17px; color: var(--ink); }
+  .bar button { min-height: 48px; padding: 8px 16px; border-radius: var(--r-btn); border: 1px solid var(--jade-deep);
+         background: var(--btn-grad); box-shadow: var(--btn-sh); color: #fff; font: 700 17px/1.2 var(--sans); cursor: pointer; }
+  .bar button:disabled { opacity: .45; cursor: default; }
+  .bar .clr { background: var(--glass); color: var(--jade-deep); border-color: var(--glass-bd); box-shadow: var(--glass-sh); font-weight: 500; }
+  .toast { position: fixed; left: 50%; bottom: calc(86px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 10;
+           background: var(--jade-deep); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 16px;
+           opacity: 0; pointer-events: none; transition: opacity .2s; max-width: calc(100% - 32px); }
+  .toast.show { opacity: 1; }
+  @media (max-width: 400px) { h1 { font-size: 28px; } .bar .cnt { font-size: 15px; } .bar button { padding: 8px 12px; font-size: 16px; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="gbtn" href="./">← 回行程</a></div>
+  <h1>埔里候選清單</h1>
+  <p class="subt">Google 地圖清單「埔里」30 個地點｜11/24（二）–11/26（四）｜2026/10/17 查證</p>
+  <div class="summary"><ul>
+    <li>第二、三天不經過埔里，所以都是看<b>第一天 11/24（二）</b>能不能安排</li>
+    <li>每一項都有寫出處；代步車資訊多半只查到 Google 地圖標示或照片，所以大多是 C</li>
+    <li>按「想去」，再按最下面「複製」，就能貼到 LINE 給大家</li>
+  </ul></div>
+  <nav class="jump" aria-label="分組">
+    <a class="gbtn" href="#g-fit"><b>1</b>適合排進</a>
+    <a class="gbtn" href="#g-alt"><b>8</b>可當備選</a>
+    <a class="gbtn" href="#g-no"><b>21</b>不適合</a>
+  </nav>
+  <p class="legend">資料等級：<span class="lv lv-a" title="A＝官方來源">A</span> 官方來源　<span class="lv lv-b" title="B＝多個來源一致">B</span> 多個來源一致　<span class="lv lv-c" title="C＝單一來源或說法不一">C</span> 單一來源或說法不一</p>
+<section id="g-fit"><h2><span class="n">1</span>適合排進行程</h2>
+<p class="sub">第一天・Feeling18℃ 之後順路外帶</p><article class="card" id="p14">
+<div class="hd"><h3>素得福素食包子饅頭</h3><button type="button" class="pick" data-id="14" data-name="素得福素食包子饅頭" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">全素</p>
+<p class="sell">老麵發酵手工包子、饅頭：麻婆豆腐、雪裡紅、香菇脆筍、芝麻、紅豆薏仁、堅果饅頭等（官網、評論）</p>
+<ul class="plan"><li>建議：第一天 Feeling18℃ 縮短為 14:40–15:10，約 15:15–15:25 到素得福外帶，地母廟 15:30 起照舊</li><li>可當伴手禮或隔天點心；評論提到包子多為常溫，回去要再蒸</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">08:00–19:30</span></li><li><span class="d">11/25（三）</span><span class="on">08:00–19:30</span></li><li><span class="d">11/26（四）</span><span class="on">08:00–19:30</span></li></ul><p class="src">Google 地圖 10/17</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><p>Google 標示「提供無障礙入口」；只外帶、沒有座位（HappyCow）</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-a" title="A＝官方來源">A</span></p><p>官網寫「專門提供全素的包子與饅頭，全素產線」</p><p>五辛官網沒寫；HappyCow（2021）提到部分餡料有蔥，買的時候要挑 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p></div>
+<div class="row"><p class="k">停車</p><p>查不到店家停車場，路邊停車</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>Feeling18℃ 開車約 5 分鐘（Google 3 分）；再到地母廟約 10 分鐘</p></div>
+<p class="info">埔里鎮忠孝路131號（Google 地圖寫 133 號）<br>電話 <a class="tel" href="tel:0492423135">049-2423135</a><br>Google 4.5 分（624 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E7%B4%A0%E5%BE%97%E7%A6%8F%E7%B4%A0%E9%A3%9F%E5%8C%85%E5%AD%90%E9%A5%85%E9%A0%AD%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF131%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a><a href="https://sudafuvegan.com/about/1" target="_blank" rel="noopener">官網</a><a href="https://www.facebook.com/su0958891128" target="_blank" rel="noopener">Facebook</a></p>
+</article>
+</section>
+<section id="g-alt"><h2><span class="n">8</span>可當備選</h2>
+<p class="sub">可替換：第一天晚餐（無所從來）</p><article class="card" id="p18">
+<div class="hd"><h3>蕃茄園蔬食餐坊（林家蕃茄園）</h3><button type="button" class="pick" data-id="18" data-name="蕃茄園蔬食餐坊（林家蕃茄園）" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食（蛋奶素為主，有全素）</p>
+<p class="sell">火鍋、套餐、定食、披薩、咖哩、猴頭菇（評論）</p>
+<ul class="plan"><li>行車版「其他餐廳選擇」已列；這次查證營業時間相同</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">11:00–14:00、17:00–20:00</span></li><li><span class="d">11/25（三）</span><span class="on">11:00–14:00、17:00–20:00</span></li><li><span class="d">11/26（四）</span><span class="on">11:00–14:00、17:00–20:00</span></li></ul><p class="src">Google 地圖 10/17（只有 Google 一個來源）</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>Google 標示「提供無障礙入口」；評論說店內寬敞、桌距大</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>HappyCow 標蛋奶素、有全素選項；菜單有焗烤、起司披薩；五辛查不到</p></div>
+<div class="row"><p class="k">停車</p><p>路邊停車；在台 14 線旁，評論提醒車多（Google 評論）</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>無所從來開車約 5 分鐘（Google 3 分）；日月町過來約 10 分鐘（Google 6 分）</p></div>
+<p class="info">埔里鎮南環路950號<br>電話 <a class="tel" href="tel:0492915101">049-2915101</a><br>Google 4.3 分（438 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E8%95%83%E8%8C%84%E5%9C%92%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%EF%BC%88%E6%9E%97%E5%AE%B6%E8%95%83%E8%8C%84%E5%9C%92%EF%BC%89%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%92%B0%E8%B7%AF950%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a><a href="https://www.facebook.com/LinJiaFanJiaYuan/" target="_blank" rel="noopener">Facebook</a></p>
+</article>
+<article class="card" id="p27">
+<figure class="ph"><img src="https://travel.nantou.gov.tw/wp-content/uploads/2023/10/%E9%98%BF%E6%B7%B1%E8%B6%8A%E5%8D%97%E8%94%AC%E9%A3%9F%40pengpopo888-850x851-1.jpg" alt="阿深越南蔬食的餐點" loading="lazy"><figcaption>照片：@pengpopo888，<a href="https://travel.nantou.gov.tw/attractions/%E9%98%BF%E6%B7%B1%E8%B6%8A%E5%8D%97%E8%94%AC%E9%A3%9F/" target="_blank" rel="noopener">南投旅遊網</a></figcaption></figure>
+<div class="hd"><h3>阿深越南蔬食</h3><button type="button" class="pick" data-id="27" data-name="阿深越南蔬食" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">全素（評論寫全店無蛋）</p>
+<p class="sell">河粉、米線、越式法國麵包、春捲、涼拌木瓜絲、咖哩飯，多數 80–100 元（評論、菜單照片）</p>
+<ul class="plan"><li>19:30 打烊，17:40 到店剛好；最後點餐時間查不到</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">10:30–15:00、16:30–19:30</span></li><li><span class="d">11/25（三）</span><span class="off">公休</span></li><li><span class="d">11/26（四）</span><span class="on">10:30–15:00、16:30–19:30</span></li></ul><p class="src">Google 地圖 10/17；gofunit 寫晚上到 20:00</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>店內照片：磁磚地面平坦、走道寬，評論說座位多；門口有沒有階梯查不到</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>越南老闆開的全素食店；評論寫全店無蛋；有沒有用奶、五辛查不到</p></div>
+<div class="row"><p class="k">停車</p><p>附近付費路邊停車；評論說不好停</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>無所從來開車約 5 分鐘（Google 4 分）；日月町過來約 15 分鐘（Google 10 分）</p></div>
+<p class="info">埔里鎮南昌街305號<br>電話 <a class="tel" href="tel:0492997150">049-2997150</a><br>Google 4.5 分（430 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E9%98%BF%E6%B7%B1%E8%B6%8A%E5%8D%97%E8%94%AC%E9%A3%9F%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E6%98%8C%E8%A1%97305%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a><a href="https://travel.nantou.gov.tw/attractions/%E9%98%BF%E6%B7%B1%E8%B6%8A%E5%8D%97%E8%94%AC%E9%A3%9F/" target="_blank" rel="noopener">南投旅遊網</a><a href="https://www.facebook.com/profile.php?id=100057497676943" target="_blank" rel="noopener">Facebook</a></p>
+</article>
+<article class="card" id="p28">
+<div class="hd"><h3>越南素食小吃</h3><button type="button" class="pick" data-id="28" data-name="越南素食小吃" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食（蛋奶素，可選不加蛋）</p>
+<p class="sell">河粉、米線、法國麵包、炸春捲、咖哩飯，多數 75–110 元（菜單照片）</p>
+<ul class="plan"><li>19:30 打烊；評論說老闆夫妻兩人出菜，要等</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">10:30–14:30、16:30–19:30</span></li><li><span class="d">11/25（三）</span><span class="on">10:30–14:30、16:30–19:30</span></li><li><span class="d">11/26（四）</span><span class="on">10:30–14:30、16:30–19:30</span></li></ul><p class="src">Google 地圖 10/17（週一公休）</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>Google 標示「不提供無障礙座位」；門口有沒有階梯查不到</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>菜單有蛋炒飯，其他炒飯可勾「不加蛋」；五辛查不到</p></div>
+<div class="row"><p class="k">停車</p><p>查不到停車場；評論說不好停車</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>Feeling18℃ 開車約 10 分鐘（Google 6 分）；日月町過來約 20 分鐘（Google 11–15 分）</p></div>
+<p class="info">埔里鎮中山路二段20-1號（寶雅隔壁）<br>電話 <a class="tel" href="tel:0492906960">049-2906960</a><br>Google 4.5 分（731 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B6%8A%E5%8D%97%E7%B4%A0%E9%A3%9F%E5%B0%8F%E5%90%83%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%BA%8C%E6%AE%B520-1%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+</article>
+<article class="card" id="p16">
+<div class="hd"><h3>田心心素蔬食餐坊</h3><button type="button" class="pick" data-id="16" data-name="田心心素蔬食餐坊" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食（全素＋蛋奶素）</p>
+<p class="sell">義大利麵、燉飯、火鍋、烙餅、披薩（南投旅遊網、gofunit）</p>
+<ul class="plan"><li>行車版「其他餐廳選擇」已列，寫「週三公休」；Google 現在是週三、週四都休</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">11:00–14:00、17:00–20:00</span></li><li><span class="d">11/25（三）</span><span class="off">公休</span></li><li><span class="d">11/26（四）</span><span class="off">公休</span></li></ul><p class="src">Google 地圖 10/17；gofunit、HappyCow 寫只有週三休、到 21:00</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>Google 標示「不提供無障礙座位」；在小巷內（gofunit）</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><p>有全素也有蛋奶素（gofunit）；有起司烤餅；五辛查不到</p></div>
+<div class="row"><p class="k">停車</p><p>查不到停車場；評論說沒地方停車</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>無所從來開車約 10 分鐘（Google 5 分）；日月町過來約 15 分鐘（Google 11 分）</p></div>
+<p class="info">埔里鎮中正三路174號<br>電話 <a class="tel" href="tel:0492999351">049-2999351</a><br>Google 4.3 分（797 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E7%94%B0%E5%BF%83%E5%BF%83%E7%B4%A0%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E4%B8%89%E8%B7%AF174%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a><a href="https://travel.nantou.gov.tw/attractions/%E7%94%B0%E5%BF%83%E5%BF%83%E7%B4%A0%E8%94%AC%E9%A3%9F%E9%A4%90%E5%9D%8A/" target="_blank" rel="noopener">南投旅遊網</a><a href="https://zh-tw.facebook.com/田心心蔬食餐坊-121331261214846/" target="_blank" rel="noopener">Facebook</a></p>
+</article>
+<article class="card" id="p10">
+<div class="hd"><h3>如意蔬食</h3><button type="button" class="pick" data-id="10" data-name="如意蔬食" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食（全素或蛋奶素查不到）</p>
+<p class="sell">麵、梅干菜飯、湯品、小菜（評論）</p>
+<ul class="plan"><li>評論提到飯類可能限量；附近另有一家名字很像的「如意素食」（中正路246-1號），不要找錯</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">10:30–14:00、16:30–20:00</span></li><li><span class="d">11/25（三）</span><span class="on">10:30–14:00、16:30–20:00</span></li><li><span class="d">11/26（四）</span><span class="off">公休</span></li></ul><p class="src">Google 地圖 10/17＋門口海報照片（2026/1）</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>單扇窄玻璃門，評論照片看起來門口有門檻或小高差</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>素食餐廳；全素或蛋奶素、五辛都查不到</p></div>
+<div class="row"><p class="k">停車</p><p>查不到，市區路邊停車</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>無所從來開車約 10 分鐘（Google 5 分）；日月町過來約 15 分鐘（Google 11 分）</p></div>
+<p class="info">埔里鎮八德路246號<br>電話 <a class="tel" href="tel:0955771280">0955-771280</a><br>Google 4.9 分（39 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A6%82%E6%84%8F%E8%94%AC%E9%A3%9F%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%85%AB%E5%BE%B7%E8%B7%AF246%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+</article>
+<p class="sub">第一天順路外帶・伴手禮</p><article class="card" id="p8">
+<div class="hd"><h3>小時候大餅（埔里）</h3><button type="button" class="pick" data-id="8" data-name="小時候大餅（埔里）" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食（招牌寫全素，有奶類口味）</p>
+<p class="sell">古早味大餅、包餡小圓餅（綠豆、芝麻、芋頭、紅豆、酸菜、高麗菜等），一個約 20 元</p>
+<ul class="plan"><li>可替換：第一天下午，日月町縮短 10 分鐘，17:20–17:30 去買再到無所從來</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">14:30–19:00</span></li><li><span class="d">11/25（三）</span><span class="on">14:30–19:00</span></li><li><span class="d">11/26（四）</span><span class="on">14:30–19:00</span></li></ul><p class="src">Google 地圖 10/17（週日公休）</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>騎樓下的開放式櫃台，門口路邊下車就能買（評論、照片）</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>招牌寫「全素」，但有牛奶、奶酥、起士口味；麵皮有沒有加蛋奶查不到</p></div>
+<div class="row"><p class="k">停車</p><p>評論說門口可以暫時路邊停車</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>無所從來開車約 5 分鐘（Google 2 分）</p></div>
+<p class="info">埔里鎮中山路三段480號<br>電話 <a class="tel" href="tel:0953003116">0953-003116</a><br>Google 4.4 分（65 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E6%99%82%E5%80%99%E5%A4%A7%E9%A4%85%EF%BC%88%E5%9F%94%E9%87%8C%EF%BC%89%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5480%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p>
+</article>
+<article class="card" id="p30">
+<figure class="ph"><img src="https://travel.nantou.gov.tw/wp-content/uploads/2023/10/%E5%9C%88%E5%9C%88%E5%A4%A7%E9%BC%93%E9%A4%85%40veg_quan-850x841-1.jpg" alt="圈圈大鼓餅" loading="lazy"><figcaption>照片：@veg_quan，<a href="https://travel.nantou.gov.tw/attractions/%E5%9C%88%E5%9C%88%E5%A4%A7%E9%BC%93%E9%A4%85/" target="_blank" rel="noopener">南投旅遊網</a></figcaption></figure>
+<div class="hd"><h3>圈圈大鼓餅</h3><button type="button" class="pick" data-id="30" data-name="圈圈大鼓餅" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食（店家分奶素、純素口味）</p>
+<p class="sell">素食車輪餅：紅豆、芋頭、奶油、高麗菜、花生麻糬、玉米菇菇等</p>
+<ul class="plan"><li>可替換：第一天下午，Feeling18℃ 縮短 15 分鐘</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">14:00–18:00</span></li><li><span class="d">11/25（三）</span><span class="on">14:00–18:00</span></li><li><span class="d">11/26（四）</span><span class="on">14:00–18:00</span></li></ul><p class="src">Google 地圖 10/17；gofunit 寫 14:30 開</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>巷內外帶小攤；門口有沒有階梯查不到</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><p>Google 店名標「奶素、純素」，評論說純素口味不少；鹹口味有沒有五辛查不到</p></div>
+<div class="row"><p class="k">停車</p><p>查不到，路邊停車</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>Feeling18℃ 開車約 10 分鐘（Google 6 分）</p></div>
+<p class="info">埔里鎮建國路39-4號（巷內）<br>電話 <a class="tel" href="tel:0912177992">0912-177992</a><br>Google 4.7 分（107 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%9C%88%E5%9C%88%E5%A4%A7%E9%BC%93%E9%A4%85%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BB%BA%E5%9C%8B%E8%B7%AF39-4%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a><a href="https://travel.nantou.gov.tw/attractions/%E5%9C%88%E5%9C%88%E5%A4%A7%E9%BC%93%E9%A4%85/" target="_blank" rel="noopener">南投旅遊網</a><a href="https://www.facebook.com/760342704168171" target="_blank" rel="noopener">Facebook</a></p>
+</article>
+<article class="card" id="p4">
+<div class="hd"><h3>埔里南安路柳家（草仔粿）</h3><button type="button" class="pick" data-id="4" data-name="埔里南安路柳家（草仔粿）" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">葷素都有</p>
+<p class="sell">草仔粿、芋仔粿、紅龜粿、蘿蔔糕</p>
+<ul class="plan"><li>可替換：第一天下午，Feeling18℃ 縮短 10 分鐘；河南路另有一家「柳家傳統米食」，是不同店</li></ul>
+<div class="row"><p class="k">營業時間 <span class="lv lv-b" title="B＝多個來源一致">B</span></p><ul class="hrs"><li><span class="d">11/24（二）</span><span class="on">08:00–18:00</span></li><li><span class="d">11/25（三）</span><span class="on">08:00–18:00</span></li><li><span class="d">11/26（四）</span><span class="on">08:00–18:00</span></li></ul><p class="src">Google 地圖 10/17；遊記寫賣完就收、不定期公休</p></div>
+<div class="row"><p class="k">代步車 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>外帶店面，評論說路邊方便臨停採買</p></div>
+<div class="row"><p class="k">素食 <span class="lv lv-c" title="C＝單一來源或說法不一">C</span></p><p>素口味（蘿蔔絲、香菇）貼一片葉子當記號（遊記 2022）；也有葷口味；五辛查不到</p></div>
+<div class="row"><p class="k">停車</p><p>路邊臨停（遊記、評論）</p></div>
+<div class="row"><p class="k">離哪一站近</p><p>Feeling18℃ 開車約 5 分鐘（Google 4 分）</p></div>
+<p class="info">埔里鎮南安路175號<br>電話 <a class="tel" href="tel:0988290973">0988-290973</a><br>Google 4.7 分（203 則評論）</p>
+<p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%9F%94%E9%87%8C%E5%8D%97%E5%AE%89%E8%B7%AF%E6%9F%B3%E5%AE%B6%EF%BC%88%E8%8D%89%E4%BB%94%E7%B2%BF%EF%BC%89%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF175%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a><a href="https://travel.yam.com/article/128391" target="_blank" rel="noopener">遊記（蕃薯藤 2022）</a></p>
+</article>
+</section>
+<section id="g-no"><h2><span class="n">21</span>不適合</h2>
+<details class="nowrap"><summary>看不適合的地點與原因</summary>
+<article class="card no" id="p25"><div class="hd"><h3>Feeling18巧克力工房</h3><button type="button" class="pick" data-id="25" data-name="Feeling18巧克力工房" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">巧克力・伴手禮</p><p class="why">已在第一天行程（Feeling18℃）</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Feeling18%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p1"><div class="hd"><h3>日月町複合式商場</h3><button type="button" class="pick" data-id="1" data-name="日月町複合式商場" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">商場</p><p class="why">已在第一天行程（16:30–17:30）</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E6%97%A5%E6%9C%88%E7%94%BA%E8%A4%87%E5%90%88%E5%BC%8F%E5%95%86%E5%A0%B4%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p20"><div class="hd"><h3>無所從來蔬食文創館</h3><button type="button" class="pick" data-id="20" data-name="無所從來蔬食文創館" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">素食餐廳</p><p class="why">已在第一天行程（晚餐）</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p2"><div class="hd"><h3>Feeling18 LAB 烘焙研究所</h3><button type="button" class="pick" data-id="2" data-name="Feeling18 LAB 烘焙研究所" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">烘焙・咖啡</p><p class="why">和 Feeling18℃ 同品牌（三天不重複）；沒有全素品項</p><p class="ex">營業三天都是 10:00–18:00（官網）；Google 標示無障礙入口、洗手間、停車場；免費停車</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Feeling18%20LAB%20%E7%83%98%E7%84%99%E7%A0%94%E7%A9%B6%E6%89%80%20%E5%9F%94%E9%87%8C%E9%8E%AE%E6%A1%83%E5%8D%97%E8%B7%AF69%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p3"><div class="hd"><h3>Feeling18 靠山咖哩中心店</h3><button type="button" class="pick" data-id="3" data-name="Feeling18 靠山咖哩中心店" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">咖哩麵包</p><p class="why">和 Feeling18℃ 同品牌；評論說咖哩內餡用牛油，不是素食</p><p class="ex">剛開幕，評論說空間擠、停車位少</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Feeling18%20%E9%9D%A0%E5%B1%B1%E5%92%96%E5%93%A9%E4%B8%AD%E5%BF%83%E5%BA%97%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%80%E6%AE%B5431%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p24"><div class="hd"><h3>雅池園</h3><button type="button" class="pick" data-id="24" data-name="雅池園" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">素食餐廳</p><p class="why">之前已確認無法替換</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E9%9B%85%E6%B1%A0%E5%9C%92%20%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%92%B0%E8%B7%AF952%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p23"><div class="hd"><h3>守匠日式甜點</h3><button type="button" class="pick" data-id="23" data-name="守匠日式甜點" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">蛋奶素（官網每項都有標示）</p><p class="why">門口有一階木製踏階（街景 2025/10）；沒有全素品項</p><p class="ex">就在 Feeling18℃ 旁 45 公尺；三天 10:00–18:00（官網）</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%AE%88%E5%8C%A0%E6%97%A5%E5%BC%8F%E7%94%9C%E9%BB%9E%20%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9715%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p17"><div class="hd"><h3>Yang.café（水果醋・伴手禮）</h3><button type="button" class="pick" data-id="17" data-name="Yang.café（水果醋・伴手禮）" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">伴手禮</p><p class="why">騎樓比路面高一階，店前斜板能不能走查不到；商品沒有素食或成分標示</p><p class="ex">Feeling18℃ 旁 57 公尺；週日公休，其他天 09:00–21:00</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Yang.caf%C3%A9%EF%BC%88%E6%B0%B4%E6%9E%9C%E9%86%8B%E3%83%BB%E4%BC%B4%E6%89%8B%E7%A6%AE%EF%BC%89%20%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9711%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p19"><div class="hd"><h3>藍色城堡 茱諾法式甜點</h3><button type="button" class="pick" data-id="19" data-name="藍色城堡 茱諾法式甜點" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">葷素都有</p><p class="why">葷素都有、沒有全素甜點；營業時間只有舊遊記</p><p class="ex">日月町旁；Google 標示無障礙入口與停車</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E8%97%8D%E8%89%B2%E5%9F%8E%E5%A0%A1%20%E8%8C%B1%E8%AB%BE%E6%B3%95%E5%BC%8F%E7%94%9C%E9%BB%9E%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5185%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p26"><div class="hd"><h3>逗花.豆花</h3><button type="button" class="pick" data-id="26" data-name="逗花.豆花" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">豆花</p><p class="why">Google 標示「不提供無障礙入口」；素食資訊查不到</p><p class="ex">三天 13:00–21:00</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E9%80%97%E8%8A%B1.%E8%B1%86%E8%8A%B1%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%BB%81%E6%84%9B%E8%B7%AF239%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p13"><div class="hd"><h3>鮮境甜甜圈、雙胞胎</h3><button type="button" class="pick" data-id="13" data-name="鮮境甜甜圈、雙胞胎" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">炸點心</p><p class="why">麵糰有沒有蛋奶、炸油、酸菜包有沒有肉都查不到</p><p class="ex">14:40–17:00，賣完就收</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E9%AE%AE%E5%A2%83%E7%94%9C%E7%94%9C%E5%9C%88%E3%80%81%E9%9B%99%E8%83%9E%E8%83%8E%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p5"><div class="hd"><h3>蓮心圓素食海苔飯捲</h3><button type="button" class="pick" data-id="5" data-name="蓮心圓素食海苔飯捲" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">素食</p><p class="why">店內只有 2 桌；營業時間只有 Google 一個來源</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E8%93%AE%E5%BF%83%E5%9C%93%E7%B4%A0%E9%A3%9F%E6%B5%B7%E8%8B%94%E9%A3%AF%E6%8D%B2%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5187%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p12"><div class="hd"><h3>Mica 蔬食</h3><button type="button" class="pick" data-id="12" data-name="Mica 蔬食" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">素食</p><p class="why">只開 11:00–15:00，沒有晚餐；Google 標示不提供無障礙座位</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Mica%20%E8%94%AC%E9%A3%9F%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF210-7%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p22"><div class="hd"><h3>沒有豆花</h3><button type="button" class="pick" data-id="22" data-name="沒有豆花" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">豆花</p><p class="why">11/24（二）公休；店內只有吧台高腳椅</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B2%92%E6%9C%89%E8%B1%86%E8%8A%B1%20%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B524%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p7"><div class="hd"><h3>瀾島 花型檸檬塔</h3><button type="button" class="pick" data-id="7" data-name="瀾島 花型檸檬塔" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">甜點</p><p class="why">11/24（二）、11/25（三）公休；素食標示查不到</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E7%80%BE%E5%B3%B6%20%E8%8A%B1%E5%9E%8B%E6%AA%B8%E6%AA%AC%E5%A1%94%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5303%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p11"><div class="hd"><h3>初之丘 JOHillS 法式甜點</h3><button type="button" class="pick" data-id="11" data-name="初之丘 JOHillS 法式甜點" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">甜點</p><p class="why">11/24（二）公休；素食標示查不到</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%88%9D%E4%B9%8B%E4%B8%98%20JOHillS%20%E6%B3%95%E5%BC%8F%E7%94%9C%E9%BB%9E%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%BA%8C%E6%AE%B561%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p21"><div class="hd"><h3>暘明素食餐廳</h3><button type="button" class="pick" data-id="21" data-name="暘明素食餐廳" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">素食</p><p class="why">11/24（二）公休；第二、三天不經過埔里</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9A%98%E6%98%8E%E7%B4%A0%E9%A3%9F%E9%A4%90%E5%BB%B3%20%E5%9F%94%E9%87%8C%E9%8E%AE%E6%A1%83%E5%8D%97%E8%B7%AF9%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p29"><div class="hd"><h3>貓居蔬食</h3><button type="button" class="pick" data-id="29" data-name="貓居蔬食" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">素食</p><p class="why">週二到週四公休（只開週五到週一）</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B2%93%E5%B1%85%E8%94%AC%E9%A3%9F%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF527%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p15"><div class="hd"><h3>一碗食舖 Vegan bowl</h3><button type="button" class="pick" data-id="15" data-name="一碗食舖 Vegan bowl" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">全素</p><p class="why">11/24–26 三天都公休</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%80%E7%A2%97%E9%A3%9F%E8%88%96%20Vegan%20bowl%20%E5%9F%94%E9%87%8C%E9%8E%AE%E7%B1%83%E5%9F%8E%E8%B7%AF25%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p6"><div class="hd"><h3>無名刈包</h3><button type="button" class="pick" data-id="6" data-name="無名刈包" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">葷素都有</p><p class="why">葷素同一個攤子；只開到 11:30</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=%E7%84%A1%E5%90%8D%E5%88%88%E5%8C%85%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5181%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+<article class="card no" id="p9"><div class="hd"><h3>SUN 蔬食素食早午餐</h3><button type="button" class="pick" data-id="9" data-name="SUN 蔬食素食早午餐" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div><p class="tag">素食早午餐</p><p class="why">Google 顯示「暫時關閉」</p><p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=SUN%20%E8%94%AC%E9%A3%9F%E7%B4%A0%E9%A3%9F%E6%97%A9%E5%8D%88%E9%A4%90%20%E5%9F%94%E9%87%8C%E9%8E%AE%E4%BF%A1%E7%BE%A9%E8%B7%AF667%E8%99%9F" target="_blank" rel="noopener">Google 地圖</a></p></article>
+</details></section>
+
+  <footer>
+    營業時間、代步車、素食以查證當天的網路資料為準，店家可能臨時調整。<br>
+    照片只用南投旅遊網上的照片，並註明出處與拍攝者。
+  </footer>
+</div>
+<div class="bar"><div class="in">
+  <span class="cnt" id="cnt">還沒勾選</span>
+  <button type="button" class="clr" id="clr" disabled>清除</button>
+  <button type="button" id="copy" disabled>複製</button>
+</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+  var KEY = 'puli-picks-v1', picks = {};
+  try { picks = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { picks = {}; }
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.pick'));
+  var cnt = document.getElementById('cnt'), copy = document.getElementById('copy'), clr = document.getElementById('clr'), toast = document.getElementById('toast');
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {} }
+  function render() {
+    var n = 0;
+    btns.forEach(function (b) {
+      var on = !!picks[b.dataset.id];
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.closest('.card').classList.toggle('on', on);
+      if (on) n++;
+    });
+    cnt.textContent = n ? '已勾 ' + n + ' 個' : '還沒勾選';
+    copy.disabled = clr.disabled = !n;
+  }
+  function say(t) { toast.textContent = t; toast.classList.add('show'); clearTimeout(say.t); say.t = setTimeout(function () { toast.classList.remove('show'); }, 2200); }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (picks[b.dataset.id]) delete picks[b.dataset.id]; else picks[b.dataset.id] = 1;
+      save(); render();
+    });
+  });
+  clr.addEventListener('click', function () { picks = {}; save(); render(); say('已清除'); });
+  function text() {
+    var groups = { 'g-fit': '適合排進', 'g-alt': '可當備選', 'g-no': '不適合' }, out = ['埔里候選：我想去'];
+    btns.forEach(function (b) {
+      if (!picks[b.dataset.id]) return;
+      var g = b.closest('section').id;
+      out.push('・' + b.dataset.name + '（' + groups[g] + '）');
+    });
+    out.push(location.href.split('#')[0]);
+    return out.join('\n');
+  }
+  copy.addEventListener('click', function () {
+    var t = text();
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      say(ok ? '已複製，可以貼到 LINE' : '複製不了，請截圖給大家');
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(t).then(function () { say('已複製，可以貼到 LINE'); }, fallback);
+    } else fallback();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
