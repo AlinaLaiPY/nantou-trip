@@ -60,10 +60,11 @@
   .wmap .leaflet-container { font-family: inherit; font-size: 14px; }
   .wm-tiles { filter: saturate(.5) brightness(1.04) contrast(.95); }
   .wmap .leaflet-control-attribution { font-size: 11px; }
-  .wm-leg { position: absolute; left: 8px; top: 8px; z-index: 500; pointer-events: none; display: flex; flex-direction: column; gap: 2px;
+  .wm-leg { position: absolute; left: 8px; bottom: 8px; z-index: 500; pointer-events: none; display: flex; flex-direction: column; gap: 2px;
             padding: 6px 10px; border-radius: 12px; font-size: 13px; line-height: 1.5; color: var(--ink);
             background: rgba(255, 255, 255, .82); border: 1px solid var(--glass-bd); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
             box-shadow: 0 3px 10px rgba(0, 0, 0, .1); }
+  .wmap.popon .wm-leg { opacity: 0; }
   .wm-leg span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
   .wm-leg i { display: inline-block; width: 24px; height: 0; border-top: 4px solid var(--jade); }
   .wm-leg i.wx { border-top-style: dashed; }
@@ -537,8 +538,15 @@
       }
       all.forEach(function (s, i) { off[s.n] = o[i]; setOff(s.n); });
     }
-    function fit() { map.closePopup(); map.fitBounds(b, { paddingTopLeft: [20, 20], paddingBottomRight: [20, 20], animate: !RM }); }
-    map.fitBounds(b, { padding: [20, 20], animate: false });
+    var touched = false;
+    function pad() { var lg = document.querySelector('.wm-leg'); return { paddingTopLeft: [18, 18], paddingBottomRight: [18, (lg ? lg.offsetHeight : 0) + 14] }; }
+    function fit() { map.closePopup(); var o = pad(); o.animate = !RM; map.fitBounds(b, o); }
+    var o0 = pad(); o0.animate = false; map.fitBounds(b, o0);
+    map.on('dragstart popupopen', function () { touched = true; });
+    var box = document.querySelector('.wmap');
+    map.on('popupopen', function () { box.classList.add('popon'); });
+    map.on('popupclose', function () { box.classList.remove('popon'); });
+    el.addEventListener('click', function (e) { if (e.target.closest('.leaflet-control-zoom')) touched = true; });
     map.on('zoomend', spread);
     spread();
     M = {
@@ -547,7 +555,7 @@
       focus: function (n) {
         var m = mk[n]; if (!m) return;
         document.querySelector('.wmap').scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' });
-        var z = Math.max(map.getZoom(), 18);
+        var z = Math.max(map.getZoom(), 17.5);
         map.closePopup();
         setTimeout(function () {
           if (RM) { map.setView(m.getLatLng(), z, { animate: false }); m.openPopup(); return; }
@@ -556,7 +564,9 @@
         }, RM ? 0 : 350);
       }
     };
-    if ('ResizeObserver' in window) new ResizeObserver(function () { map.invalidateSize(); }).observe(el);
+    function refit() { map.invalidateSize(); if (!touched) { var o = pad(); o.animate = false; map.fitBounds(b, o); } }
+    if ('ResizeObserver' in window) new ResizeObserver(refit).observe(el);
+    window.addEventListener('load', refit);
   })();
 
   document.getElementById('fit').addEventListener('click', function () {
