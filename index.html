@@ -1303,6 +1303,8 @@
       function go(i) {
         k = i; var st = list[k];
         st.el = find(st);
+        demo(!!st.bottom && !st.el);   // 「下一站」列平常不在：教學時暫時顯示一條範例
+        if (st.bottom && !st.el) st.el = document.getElementById('nextBar');
         txt.textContent = st.t;
         dots.innerHTML = list.map(function (x, j) { return '<i' + (j === k ? ' class="on"' : '') + '></i>'; }).join('');
         sr.textContent = '第 ' + (k + 1) + ' 步，共 ' + list.length + ' 步';
@@ -1314,8 +1316,24 @@
         st.re = 0; aim(st);
         try { bNext.focus({ preventScroll: true }); } catch (e) {}
       }
+      function demo(on) {   // 教學第 5 步（行車版）：沒有「下一站」列時，放一條範例列讓光圈框住；換步或結束就收起
+        var bar = document.getElementById('nextBar'); if (!bar) return;
+        if (on && !root.classList.contains('hasnext')) {
+          var h = document.querySelector((dayP() || '#p1') + ' .tl:not(.plain) > .stop h3'), nm = '';
+          if (h) { h = h.cloneNode(true); Array.prototype.forEach.call(h.querySelectorAll('.lv, svg'), function (x) { x.remove(); }); nm = h.textContent.replace(/\s+/g, ' ').trim(); }
+          bar.querySelector('.nb-a').textContent = '範例：下一站';
+          bar.querySelector('.nb-b').textContent = nm;
+          bar.querySelector('.nb-c').textContent = '';
+          bar.querySelector('.nb-go').innerHTML = '<a aria-hidden="true" tabindex="-1">導航</a>';
+          bar._demo = 1; root.classList.add('hasnext');
+        } else if (!on && bar._demo) {
+          bar._demo = 0; root.classList.remove('hasnext');
+          ['.nb-a', '.nb-b', '.nb-c', '.nb-go'].forEach(function (c) { bar.querySelector(c).innerHTML = ''; });
+        }
+      }
       function end() {
         if (!ov) return;
+        demo(false);
         cancelAnimationFrame(raf); clearTimeout(safety); markSeen();
         document.removeEventListener('keydown', onKey, true); window.removeEventListener('scroll', onScr);
         var o = ov; ov = null; root.classList.remove('touron');
