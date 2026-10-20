@@ -1914,8 +1914,12 @@
       var TOUR = {"key":"tourSeen-drive","steps":[{"t":"當天總覽：每站時間、導航、📞","s":["{P} .board .bcall"],"up":"li.br"},{"t":"地圖：點號碼看地址、導航","s":["{P} .dmap"]},{"t":"卡片上直接導航、打電話","s":["{P} .stop .callbtn"],"up":".act"},{"t":"車程、停車、付款、無障礙看這裡","s":["{P} .stop .act + details.pd"]},{"t":"旅途中，畫面下方會出現「下一站」","s":["#nextBar"],"bottom":1},{"t":"還要確認的事，記在這個頁籤","s":["#t7"]},{"t":"想再看一次說明，點這裡","s":["#tourBtn"]}]};
       var root = document.documentElement, tbtn = document.getElementById('tourBtn');
       var ov = null, hole, card, txt, dots, sr, bPrev, bNext, list = [], k = 0, raf = 0, still = 0, last = '', tab0 = null, opener = null, safety = 0;
-      function seen() { try { return localStorage.getItem(TOUR.key) === '1'; } catch (e) { return false; } }
-      function markSeen() { try { localStorage.setItem(TOUR.key, '1'); } catch (e) {} }
+      // 兩版共用「看過」：任何一版看完或略過，另一版都不再自動播放（舊的分版 key 也算）
+      function seen() { try { return ['tourSeen', 'tourSeen-index', 'tourSeen-drive'].some(function (x) { return localStorage.getItem(x) === '1'; }); } catch (e) { return false; } }
+      function markSeen() { try { localStorage.setItem('tourSeen', '1'); localStorage.setItem(TOUR.key, '1'); } catch (e) {} }
+      function fromSite() {   // 從本站另一頁切換過來（一般版⇄行車版）：不自動播放，手機記不住時也不會一直跳出來
+        try { if (!document.referrer) return false; var u = new URL(document.referrer); return u.origin === location.origin && u.pathname.split('/')[1] === location.pathname.split('/')[1]; } catch (e) { return false; }
+      }
       function vis(el) { return !!el && el.getClientRects().length > 0; }
       function dayP() { var t = document.querySelector('.tab[aria-selected="true"]'); return t && /^t[123]$/.test(t.id) ? '#p' + t.id.slice(1) : null; }
       function find(st) {
@@ -2029,7 +2033,7 @@
         go(0); loop();
       }
       if (tbtn) tbtn.addEventListener('click', function () { start(true); });
-      if (/[?&]tour=1(&|$)/.test(location.search) || !seen()) {   // 等網頁載完（瀏覽器回復捲動位置之後）再開始
+      if (/[?&]tour=1(&|$)/.test(location.search) || (!seen() && !fromSite())) {   // 等網頁載完（瀏覽器回復捲動位置之後）再開始
         var once = false, auto = function () { if (once) return; once = true; setTimeout(function () { start(false); }, di >= 0 ? 1600 : 600); };
         if (document.readyState === 'complete') auto(); else { window.addEventListener('load', auto); setTimeout(auto, 2500); }   // 照片很慢時最多等 2.5 秒
       }
