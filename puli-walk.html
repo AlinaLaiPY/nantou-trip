@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex, nofollow">
-<title>埔里街區散步</title>
-<meta property="og:title" content="埔里街區散步">
-<meta property="og:description" content="11/24（二）16:55–17:35 埔里市區：停車場、建議路線、沿路店家。">
+<title>埔里市區逛街地圖</title>
+<meta property="og:title" content="埔里市區逛街地圖">
+<meta property="og:description" content="11/24（二）下午埔里市中心逛老店：停車點、店家位置、步行路線與營業時間，給同行者勾選想去的店。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -33,23 +33,21 @@
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 18px; line-height: 1.85;
-         -webkit-text-size-adjust: 100%; overflow-x: hidden; }
-  .wrap { max-width: 680px; margin: 0 auto; padding: 30px 16px calc(40px + env(safe-area-inset-bottom)); }
+         -webkit-text-size-adjust: 100%; padding-bottom: calc(96px + env(safe-area-inset-bottom)); overflow-x: hidden; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 30px 16px 40px; }
   a { color: var(--jade); }
   .top { display: flex; justify-content: flex-end; margin-bottom: 10px; }
   .gbtn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 16px; border-radius: var(--r-btn);
           background: var(--glass); border: 1px solid var(--glass-bd); box-shadow: var(--glass-sh);
           -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
-          color: var(--jade-deep); font: 500 16px/1.3 var(--sans); text-decoration: none; cursor: pointer; max-width: 100%; }
-  .gbtn[aria-pressed="true"] { background: var(--btn-grad); border-color: var(--jade-deep); box-shadow: var(--btn-sh); color: #fff; }
+          color: var(--jade-deep); font: 500 16px/1.3 var(--sans); text-decoration: none; cursor: pointer; }
   h1 { font-family: var(--serif); font-weight: 700; font-size: 32px; line-height: 1.3; letter-spacing: .03em; margin: 0 0 6px; }
-  .subt { font-size: 16px; color: var(--ink-soft); margin: 0 0 14px; }
-  .lead { font-size: 19px; line-height: 1.75; margin: 0 0 10px; }
-  .lead b { color: var(--jade-deep); }
-  .summary { background: var(--jade-soft); border-radius: var(--r-card); padding: 12px 16px; margin: 0 0 14px; color: var(--ink-soft); font-size: 16px; }
+  .subt { font-size: 16px; color: var(--ink-soft); margin: 0 0 18px; }
+  .summary { background: var(--jade-soft); border-radius: var(--r-card); padding: 14px 18px; margin: 0 0 14px; color: var(--ink-soft); }
   .summary ul { margin: 0; padding-left: 20px; }
   .summary li { margin: 2px 0; }
-  .legend { font-size: 14px; color: var(--ink-soft); margin: 12px 0 8px; line-height: 2; }
+  .summary b { color: var(--ink); }
+  .legend { font-size: 14px; color: var(--ink-soft); margin: 14px 0 8px; line-height: 2; }
   .lv { display: inline-block; font-family: var(--sans); font-size: 12px; font-weight: 700; line-height: 1; padding: 4px 6px;
         border-radius: 4px; vertical-align: 2px; margin-left: 2px; letter-spacing: 0; }
   .lv-a { background: var(--jade-soft); color: var(--jade); }
@@ -58,114 +56,435 @@
 
   /* 地圖 */
   .wmap { position: relative; border-radius: var(--r-card); overflow: hidden; border: 1px solid var(--card-bd); box-shadow: var(--card-sh); background: #E9ECEF; isolation: isolate; }
-  #map { height: 52vh; min-height: 300px; max-height: 600px; width: 100%; background: #E9ECEF; }
+  #map { height: 55vh; min-height: 320px; max-height: 640px; width: 100%; background: #E9ECEF; }
   .wmap .leaflet-container { font-family: inherit; font-size: 14px; }
   .wm-tiles { filter: saturate(.5) brightness(1.04) contrast(.95); }
   .wmap .leaflet-control-attribution { font-size: 11px; }
   .wm-leg { position: absolute; left: 8px; bottom: 8px; z-index: 500; pointer-events: none; display: flex; flex-direction: column; gap: 2px;
-            padding: 6px 10px; border-radius: 12px; font-size: 13px; line-height: 1.5; color: var(--ink); max-width: calc(100% - 16px);
+            padding: 6px 10px; border-radius: 12px; font-size: 13px; line-height: 1.5; color: var(--ink);
             background: rgba(255, 255, 255, .82); border: 1px solid var(--glass-bd); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
             box-shadow: 0 3px 10px rgba(0, 0, 0, .1); }
   .wmap.popon .wm-leg { opacity: 0; }
   .wm-leg span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-  .wm-leg i { display: inline-block; width: 24px; height: 0; border-top: 5px solid var(--jade); opacity: .85; }
-  .wm-leg i.p { width: 16px; height: 16px; border: 0; border-radius: 4px; background: var(--park); color: #fff; font: 700 11px/16px var(--sans); text-align: center; font-style: normal; opacity: 1; }
-  .wm-leg i.d { width: 12px; height: 12px; border: 2px solid #fff; border-radius: 50%; background: var(--vermilion); box-shadow: 0 0 0 1px var(--vermilion); opacity: 1; }
+  .wm-leg i { display: inline-block; width: 24px; height: 0; border-top: 4px solid var(--jade); }
+  .wm-leg i.wx { border-top-style: dashed; }
+  .wm-leg i.e { border-top: 4px dashed var(--vermilion); }
+  .wm-leg i.p { width: 16px; height: 16px; border: 0; border-radius: 4px; background: var(--park); color: #fff; font: 700 11px/16px var(--sans); text-align: center; font-style: normal; }
   .wm-err { margin: 0; padding: 40px 20px; text-align: center; font-size: 16px; color: var(--ink-soft); }
   .mtools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0 0; }
   .mtools .gbtn { font-size: 17px; font-weight: 700; min-height: 48px; }
   .pin-i { background: none; border: 0; }
-  .pin { width: 100%; height: 100%; border-radius: 8px; background: var(--park); color: #fff; border: 2.5px solid #fff;
-         box-shadow: 0 3px 8px rgba(0, 0, 0, .28); display: flex; align-items: center; justify-content: center; font: 700 18px/1 var(--sans); }
-  .dot { width: 100%; height: 100%; border-radius: 50%; background: var(--vermilion); border: 2.5px solid #fff; box-shadow: 0 1px 5px rgba(0, 0, 0, .35); }
+  .pin { width: 100%; height: 100%; border-radius: 50%; background: var(--jade); color: #fff; border: 2.5px solid #fff;
+         box-shadow: 0 3px 8px rgba(0, 0, 0, .28); display: flex; align-items: center; justify-content: center; font: 700 14px/1 var(--sans); }
+  .pin.wx, .pin.wd { background: #fff; color: var(--jade); border-color: var(--jade); }
+  .pin.wd { border-style: dashed; }
+  .pin.e { background: var(--vermilion); }
+  .pin.on { box-shadow: 0 0 0 4px rgba(154, 106, 18, .55), 0 3px 8px rgba(0, 0, 0, .28); }
+  .pin.p { border-radius: 8px; background: var(--park); font-size: 18px; }
   .wmap .leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, .2); }
   .wmap .leaflet-popup-content { margin: 12px 14px; font-size: 15px; line-height: 1.55; color: var(--ink); }
   .wmap .leaflet-popup-content p { margin: 0 0 4px; }
+  .pp-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .pp-num { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--jade); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+  .pp-num.wx, .pp-num.wd { background: #fff; color: var(--jade); border: 2px solid var(--jade); }
+  .pp-num.e { background: var(--vermilion); }
+  .pp-num.p { border-radius: 7px; background: var(--park); }
   .pp-name { font-weight: 700; font-size: 17px; line-height: 1.35; }
   .pp-k { color: var(--ink-soft); }
-  .pp-btns { display: flex; gap: 8px; margin-top: 8px; }
-  .wmap .pp-btns a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 12px; font: 700 15px/1.2 var(--sans);
-         text-decoration: none; background: var(--glass); border: 1px solid rgba(var(--jade-rgb), .38); color: var(--jade) !important; }
+  .wmap a.pp-go { display: flex; align-items: center; justify-content: center; margin-top: 8px; min-height: 44px; border-radius: 12px; background: var(--btn-grad);
+                  color: #fff !important; text-decoration: none; font-weight: 700; font-size: 16px; }
 
-  h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; letter-spacing: .05em; margin: 30px 0 6px;
-       padding-bottom: 8px; border-bottom: 2px solid var(--jade); }
-
-  /* 連結樣式（和行程網站一致）：a.lk-map 導航膠囊 */
-  a.lk-map { display: inline-flex; align-items: center; gap: 5px; box-sizing: border-box; margin: 0; text-decoration: none; -webkit-tap-highlight-color: transparent;
-    transition: transform .15s ease, background-color .2s ease;
-    flex: none; min-height: 44px; padding: 0 12px 0 10px; border-radius: 999px; font-size: 16px; font-weight: 700; letter-spacing: .06em; color: var(--jade);
-    background: var(--glass); border: 1px solid rgba(var(--jade-rgb), .38); box-shadow: var(--glass-sh); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+  /* 清單 */
+  section { scroll-margin-top: 12px; }
+  h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; letter-spacing: .05em; margin: 34px 0 6px;
+       padding-bottom: 8px; border-bottom: 2px solid var(--jade); display: flex; align-items: center; gap: 10px; }
+  #g-e h2 { border-color: var(--vermilion); }
+  h2 .n { display: inline-grid; place-items: center; min-width: 34px; height: 34px; border-radius: 50%; background: var(--btn-grad);
+          color: #fff; font: 700 17px/1 var(--sans); box-shadow: var(--btn-sh); }
+  #g-e h2 .n { background: var(--vermilion); box-shadow: none; }
+  .gnote { font-size: 15px; color: var(--ink-soft); margin: 4px 0 12px; line-height: 1.7; }
+  .sub { font-family: var(--serif); font-weight: 700; font-size: 19px; color: var(--jade-deep); margin: 24px 0 2px; }
+  .card { background: var(--surface); border: 1px solid var(--card-bd); border-radius: var(--r-card); box-shadow: var(--card-sh);
+          padding: 14px 16px; margin: 0 0 12px; overflow: hidden; scroll-margin-top: 12px; }
+  .card.on { border-color: var(--jade); box-shadow: 0 0 0 2px rgba(var(--jade-rgb), .35), var(--card-sh); }
+  .hd { display: flex; align-items: center; gap: 10px; }
+  .num { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 2.5px solid #fff; background: var(--jade); color: #fff; font: 700 17px/1 var(--sans);
+         box-shadow: 0 2px 6px rgba(0, 0, 0, .22); cursor: pointer; padding: 0; }
+  .g-wx .num, .g-wd .num { background: #fff; color: var(--jade); border-color: var(--jade); }
+  .g-wd .num { border-style: dashed; }
+  .g-e .num { background: var(--vermilion); }
+  h3 { flex: 1; min-width: 0; font-family: var(--serif); font-size: 21px; line-height: 1.4; margin: 0; letter-spacing: .02em; overflow-wrap: anywhere; }
+  .pick { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 12px 6px 10px;
+          border-radius: var(--r-btn); background: var(--glass); border: 1px solid var(--glass-bd); box-shadow: var(--glass-sh);
+          -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+          font: 500 17px/1 var(--sans); color: var(--jade-deep); cursor: pointer; }
+  .pick .box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--jade); background: #fff; position: relative; }
+  .pick[aria-pressed="true"] { background: var(--btn-grad); border-color: var(--jade-deep); box-shadow: var(--btn-sh); color: #fff; }
+  .pick[aria-pressed="true"] .box { border-color: #fff; background: rgba(255,255,255,.18); }
+  .pick[aria-pressed="true"] .box::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px;
+          border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+  .pick:focus-visible, .gbtn:focus-visible, .num:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .tag { display: inline-block; margin: 8px 0 6px; padding: 2px 12px; border-radius: 999px; background: var(--vermilion-soft);
+         color: var(--vermilion); font-size: 15px; }
+  .row { border-top: 1px solid var(--line); padding: 8px 0 6px; }
+  .row p { margin: 0; color: var(--ink-soft); }
+  .row .k { font-weight: 700; color: var(--ink); font-size: 16px; margin-bottom: 0; }
+  .row .t { font-variant-numeric: tabular-nums; color: var(--ink); }
+  .row .t.close { color: var(--vermilion); font-weight: 700; }
+  .row .t.close::after { content: "（18:00 關門）"; font-weight: 500; }
+  .row .t.none { color: var(--amber); }
+  .src { font-size: 15px; }
+  .info { border-top: 1px solid var(--line); padding-top: 8px; margin: 2px 0 4px; font-size: 16px; color: var(--ink-soft); }
+  .links { margin: 6px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  /* 連結樣式（和行程網站一致）：a.lk-map 導航膠囊、a.lk-ref 參考連結 */
+  a.lk-map, a.lk-ref { display: inline-flex; align-items: center; gap: 5px; box-sizing: border-box; text-decoration: none; -webkit-tap-highlight-color: transparent;
+    min-height: 44px; border-radius: 999px; -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); max-width: 100%; }
+  a.lk-map { padding: 0 12px 0 10px; font-size: 16px; font-weight: 700; letter-spacing: .06em; color: var(--jade);
+    background: var(--glass); border: 1px solid rgba(var(--jade-rgb), .38); box-shadow: var(--glass-sh); }
   a.lk-map .lk-ic { font-size: 18px; }
-  a.lk-map:active { transform: translateY(1px); background: rgba(var(--jade-rgb), .14); }
-  a.lk-map:focus-visible, .gbtn:focus-visible { outline: 3px solid var(--jade); outline-offset: 2px; }
-
-  /* 沿路店家 */
-  .list { list-style: none; margin: 0; padding: 0; }
-  .list li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
-  .list li:last-child { border-bottom: 0; }
-  .li-tx { flex: 1; min-width: 0; }
-  .li-n { margin: 0; font-weight: 700; font-size: 18px; line-height: 1.4; overflow-wrap: anywhere; }
-  .li-d { margin: 2px 0 0; font-size: 16px; line-height: 1.6; color: var(--ink-soft); overflow-wrap: anywhere; }
-
-  footer { margin-top: 30px; font-size: 14px; color: var(--ink-soft); line-height: 1.9; overflow-wrap: anywhere; }
+  a.lk-ref { padding: 6px 12px; font-size: 16px; line-height: 1.3; color: var(--ink-soft); background: rgba(255, 255, 255, .55); border: 1px solid var(--line); overflow-wrap: anywhere; }
+  a.lk-map:active, a.lk-ref:active { transform: translateY(1px); background: rgba(var(--jade-rgb), .14); }
+  a.lk-map:focus-visible, a.lk-ref:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .row .t.note { color: var(--vermilion); }
+  footer { margin-top: 30px; font-size: 14px; color: var(--ink-soft); line-height: 1.9; }
   footer a { color: var(--ink-soft); }
-  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 1001;
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000; padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+         background: rgba(246, 243, 236, .78); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+         border-top: 1px solid var(--glass-bd); }
+  .bar .in { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
+  .bar .cnt { flex: 1; font-size: 17px; color: var(--ink); }
+  .bar button { min-height: 48px; padding: 8px 16px; border-radius: var(--r-btn); border: 1px solid var(--jade-deep);
+         background: var(--btn-grad); box-shadow: var(--btn-sh); color: #fff; font: 700 17px/1.2 var(--sans); cursor: pointer; }
+  .bar button:disabled { opacity: .45; cursor: default; }
+  .bar .clr { background: var(--glass); color: var(--jade-deep); border-color: var(--glass-bd); box-shadow: var(--glass-sh); font-weight: 500; }
+  .toast { position: fixed; left: 50%; bottom: calc(86px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 1001;
            background: var(--jade-deep); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 16px; text-align: center;
            opacity: 0; pointer-events: none; transition: opacity .2s; max-width: calc(100% - 32px); }
   .toast.show { opacity: 1; }
-  @media (max-width: 400px) { h1 { font-size: 28px; } .lead { font-size: 18px; } .mtools .gbtn { font-size: 16px; padding: 8px 10px; } }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast, a.lk-map { transition: none; } a.lk-map:active { transform: none; } }
+  @media (max-width: 400px) { h1 { font-size: 28px; } h3 { font-size: 19px; } .bar .cnt { font-size: 15px; } .bar button { padding: 8px 12px; font-size: 16px; }
+                              .pick { padding: 6px 10px 6px 8px; font-size: 16px; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast { transition: none; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top"><a class="gbtn" href="./">← 回行程</a></div>
-  <h1>埔里街區散步</h1>
-  <p class="subt">11/24（二）埔里市區｜2026/10/20 查證</p>
-  <p class="lead"><b>16:55–17:35</b>，車停 <b>Times 南投埔里南昌街停車場</b>（南昌街155號）。沿西安路一段、中山路三段走到松鶴堂國藥號一帶，原路走回，來回約 <b>900 公尺</b><span class="lv lv-c" title="C＝單一來源">C</span></p>
-  <div class="summary"><ul><li>只收電子支付：信用卡、悠遊卡、icash（Times 官網）<span class="lv lv-a" title="A＝官方或店家自己公布">A</span></li><li>每 30 分鐘 30 元（Google 地圖照片 2026/2）<span class="lv lv-c" title="C＝單一來源">C</span></li><li>中山路三段騎樓有些段落比路面高、常停機車，代步車多沿路邊走（Google 街景 2024）<span class="lv lv-c" title="C＝單一來源">C</span></li></ul></div>
+  <h1>埔里市區逛街地圖</h1>
+  <p class="subt">11/24（二）約 16:55–17:35｜西區 14 家、東區 17 家｜2026/10/21 查證</p>
+  <div class="summary"><ul><li><b>停車</b>：Times 南投埔里南昌街停車場（南昌街155號，地圖上藍色 P）。只收電子支付：信用卡、悠遊卡、icash（Times 官網）<span class="lv lv-a" title="A＝官方或店家自己公布">A</span>；每 30 分鐘 30 元（Google 地圖照片 2026/2）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></li><li><b>建議 40 分鐘走西區 1–10</b>（16:55–17:35）：從停車場出發再走回來，走路路徑約 1,350 公尺，不含進店（OpenStreetMap 步行路線）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></li><li><b>時間多再去</b>：西區延伸 11–13（從 10 繞回停車場約 700 公尺），或東區 15–31（繞一圈約 2,250 公尺）（OpenStreetMap 步行路線）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></li><li><b>代步車</b>：騎樓常停機車、有些段落比路面高，多半要沿路邊走（Google 街景判讀）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></li></ul></div>
 
-  <div class="wmap" id="wmap">
-    <div id="map" role="region" aria-label="街區散步地圖"></div>
+  <div class="wmap">
+    <div id="map" role="region" aria-label="埔里市區店家地圖"></div>
     <div class="wm-leg" aria-hidden="true">
       <span><i class="p">P</i>停車場</span>
-      <span><i></i>建議路線（原路往返）</span>
-      <span><i class="d"></i>沿路店家</span>
+      <span><i></i>西區 1–10</span>
+      <span><i class="wx"></i>西區延伸 11–13</span>
+      <span><i class="e"></i>東區 15–31</span>
     </div>
   </div>
   <div class="mtools">
     <button type="button" class="gbtn" id="fit">看整條路線</button>
     <button type="button" class="gbtn" id="me">我的位置</button>
   </div>
-
-  <h2>沿路店家</h2>
-  <ul class="list">
-<li><div class="li-tx"><p class="li-n">福隆土產行</p><p class="li-d">埔里香菇、黑白木耳 <span class="lv lv-c" title="C＝單一來源">C</span></p></div><a class="lk-map" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A6%8F%E9%9A%86%E5%9C%9F%E7%94%A2%E8%A1%8C%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B582%E8%99%9F" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></li>
-<li><div class="li-tx"><p class="li-n">永利豐餅舖</p><p class="li-d">古早味麵包、餅（葷素要問店家） <span class="lv lv-a" title="A＝官方或店家自己公布">A</span></p></div><a class="lk-map" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B0%B8%E5%88%A9%E8%B1%90%E9%A4%85%E8%88%96%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B578%E8%99%9F" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></li>
-<li><div class="li-tx"><p class="li-n">永安五金行</p><p class="li-d">大同瓷碗、熬藥陶壺 <span class="lv lv-c" title="C＝單一來源">C</span></p></div><a class="lk-map" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B0%B8%E5%AE%89%E4%BA%94%E9%87%91%E8%A1%8C%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B515%E8%99%9F" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></li>
-<li><div class="li-tx"><p class="li-n">麗惠毛線行</p><p class="li-d">毛線、編織材料 <span class="lv lv-c" title="C＝單一來源">C</span></p></div><a class="lk-map" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%97%E6%83%A0%E6%AF%9B%E7%B7%9A%E8%A1%8C%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B559%E8%99%9F" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></li>
-<li><div class="li-tx"><p class="li-n">松鶴堂國藥號</p><p class="li-d">紅棗、枸杞等中藥材 <span class="lv lv-c" title="C＝單一來源">C</span></p></div><a class="lk-map" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%BE%E9%B6%B4%E5%A0%82%E5%9C%8B%E8%97%A5%E8%99%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B586%E8%99%9F" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></li>
-  </ul>
+  <p class="legend">點圖釘看店名和營業時間；點卡片上的號碼會移到地圖上那一家。<br>資料等級：<span class="lv lv-a" title="A＝官方或店家自己公布">A</span> 官方或店家自己公布　<span class="lv lv-b" title="B＝兩個來源一致">B</span> 兩個來源一致　<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span> 單一來源（Google 地圖、評論、街景）</p>
+<section id="g-w"><h2><span class="n">14</span>西區（主要路線）</h2>
+<p class="gnote">1–10 是綠色實線，從停車場出發再走回停車場，走路路徑約 1,350 公尺（OpenStreetMap 步行路線）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p>
+<article class="card g-w" id="s1">
+<div class="hd"><button type="button" class="num" data-n="1" aria-label="在地圖上看 1 福隆土產行">1</button><h3>福隆土產行</h3><button type="button" class="pick" data-id="1" data-name="福隆土產行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">香菇乾貨</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t close">09:00–18:00</p></div>
+<div class="row"><p class="k">老店資訊</p><p>開了六、七十年，第二代</p></div>
+<div class="row"><p class="k">可買什麼</p><p>香菇、木耳（全素）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">暨大埔里老店調查、Google 地圖 <span class="lv lv-b" title="B＝兩個來源一致">B</span></p></div>
+<p class="info">西安路一段82號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E7%A6%8F%E9%9A%86%E5%9C%9F%E7%94%A2%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B582%E8%99%9F&amp;ftid=0x3468d998c9b7ef53:0x904ac88c273709d0" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s2">
+<div class="hd"><button type="button" class="num" data-n="2" aria-label="在地圖上看 2 永利豐餅舖">2</button><h3>永利豐餅舖</h3><button type="button" class="pick" data-id="2" data-name="永利豐餅舖" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">餅舖</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">08:00–21:00</p></div>
+<div class="row"><p class="k">老店資訊</p><p>1966 年成立</p></div>
+<div class="row"><p class="k">可買什麼</p><p>麵包、鹹蛋糕、禮餅（素食沒有標示，要問店家）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">官網 <span class="lv lv-a" title="A＝官方或店家自己公布">A</span></p></div>
+<p class="info">西安路一段78號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%B0%B8%E5%88%A9%E8%B1%90%E9%A4%85%E8%88%96+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B578%E8%99%9F&amp;ftid=0x3468d998b82474e9:0xe260fe015318b9b3" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a><a class="lk-ref" href="https://www.0492982549.com/" target="_blank" rel="noopener">🌐 永利豐官網</a></p>
+</article>
+<article class="card g-w" id="s3">
+<div class="hd"><button type="button" class="num" data-n="3" aria-label="在地圖上看 3 晉士文化廣場">3</button><h3>晉士文化廣場</h3><button type="button" class="pick" data-id="3" data-name="晉士文化廣場" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">書店</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:00–21:30</p></div>
+<div class="row"><p class="k">可買什麼</p><p>書、文具（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">西安路一段101號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%99%89%E5%A3%AB%E6%96%87%E5%8C%96%E5%BB%A3%E5%A0%B4+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B5101%E8%99%9F&amp;ftid=0x3468d998b9edb7db:0xaaceab55d3b94419" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s4">
+<div class="hd"><button type="button" class="num" data-n="4" aria-label="在地圖上看 4 金源昌碾米工廠">4</button><h3>金源昌碾米工廠</h3><button type="button" class="pick" data-id="4" data-name="金源昌碾米工廠" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">米店</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t none">營業時間查不到（Google 地圖沒有公布）</p></div>
+<div class="row"><p class="k">老店資訊</p><p>1941 年起，第二代</p></div>
+<div class="row"><p class="k">可買什麼</p><p>白米</p></div>
+<div class="row"><p class="k">出處</p><p class="src">暨大埔里老店調查 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">西安路一段105號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E9%87%91%E6%BA%90%E6%98%8C%E7%A2%BE%E7%B1%B3%E5%B7%A5%E5%BB%A0+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B5105%E8%99%9F&amp;ftid=0x3468d998b7064351:0xecc30287f0a1d3c8" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s5">
+<div class="hd"><button type="button" class="num" data-n="5" aria-label="在地圖上看 5 遠大行">5</button><h3>遠大行</h3><button type="button" class="pick" data-id="5" data-name="遠大行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">商店</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t close">10:00–18:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>賣什麼查不到</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">永樂巷9號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E9%81%A0%E5%A4%A7%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E6%A8%82%E5%B7%B79%E8%99%9F&amp;ftid=0x3468d998812e2893:0x3ae58af8783885ce" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s6">
+<div class="hd"><button type="button" class="num" data-n="6" aria-label="在地圖上看 6 新永豐油廠">6</button><h3>新永豐油廠</h3><button type="button" class="pick" data-id="6" data-name="新永豐油廠" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">油行</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">07:30–21:00</p></div>
+<div class="row"><p class="k">老店資訊</p><p>近六十年，第三代</p></div>
+<div class="row"><p class="k">可買什麼</p><p>苦茶油、麻油（全素）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">暨大埔里老店調查、Google 地圖 <span class="lv lv-b" title="B＝兩個來源一致">B</span></p></div>
+<p class="info">永樂巷11號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%96%B0%E6%B0%B8%E8%B1%90%E6%B2%B9%E5%BB%A0+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E6%A8%82%E5%B7%B711%E8%99%9F&amp;ftid=0x3468d998812e2893:0xd0fd60e4c6d741ae" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s7">
+<div class="hd"><button type="button" class="num" data-n="7" aria-label="在地圖上看 7 永安五金行">7</button><h3>永安五金行</h3><button type="button" class="pick" data-id="7" data-name="永安五金行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">五金廚具</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">07:40–21:00</p></div>
+<div class="row"><p class="k">老店資訊</p><p>約 80 年，第二代</p></div>
+<div class="row"><p class="k">可買什麼</p><p>大同瓷碗、熬藥陶壺、剉籤（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">暨大埔里老店調查、Google 地圖 <span class="lv lv-b" title="B＝兩個來源一致">B</span></p></div>
+<p class="info">中山路三段15號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%B0%B8%E5%AE%89%E4%BA%94%E9%87%91%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B515%E8%99%9F&amp;ftid=0x3468d9a2767b04db:0x1cfc19308d97f590" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s8">
+<div class="hd"><button type="button" class="num" data-n="8" aria-label="在地圖上看 8 金德昌皮鞋店">8</button><h3>金德昌皮鞋店</h3><button type="button" class="pick" data-id="8" data-name="金德昌皮鞋店" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">皮鞋</p>
+<div class="row"><p class="k">現況</p><p class="t note">2023 年起出清特賣（店家 FB 社團） <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<div class="row"><p class="k">老店資訊</p><p>1957 年開業</p></div>
+<div class="row"><p class="k">可買什麼</p><p>皮鞋（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">暨大埔里老店調查 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中山路三段25號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E9%87%91%E5%BE%B7%E6%98%8C%E7%9A%AE%E9%9E%8B%E5%BA%97+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B525%E8%99%9F&amp;ftid=0x3468d9a274142f6d:0xad1693815aed250d" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s9">
+<div class="hd"><button type="button" class="num" data-n="9" aria-label="在地圖上看 9 麗惠毛線行">9</button><h3>麗惠毛線行</h3><button type="button" class="pick" data-id="9" data-name="麗惠毛線行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">毛線</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:00–20:30</p></div>
+<div class="row"><p class="k">可買什麼</p><p>毛線、編織材料（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中山路三段59號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E9%BA%97%E6%83%A0%E6%AF%9B%E7%B7%9A%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B559%E8%99%9F&amp;ftid=0x3468d9a213000f35:0xf052d272fa448c12" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-w" id="s10">
+<div class="hd"><button type="button" class="num" data-n="10" aria-label="在地圖上看 10 松鶴堂國藥號">10</button><h3>松鶴堂國藥號</h3><button type="button" class="pick" data-id="10" data-name="松鶴堂國藥號" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">中藥行</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">08:05–21:30</p></div>
+<div class="row"><p class="k">老店資訊</p><p>1980 年創立，第二代</p></div>
+<div class="row"><p class="k">可買什麼</p><p>紅棗、枸杞、四物、四神（全素）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">老店資訊：國家文化記憶庫 <span class="lv lv-a" title="A＝官方或店家自己公布">A</span>；營業時間：Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中山路三段86號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%9D%BE%E9%B6%B4%E5%A0%82%E5%9C%8B%E8%97%A5%E8%99%9F+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B586%E8%99%9F&amp;ftid=0x3468d9a21777c8c9:0x1cac68006e4bc219" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<p class="sub">西區延伸（時間多再走）</p>
+<p class="gnote">11–13 是綠色虛線，從 10 松鶴堂國藥號往西北再繞回停車場，約 700 公尺（OpenStreetMap 步行路線）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p>
+<article class="card g-wx" id="s11">
+<div class="hd"><button type="button" class="num" data-n="11" aria-label="在地圖上看 11 日日昌金香神桌佛具">11</button><h3>日日昌金香神桌佛具</h3><button type="button" class="pick" data-id="11" data-name="日日昌金香神桌佛具" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">佛具、金香</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">08:00–21:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>香、佛具（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中山路三段123號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E5%9F%94%E9%87%8C%E6%97%A5%E6%97%A5%E6%98%8C%E9%87%91%E9%A6%99%E7%A5%9E%E6%A1%8C%E4%BD%9B%E5%85%B7%E5%A4%A7%E8%B3%A3%E5%A0%B4+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5123%E8%99%9F&amp;ftid=0x3468d9a225e964d3:0x98da795f0d90184f" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-wx" id="s12">
+<div class="hd"><button type="button" class="num" data-n="12" aria-label="在地圖上看 12 茶之棧">12</button><h3>茶之棧</h3><button type="button" class="pick" data-id="12" data-name="茶之棧" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">茶葉</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t none">營業時間查不到（Google 地圖沒有公布）</p></div>
+<div class="row"><p class="k">可買什麼</p><p>茶葉（全素）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中山路三段132號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E8%8C%B6%E4%B9%8B%E6%A3%A7+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5132%E8%99%9F&amp;ftid=0x3468d981a66c1e35:0xf668afe36f67b34c" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-wx" id="s13">
+<div class="hd"><button type="button" class="num" data-n="13" aria-label="在地圖上看 13 泰酥府">13</button><h3>泰酥府</h3><button type="button" class="pick" data-id="13" data-name="泰酥府" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">糕餅</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:30–21:30</p></div>
+<div class="row"><p class="k">可買什麼</p><p>牛軋糖、堅果塔（全素沒有確認）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖評論 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">西康路40號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%B3%B0%E9%85%A5%E5%BA%9C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%BA%B7%E8%B7%AF40%E8%99%9F&amp;ftid=0x3468d9a20c1e177f:0x181fe19f63e27d2c" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<p class="sub">西區・要開車</p>
+<p class="gnote">14 在中山路三段西段，離停車場約 1,850 公尺、離無所從來約 500 公尺（直線距離，Google 地圖座標）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span>；不在步行路線上，點號碼會移到地圖上那一家</p>
+<article class="card g-wd" id="s14">
+<div class="hd"><button type="button" class="num" data-n="14" aria-label="在地圖上看 14 埔里茭白筍（批發零售宅配）">14</button><h3>埔里茭白筍（批發零售宅配）</h3><button type="button" class="pick" data-id="14" data-name="埔里茭白筍（批發零售宅配）" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">茭白筍</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t close">08:00–18:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>茭白筍（全素），可宅配</p></div>
+<div class="row"><p class="k">出處</p><p class="src">店名、地址、電話：Google 地圖與店家 FB 一致 <span class="lv lv-b" title="B＝兩個來源一致">B</span>；營業時間：Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中山路三段620號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E5%9F%94%E9%87%8C%E8%8C%AD%E7%99%BD%E7%AD%8D-%E6%89%B9%E7%99%BC%E9%9B%B6%E5%94%AE%E5%AE%85%E9%85%8D+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5620%E8%99%9F&amp;ftid=0x3468d9a93dd3df37:0x8328beaf1a0e894" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a><a class="lk-ref" href="https://www.facebook.com/share/14vR21TyJT9/" target="_blank" rel="noopener">📘 店家 FB</a></p>
+</article>
+</section>
+<section id="g-e"><h2><span class="n">17</span>東區（時間多再去）</h2>
+<p class="gnote">15–31 是紅色虛線，從停車場出發繞一圈回來，約 2,250 公尺（OpenStreetMap 步行路線）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span><br>18:00 關門的店：18 金德中藥房、25 東門町鮮豆花、26 日榮青草店、29 大雅布莊（Google 地圖）<span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p>
+<article class="card g-e" id="s15">
+<div class="hd"><button type="button" class="num" data-n="15" aria-label="在地圖上看 15 爃輝山產行">15</button><h3>爃輝山產行</h3><button type="button" class="pick" data-id="15" data-name="爃輝山產行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">香菇乾貨</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t none">營業時間查不到（Google 地圖沒有公布）</p></div>
+<div class="row"><p class="k">老店資訊</p><p>評論說在地經營 40 年</p></div>
+<div class="row"><p class="k">可買什麼</p><p>香菇、木耳、梅乾菜</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖評論 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中正路412號（圓環北側）</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E7%88%83%E8%BC%9D%E5%B1%B1%E7%94%A2%E8%A1%8C%EF%BC%88%E9%A6%99%E8%8F%87%EF%BC%89+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF412%E8%99%9F&amp;ftid=0x3468d998cb9a7665:0xc0cd452272c6169c" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s16">
+<div class="hd"><button type="button" class="num" data-n="16" aria-label="在地圖上看 16 日昇鐘錶行">16</button><h3>日昇鐘錶行</h3><button type="button" class="pick" data-id="16" data-name="日昇鐘錶行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">鐘錶</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">10:30–21:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>換電池、錶帶（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中正路392號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%97%A5%E6%98%87%E9%90%98%E9%8C%B6%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF392%E8%99%9F&amp;ftid=0x3468d99923b95fd3:0xcd8816e9ce1a39b4" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s17">
+<div class="hd"><button type="button" class="num" data-n="17" aria-label="在地圖上看 17 東益成商號">17</button><h3>東益成商號</h3><button type="button" class="pick" data-id="17" data-name="東益成商號" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">柑仔店、東門故事館</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">10:00–21:00（管理處寫到 21:30）</p></div>
+<div class="row"><p class="k">老店資訊</p><p>1959 年開業，附設東門故事館</p></div>
+<div class="row"><p class="k">可買什麼</p><p>古早味零食、明信片、郵票</p></div>
+<div class="row"><p class="k">出處</p><p class="src">日月潭國家風景區管理處 <span class="lv lv-a" title="A＝官方或店家自己公布">A</span>；營業時間：Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中正路370號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%9D%B1%E7%9B%8A%E6%88%90%E5%95%86%E8%99%9F+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF370%E8%99%9F&amp;ftid=0x3468d998cb9a7665:0xb0f9690116f06117" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a><a class="lk-ref" href="https://www.sunmoonlake.gov.tw/Shop/Stores?a=45&amp;id=210" target="_blank" rel="noopener">📄 日月潭管理處：東益成商號</a></p>
+</article>
+<article class="card g-e" id="s18">
+<div class="hd"><button type="button" class="num" data-n="18" aria-label="在地圖上看 18 金德中藥房">18</button><h3>金德中藥房</h3><button type="button" class="pick" data-id="18" data-name="金德中藥房" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">中藥</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t close">08:30–12:00、14:00–18:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>漢方藥材、茶包（全素）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中正路358號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E9%87%91%E5%BE%B7%E4%B8%AD%E8%97%A5%E6%88%BF+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF358%E8%99%9F&amp;ftid=0x3468d999143e2a35:0x224c877631c5f21" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s19">
+<div class="hd"><button type="button" class="num" data-n="19" aria-label="在地圖上看 19 佛教文物流通處">19</button><h3>佛教文物流通處</h3><button type="button" class="pick" data-id="19" data-name="佛教文物流通處" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">佛教用品</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:00–20:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>佛具、經書（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">東華路93號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E4%BD%9B%E6%95%99%E6%96%87%E7%89%A9%E6%B5%81%E9%80%9A%E8%99%95+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E8%8F%AF%E8%B7%AF93%E8%99%9F&amp;ftid=0x3468d9990b566553:0xf0fa779b34d38ce2" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s20">
+<div class="hd"><button type="button" class="num" data-n="20" aria-label="在地圖上看 20 老林新美香行">20</button><h3>老林新美香行</h3><button type="button" class="pick" data-id="20" data-name="老林新美香行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">香行</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">07:00–22:30</p></div>
+<div class="row"><p class="k">老店資訊</p><p>約 1928 年起，第四代</p></div>
+<div class="row"><p class="k">可買什麼</p><p>線香、沉香（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">暨大埔里老店調查 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中正路327號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E8%80%81%E6%9E%97%E6%96%B0%E7%BE%8E%E9%A6%99%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF327%E8%99%9F&amp;ftid=0x3468d9997473f3df:0x2c721e9cd8de580e" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s21">
+<div class="hd"><button type="button" class="num" data-n="21" aria-label="在地圖上看 21 大房林新美金香舖">21</button><h3>大房林新美金香舖</h3><button type="button" class="pick" data-id="21" data-name="大房林新美金香舖" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">金香</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t none">營業時間查不到（Google 地圖沒有公布）</p></div>
+<div class="row"><p class="k">可買什麼</p><p>香、金紙（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">中正路325號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E5%A4%A7%E6%88%BF%E6%9E%97%E6%96%B0%E7%BE%8E%E9%87%91%E9%A6%99%E8%88%96+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF325%E8%99%9F&amp;ftid=0x3468d998cb959001:0xf5444cd6ae00b0a2" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s22">
+<div class="hd"><button type="button" class="num" data-n="22" aria-label="在地圖上看 22 靈芝藥鋪（威德堂中藥房）">22</button><h3>靈芝藥鋪（威德堂中藥房）</h3><button type="button" class="pick" data-id="22" data-name="靈芝藥鋪（威德堂中藥房）" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">中藥</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">08:30–21:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>靈芝、藥材</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">忠孝路194號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E9%9D%88%E8%8A%9D%E8%97%A5%E9%8B%AA%EF%BC%88%E5%A8%81%E5%BE%B7%E5%A0%82%E4%B8%AD%E8%97%A5%E6%88%BF%EF%BC%89+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF194%E8%99%9F&amp;ftid=0x3468d97454521a25:0x55ef1884ecdf83f" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s23">
+<div class="hd"><button type="button" class="num" data-n="23" aria-label="在地圖上看 23 祥順素食">23</button><h3>祥順素食</h3><button type="button" class="pick" data-id="23" data-name="祥順素食" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食麵店</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:30–19:30</p></div>
+<div class="row"><p class="k">可買什麼</p><p>素食</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">忠孝路143號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E7%A5%A5%E9%A0%86%E7%B4%A0%E9%A3%9F+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF143%E8%99%9F&amp;ftid=0x3468d99bd07b9b19:0x63f9ec8f14516702" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s24">
+<div class="hd"><button type="button" class="num" data-n="24" aria-label="在地圖上看 24 素得福">24</button><h3>素得福</h3><button type="button" class="pick" data-id="24" data-name="素得福" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素包子饅頭</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">08:00–19:30</p></div>
+<div class="row"><p class="k">可買什麼</p><p>全素包子、饅頭（有沒有五辛要問）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">全素：官網 <span class="lv lv-a" title="A＝官方或店家自己公布">A</span>；營業時間：Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">忠孝路133號（官網寫 131 號）</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E7%B4%A0%E5%BE%97%E7%A6%8F%E7%B4%A0%E9%A3%9F%E5%8C%85%E5%AD%90%E9%A5%85%E9%A0%AD+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF133%E8%99%9F&amp;ftid=0x3468d99bd07b9b19:0x237604334e9d7896" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a><a class="lk-ref" href="https://sudafuvegan.com/about/1" target="_blank" rel="noopener">🌐 素得福官網</a></p>
+</article>
+<article class="card g-e" id="s25">
+<div class="hd"><button type="button" class="num" data-n="25" aria-label="在地圖上看 25 東門町鮮豆花">25</button><h3>東門町鮮豆花</h3><button type="button" class="pick" data-id="25" data-name="東門町鮮豆花" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">豆花</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t close">09:30–18:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>豆花、仙草、甜湯（全素沒有標示）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">東華路72-1號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%9D%B1%E9%96%80%E7%94%BA%E9%AE%AE%E8%B1%86%E8%8A%B1+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E8%8F%AF%E8%B7%AF72-1%E8%99%9F&amp;ftid=0x3468d960e104f9bf:0xad4bfd7f278716ff" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s26">
+<div class="hd"><button type="button" class="num" data-n="26" aria-label="在地圖上看 26 日榮青草店">26</button><h3>日榮青草店</h3><button type="button" class="pick" data-id="26" data-name="日榮青草店" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">青草</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t close">08:30–12:00、14:00–18:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>青草茶料</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">南盛街56號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E6%97%A5%E6%A6%AE%E9%9D%92%E8%8D%89%E5%BA%97+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%9756%E8%99%9F&amp;ftid=0x3468d999b60b034d:0xe248f99592d92519" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s27">
+<div class="hd"><button type="button" class="num" data-n="27" aria-label="在地圖上看 27 古記素食烘焙">27</button><h3>古記素食烘焙</h3><button type="button" class="pick" data-id="27" data-name="古記素食烘焙" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">素食糕餅饅頭</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:00–20:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>素饅頭、糕點（有沒有蛋奶要問）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖評論 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">南盛街112號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E5%8F%A4%E8%A8%98%E7%B4%A0%E9%A3%9F%E7%83%98%E7%84%99+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%97112%E8%99%9F&amp;ftid=0x3468d9985aeca76b:0x76fa346345c00c08" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s28">
+<div class="hd"><button type="button" class="num" data-n="28" aria-label="在地圖上看 28 一誠堂埔里老店">28</button><h3>一誠堂埔里老店</h3><button type="button" class="pick" data-id="28" data-name="一誠堂埔里老店" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">傳統糕餅</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">07:30–19:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>鳳梨酥、發糕（全素要問）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">南盛街115號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E4%B8%80%E8%AA%A0%E5%A0%82%E5%9F%94%E9%87%8C%E8%80%81%E5%BA%97+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%97115%E8%99%9F&amp;ftid=0x3468d97c1f5da191:0x9c425c53ca573698" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s29">
+<div class="hd"><button type="button" class="num" data-n="29" aria-label="在地圖上看 29 大雅布莊">29</button><h3>大雅布莊</h3><button type="button" class="pick" data-id="29" data-name="大雅布莊" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">布莊</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t close">09:00–18:00</p></div>
+<div class="row"><p class="k">老店資訊</p><p>日治時期就有，至少三代</p></div>
+<div class="row"><p class="k">可買什麼</p><p>布料、布袋（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">暨大埔里老店調查 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">東榮路80號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E5%A4%A7%E9%9B%85%E5%B8%83%E8%8E%8A+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E6%A6%AE%E8%B7%AF80%E8%99%9F&amp;ftid=0x3468d99856d9dced:0x1e9b9c638287feb2" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s30">
+<div class="hd"><button type="button" class="num" data-n="30" aria-label="在地圖上看 30 宏昌布莊">30</button><h3>宏昌布莊</h3><button type="button" class="pick" data-id="30" data-name="宏昌布莊" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">布莊</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:00–19:00</p></div>
+<div class="row"><p class="k">可買什麼</p><p>布料（非食物）</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">東榮路76號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E5%AE%8F%E6%98%8C%E5%B8%83%E8%8E%8A+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E6%A6%AE%E8%B7%AF76%E8%99%9F&amp;ftid=0x3468d99850c0d35d:0xff5d4596857632db" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+<article class="card g-e" id="s31">
+<div class="hd"><button type="button" class="num" data-n="31" aria-label="在地圖上看 31 博安堂蔘藥行">31</button><h3>博安堂蔘藥行</h3><button type="button" class="pick" data-id="31" data-name="博安堂蔘藥行" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="lab">想去</span></button></div>
+<p class="tag">蔘藥行</p>
+<div class="row"><p class="k">11/24（二）營業</p><p class="t">09:00–21:45</p></div>
+<div class="row"><p class="k">可買什麼</p><p>藥材</p></div>
+<div class="row"><p class="k">出處</p><p class="src">Google 地圖 <span class="lv lv-c" title="C＝單一來源（Google 地圖、評論、街景）">C</span></p></div>
+<p class="info">南盛街145號</p><p class="links"><a class="lk-map" href="https://maps.google.com/?q=%E5%8D%9A%E5%AE%89%E5%A0%82%E8%94%98%E8%97%A5%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%97145%E8%99%9F&amp;ftid=0x3468d998601798c7:0x442a8aa0e339b428" target="_blank" rel="noopener"><span class="lk-ic" aria-hidden="true">📍</span>地圖</a></p>
+</article>
+</section>
 
   <footer>
-    資料等級：<span class="lv lv-a" title="A＝官方或店家自己公布">A</span> 官方或店家自己公布　<span class="lv lv-b" title="B＝兩個來源一致">B</span> 兩個來源一致　<span class="lv lv-c" title="C＝單一來源">C</span> 單一來源<br>
-    出處：店家與座標 Google 地圖（2026/10/19）；可以買什麼 暨大「埔里老屋、老店調查計畫」（2021）、<a href="http://0492982549.com/" target="_blank" rel="noopener">永利豐官網</a>、Google 地圖；路線 OpenStreetMap（routing.openstreetmap.de）。
+    查證日期 2026/10/21（每一家都在 Google 地圖打開確認店名、地址、營業時間；「📍 地圖」用 Google 地圖的店家代碼，點開就是那一家）。營業時間以查證當天的網路資料為準，店家可能臨時調整。<br>
+    步行路線：OpenStreetMap 資料、routing.openstreetmap.de 計算。<br>
+    出處連結：<a href="https://localknowledge.pixnet.net/blog" target="_blank" rel="noopener">暨大埔里老店調查</a>、<a href="https://www.sunmoonlake.gov.tw/Shop/Stores?a=45&amp;id=210" target="_blank" rel="noopener">日月潭管理處：東益成商號</a>、<a href="https://www.0492982549.com/" target="_blank" rel="noopener">永利豐官網</a>、<a href="https://sudafuvegan.com/about/1" target="_blank" rel="noopener">素得福官網</a>、<a href="https://www.facebook.com/share/14vR21TyJT9/" target="_blank" rel="noopener">埔里茭白筍店家 FB</a>
   </footer>
 </div>
+<div class="bar"><div class="in">
+  <span class="cnt" id="cnt">還沒勾選</span>
+  <button type="button" class="clr" id="clr" disabled>清除</button>
+  <button type="button" id="copy" disabled>複製</button>
+</div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 (function () {
-  var D = {"park":{"name":"Times 南投埔里南昌街停車場","addr":"南昌街155號","ll":[23.96494,120.96602],"url":"https://www.google.com/maps/search/?api=1&query=Times%20%E5%8D%97%E6%8A%95%E5%9F%94%E9%87%8C%E5%8D%97%E6%98%8C%E8%A1%97%E5%81%9C%E8%BB%8A%E5%A0%B4%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E6%98%8C%E8%A1%97155%E8%99%9F"},"shops":[{"name":"福隆土產行","buy":"埔里香菇、黑白木耳","ll":[23.9655523,120.9659499],"nx":[-9,6],"url":"https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E9%9A%86%E5%9C%9F%E7%94%A2%E8%A1%8C%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B582%E8%99%9F"},{"name":"永利豐餅舖","buy":"古早味麵包、餅（葷素要問店家）","ll":[23.9655794,120.9659582],"nx":[9,-6],"url":"https://www.google.com/maps/search/?api=1&query=%E6%B0%B8%E5%88%A9%E8%B1%90%E9%A4%85%E8%88%96%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B578%E8%99%9F"},{"name":"永安五金行","buy":"大同瓷碗、熬藥陶壺","ll":[23.9649272,120.9645297],"nx":[0,0],"url":"https://www.google.com/maps/search/?api=1&query=%E6%B0%B8%E5%AE%89%E4%BA%94%E9%87%91%E8%A1%8C%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B515%E8%99%9F"},{"name":"麗惠毛線行","buy":"毛線、編織材料","ll":[23.9656907,120.9637072],"nx":[0,0],"url":"https://www.google.com/maps/search/?api=1&query=%E9%BA%97%E6%83%A0%E6%AF%9B%E7%B7%9A%E8%A1%8C%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B559%E8%99%9F"},{"name":"松鶴堂國藥號","buy":"紅棗、枸杞等中藥材","ll":[23.9661351,120.9634675],"nx":[0,0],"url":"https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E9%B6%B4%E5%A0%82%E5%9C%8B%E8%97%A5%E8%99%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B586%E8%99%9F"}],"route":[[23.965001,120.966042],[23.965002,120.966043],[23.965082,120.965949],[23.965356,120.965657],[23.965585,120.965915],[23.965356,120.965657],[23.964963,120.965223],[23.964939,120.965198],[23.964666,120.964898],[23.964971,120.96458],[23.965554,120.963971],[23.966079,120.963406]]};
+  var D = {"park":{"name":"Times 南投埔里南昌街停車場","addr":"南昌街155號","ll":[23.96494,120.96602],"url":"https://maps.google.com/?q=Times+%E5%8D%97%E6%8A%95%E5%9F%94%E9%87%8C%E5%8D%97%E6%98%8C%E8%A1%97%E5%81%9C%E8%BB%8A%E5%A0%B4+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E6%98%8C%E8%A1%97155%E8%99%9F&ftid=0x3468d9b9edf393b1:0xdba742cfce4e15a8"},"stops":[{"n":1,"g":"w","name":"福隆土產行","addr":"西安路一段82號","ll":[23.9655523,120.9659499],"hk":"11/24（二）","hrs":"09:00–18:00","buy":"香菇、木耳（全素）","url":"https://maps.google.com/?q=%E7%A6%8F%E9%9A%86%E5%9C%9F%E7%94%A2%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B582%E8%99%9F&ftid=0x3468d998c9b7ef53:0x904ac88c273709d0"},{"n":2,"g":"w","name":"永利豐餅舖","addr":"西安路一段78號","ll":[23.9655794,120.9659582],"hk":"11/24（二）","hrs":"08:00–21:00","buy":"麵包、鹹蛋糕、禮餅（素食沒有標示，要問店家）","url":"https://maps.google.com/?q=%E6%B0%B8%E5%88%A9%E8%B1%90%E9%A4%85%E8%88%96+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B578%E8%99%9F&ftid=0x3468d998b82474e9:0xe260fe015318b9b3"},{"n":3,"g":"w","name":"晉士文化廣場","addr":"西安路一段101號","ll":[23.965563,120.9658352],"hk":"11/24（二）","hrs":"09:00–21:30","buy":"書、文具（非食物）","url":"https://maps.google.com/?q=%E6%99%89%E5%A3%AB%E6%96%87%E5%8C%96%E5%BB%A3%E5%A0%B4+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B5101%E8%99%9F&ftid=0x3468d998b9edb7db:0xaaceab55d3b94419"},{"n":4,"g":"w","name":"金源昌碾米工廠","addr":"西安路一段105號","ll":[23.965794,120.965926],"hk":"11/24（二）","hrs":"營業時間查不到（Google 地圖沒有公布）","buy":"白米","url":"https://maps.google.com/?q=%E9%87%91%E6%BA%90%E6%98%8C%E7%A2%BE%E7%B1%B3%E5%B7%A5%E5%BB%A0+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%AE%89%E8%B7%AF%E4%B8%80%E6%AE%B5105%E8%99%9F&ftid=0x3468d998b7064351:0xecc30287f0a1d3c8"},{"n":5,"g":"w","name":"遠大行","addr":"永樂巷9號","ll":[23.9635567,120.9651911],"hk":"11/24（二）","hrs":"10:00–18:00","buy":"賣什麼查不到","url":"https://maps.google.com/?q=%E9%81%A0%E5%A4%A7%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E6%A8%82%E5%B7%B79%E8%99%9F&ftid=0x3468d998812e2893:0x3ae58af8783885ce"},{"n":6,"g":"w","name":"新永豐油廠","addr":"永樂巷11號","ll":[23.9638061,120.9649708],"hk":"11/24（二）","hrs":"07:30–21:00","buy":"苦茶油、麻油（全素）","url":"https://maps.google.com/?q=%E6%96%B0%E6%B0%B8%E8%B1%90%E6%B2%B9%E5%BB%A0+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%B0%B8%E6%A8%82%E5%B7%B711%E8%99%9F&ftid=0x3468d998812e2893:0xd0fd60e4c6d741ae"},{"n":7,"g":"w","name":"永安五金行","addr":"中山路三段15號","ll":[23.9649272,120.9645297],"hk":"11/24（二）","hrs":"07:40–21:00","buy":"大同瓷碗、熬藥陶壺、剉籤（非食物）","url":"https://maps.google.com/?q=%E6%B0%B8%E5%AE%89%E4%BA%94%E9%87%91%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B515%E8%99%9F&ftid=0x3468d9a2767b04db:0x1cfc19308d97f590"},{"n":8,"g":"w","name":"金德昌皮鞋店","addr":"中山路三段25號","ll":[23.9650559,120.9643946],"hk":"現況","hrs":"2023 年起出清特賣（店家 FB 社團）","buy":"皮鞋（非食物）","url":"https://maps.google.com/?q=%E9%87%91%E5%BE%B7%E6%98%8C%E7%9A%AE%E9%9E%8B%E5%BA%97+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B525%E8%99%9F&ftid=0x3468d9a274142f6d:0xad1693815aed250d"},{"n":9,"g":"w","name":"麗惠毛線行","addr":"中山路三段59號","ll":[23.9656907,120.9637072],"hk":"11/24（二）","hrs":"09:00–20:30","buy":"毛線、編織材料（非食物）","url":"https://maps.google.com/?q=%E9%BA%97%E6%83%A0%E6%AF%9B%E7%B7%9A%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B559%E8%99%9F&ftid=0x3468d9a213000f35:0xf052d272fa448c12"},{"n":10,"g":"w","name":"松鶴堂國藥號","addr":"中山路三段86號","ll":[23.9661351,120.9634675],"hk":"11/24（二）","hrs":"08:05–21:30","buy":"紅棗、枸杞、四物、四神（全素）","url":"https://maps.google.com/?q=%E6%9D%BE%E9%B6%B4%E5%A0%82%E5%9C%8B%E8%97%A5%E8%99%9F+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B586%E8%99%9F&ftid=0x3468d9a21777c8c9:0x1cac68006e4bc219"},{"n":11,"g":"wx","name":"日日昌金香神桌佛具","addr":"中山路三段123號","ll":[23.966617,120.9626693],"hk":"11/24（二）","hrs":"08:00–21:00","buy":"香、佛具（非食物）","url":"https://maps.google.com/?q=%E5%9F%94%E9%87%8C%E6%97%A5%E6%97%A5%E6%98%8C%E9%87%91%E9%A6%99%E7%A5%9E%E6%A1%8C%E4%BD%9B%E5%85%B7%E5%A4%A7%E8%B3%A3%E5%A0%B4+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5123%E8%99%9F&ftid=0x3468d9a225e964d3:0x98da795f0d90184f"},{"n":12,"g":"wx","name":"茶之棧","addr":"中山路三段132號","ll":[23.9669288,120.9626515],"hk":"11/24（二）","hrs":"營業時間查不到（Google 地圖沒有公布）","buy":"茶葉（全素）","url":"https://maps.google.com/?q=%E8%8C%B6%E4%B9%8B%E6%A3%A7+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5132%E8%99%9F&ftid=0x3468d981a66c1e35:0xf668afe36f67b34c"},{"n":13,"g":"wx","name":"泰酥府","addr":"西康路40號","ll":[23.9656753,120.96417],"hk":"11/24（二）","hrs":"09:30–21:30","buy":"牛軋糖、堅果塔（全素沒有確認）","url":"https://maps.google.com/?q=%E6%B3%B0%E9%85%A5%E5%BA%9C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E8%A5%BF%E5%BA%B7%E8%B7%AF40%E8%99%9F&ftid=0x3468d9a20c1e177f:0x181fe19f63e27d2c"},{"n":14,"g":"wd","name":"埔里茭白筍（批發零售宅配）","addr":"中山路三段620號","ll":[23.971219,120.949297],"hk":"11/24（二）","hrs":"08:00–18:00","buy":"茭白筍（全素），可宅配","url":"https://maps.google.com/?q=%E5%9F%94%E9%87%8C%E8%8C%AD%E7%99%BD%E7%AD%8D-%E6%89%B9%E7%99%BC%E9%9B%B6%E5%94%AE%E5%AE%85%E9%85%8D+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%AF%E4%B8%89%E6%AE%B5620%E8%99%9F&ftid=0x3468d9a93dd3df37:0x8328beaf1a0e894","far":true},{"n":15,"g":"e","name":"爃輝山產行","addr":"中正路412號","ll":[23.9656211,120.9671193],"hk":"11/24（二）","hrs":"營業時間查不到（Google 地圖沒有公布）","buy":"香菇、木耳、梅乾菜","url":"https://maps.google.com/?q=%E7%88%83%E8%BC%9D%E5%B1%B1%E7%94%A2%E8%A1%8C%EF%BC%88%E9%A6%99%E8%8F%87%EF%BC%89+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF412%E8%99%9F&ftid=0x3468d998cb9a7665:0xc0cd452272c6169c"},{"n":16,"g":"e","name":"日昇鐘錶行","addr":"中正路392號","ll":[23.964669,120.9679101],"hk":"11/24（二）","hrs":"10:30–21:00","buy":"換電池、錶帶（非食物）","url":"https://maps.google.com/?q=%E6%97%A5%E6%98%87%E9%90%98%E9%8C%B6%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF392%E8%99%9F&ftid=0x3468d99923b95fd3:0xcd8816e9ce1a39b4"},{"n":17,"g":"e","name":"東益成商號","addr":"中正路370號","ll":[23.9641751,120.9684144],"hk":"11/24（二）","hrs":"10:00–21:00（管理處寫到 21:30）","buy":"古早味零食、明信片、郵票","url":"https://maps.google.com/?q=%E6%9D%B1%E7%9B%8A%E6%88%90%E5%95%86%E8%99%9F+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF370%E8%99%9F&ftid=0x3468d998cb9a7665:0xb0f9690116f06117"},{"n":18,"g":"e","name":"金德中藥房","addr":"中正路358號","ll":[23.9639878,120.9686078],"hk":"11/24（二）","hrs":"08:30–12:00、14:00–18:00","buy":"漢方藥材、茶包（全素）","url":"https://maps.google.com/?q=%E9%87%91%E5%BE%B7%E4%B8%AD%E8%97%A5%E6%88%BF+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF358%E8%99%9F&ftid=0x3468d999143e2a35:0x224c877631c5f21"},{"n":19,"g":"e","name":"佛教文物流通處","addr":"東華路93號","ll":[23.9633088,120.9688927],"hk":"11/24（二）","hrs":"09:00–20:00","buy":"佛具、經書（非食物）","url":"https://maps.google.com/?q=%E4%BD%9B%E6%95%99%E6%96%87%E7%89%A9%E6%B5%81%E9%80%9A%E8%99%95+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E8%8F%AF%E8%B7%AF93%E8%99%9F&ftid=0x3468d9990b566553:0xf0fa779b34d38ce2"},{"n":20,"g":"e","name":"老林新美香行","addr":"中正路327號","ll":[23.9633664,120.9690761],"hk":"11/24（二）","hrs":"07:00–22:30","buy":"線香、沉香（非食物）","url":"https://maps.google.com/?q=%E8%80%81%E6%9E%97%E6%96%B0%E7%BE%8E%E9%A6%99%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF327%E8%99%9F&ftid=0x3468d9997473f3df:0x2c721e9cd8de580e"},{"n":21,"g":"e","name":"大房林新美金香舖","addr":"中正路325號","ll":[23.9633102,120.9691966],"hk":"11/24（二）","hrs":"營業時間查不到（Google 地圖沒有公布）","buy":"香、金紙（非食物）","url":"https://maps.google.com/?q=%E5%A4%A7%E6%88%BF%E6%9E%97%E6%96%B0%E7%BE%8E%E9%87%91%E9%A6%99%E8%88%96+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E6%AD%A3%E8%B7%AF325%E8%99%9F&ftid=0x3468d998cb959001:0xf5444cd6ae00b0a2"},{"n":22,"g":"e","name":"靈芝藥鋪（威德堂中藥房）","addr":"忠孝路194號","ll":[23.963786,120.971338],"hk":"11/24（二）","hrs":"08:30–21:00","buy":"靈芝、藥材","url":"https://maps.google.com/?q=%E9%9D%88%E8%8A%9D%E8%97%A5%E9%8B%AA%EF%BC%88%E5%A8%81%E5%BE%B7%E5%A0%82%E4%B8%AD%E8%97%A5%E6%88%BF%EF%BC%89+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF194%E8%99%9F&ftid=0x3468d97454521a25:0x55ef1884ecdf83f"},{"n":23,"g":"e","name":"祥順素食","addr":"忠孝路143號","ll":[23.9630006,120.9708861],"hk":"11/24（二）","hrs":"09:30–19:30","buy":"素食","url":"https://maps.google.com/?q=%E7%A5%A5%E9%A0%86%E7%B4%A0%E9%A3%9F+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF143%E8%99%9F&ftid=0x3468d99bd07b9b19:0x63f9ec8f14516702"},{"n":24,"g":"e","name":"素得福","addr":"忠孝路133號","ll":[23.9628113,120.9706394],"hk":"11/24（二）","hrs":"08:00–19:30","buy":"全素包子、饅頭（有沒有五辛要問）","url":"https://maps.google.com/?q=%E7%B4%A0%E5%BE%97%E7%A6%8F%E7%B4%A0%E9%A3%9F%E5%8C%85%E5%AD%90%E9%A5%85%E9%A0%AD+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%BF%A0%E5%AD%9D%E8%B7%AF133%E8%99%9F&ftid=0x3468d99bd07b9b19:0x237604334e9d7896"},{"n":25,"g":"e","name":"東門町鮮豆花","addr":"東華路72-1號","ll":[23.9628794,120.9686442],"hk":"11/24（二）","hrs":"09:30–18:00","buy":"豆花、仙草、甜湯（全素沒有標示）","url":"https://maps.google.com/?q=%E6%9D%B1%E9%96%80%E7%94%BA%E9%AE%AE%E8%B1%86%E8%8A%B1+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E8%8F%AF%E8%B7%AF72-1%E8%99%9F&ftid=0x3468d960e104f9bf:0xad4bfd7f278716ff"},{"n":26,"g":"e","name":"日榮青草店","addr":"南盛街56號","ll":[23.9620552,120.9677894],"hk":"11/24（二）","hrs":"08:30–12:00、14:00–18:00","buy":"青草茶料","url":"https://maps.google.com/?q=%E6%97%A5%E6%A6%AE%E9%9D%92%E8%8D%89%E5%BA%97+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%9756%E8%99%9F&ftid=0x3468d999b60b034d:0xe248f99592d92519"},{"n":27,"g":"e","name":"古記素食烘焙","addr":"南盛街112號","ll":[23.9628572,120.9667399],"hk":"11/24（二）","hrs":"09:00–20:00","buy":"素饅頭、糕點（有沒有蛋奶要問）","url":"https://maps.google.com/?q=%E5%8F%A4%E8%A8%98%E7%B4%A0%E9%A3%9F%E7%83%98%E7%84%99+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%97112%E8%99%9F&ftid=0x3468d9985aeca76b:0x76fa346345c00c08"},{"n":28,"g":"e","name":"一誠堂埔里老店","addr":"南盛街115號","ll":[23.9628326,120.9667523],"hk":"11/24（二）","hrs":"07:30–19:00","buy":"鳳梨酥、發糕（全素要問）","url":"https://maps.google.com/?q=%E4%B8%80%E8%AA%A0%E5%A0%82%E5%9F%94%E9%87%8C%E8%80%81%E5%BA%97+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%97115%E8%99%9F&ftid=0x3468d97c1f5da191:0x9c425c53ca573698"},{"n":29,"g":"e","name":"大雅布莊","addr":"東榮路80號","ll":[23.9631137,120.9670182],"hk":"11/24（二）","hrs":"09:00–18:00","buy":"布料、布袋（非食物）","url":"https://maps.google.com/?q=%E5%A4%A7%E9%9B%85%E5%B8%83%E8%8E%8A+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E6%A6%AE%E8%B7%AF80%E8%99%9F&ftid=0x3468d99856d9dced:0x1e9b9c638287feb2"},{"n":30,"g":"e","name":"宏昌布莊","addr":"東榮路76號","ll":[23.9631203,120.9668995],"hk":"11/24（二）","hrs":"09:00–19:00","buy":"布料（非食物）","url":"https://maps.google.com/?q=%E5%AE%8F%E6%98%8C%E5%B8%83%E8%8E%8A+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9D%B1%E6%A6%AE%E8%B7%AF76%E8%99%9F&ftid=0x3468d99850c0d35d:0xff5d4596857632db"},{"n":31,"g":"e","name":"博安堂蔘藥行","addr":"南盛街145號","ll":[23.9633388,120.9661835],"hk":"11/24（二）","hrs":"09:00–21:45","buy":"藥材","url":"https://maps.google.com/?q=%E5%8D%9A%E5%AE%89%E5%A0%82%E8%94%98%E8%97%A5%E8%A1%8C+%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E7%9B%9B%E8%A1%97145%E8%99%9F&ftid=0x3468d998601798c7:0x442a8aa0e339b428"}],"routes":{"w":[[23.964953,120.966035],[23.965018,120.965965],[23.964834,120.965768],[23.964779,120.965819],[23.965002,120.966043],[23.965082,120.965949],[23.965356,120.965657],[23.965585,120.965915],[23.965602,120.965934],[23.965538,120.965862],[23.965692,120.966035],[23.965356,120.965657],[23.964963,120.965223],[23.964939,120.965198],[23.964666,120.964898],[23.964337,120.965258],[23.964053,120.964967],[23.963615,120.965231],[23.963603,120.965244],[23.963615,120.965231],[23.963862,120.965082],[23.964053,120.964967],[23.964337,120.965258],[23.964666,120.964898],[23.964971,120.96458],[23.9651,120.964445],[23.965554,120.963971],[23.965744,120.963766],[23.966079,120.963406],[23.965554,120.963971],[23.965789,120.964241],[23.965632,120.964413],[23.965603,120.964452],[23.965612,120.964546],[23.965596,120.964593],[23.965412,120.964778],[23.965789,120.965194],[23.965356,120.965657],[23.965082,120.965949],[23.965002,120.966043],[23.964779,120.965819],[23.964834,120.965768],[23.965018,120.965965],[23.964953,120.966035]],"wx":[[23.966079,120.963406],[23.96647,120.962986],[23.966691,120.962753],[23.966861,120.962574],[23.96647,120.962986],[23.965554,120.963971],[23.965702,120.964141],[23.965789,120.964241],[23.965632,120.964413],[23.965603,120.964452],[23.965612,120.964546],[23.965596,120.964593],[23.965412,120.964778],[23.965789,120.965194],[23.965356,120.965657],[23.965082,120.965949],[23.965002,120.966043],[23.964779,120.965819],[23.964834,120.965768],[23.965018,120.965965],[23.964953,120.966035]],"e":[[23.964953,120.966035],[23.965018,120.965965],[23.964834,120.965768],[23.964779,120.965819],[23.965002,120.966043],[23.964943,120.966111],[23.9648,120.966255],[23.964489,120.966593],[23.965019,120.967162],[23.96503,120.967151],[23.965067,120.967128],[23.965108,120.967113],[23.96515,120.967108],[23.965193,120.967113],[23.965234,120.967127],[23.965271,120.96715],[23.965303,120.967182],[23.965494,120.966977],[23.965303,120.967182],[23.965328,120.967219],[23.965346,120.967262],[23.965355,120.967307],[23.965355,120.967357],[23.965345,120.967406],[23.965325,120.967451],[23.965297,120.967491],[23.965261,120.967522],[23.96522,120.967544],[23.965176,120.967556],[23.96513,120.967556],[23.965086,120.967546],[23.965044,120.967524],[23.965008,120.967494],[23.964639,120.967875],[23.964279,120.968248],[23.964149,120.968385],[23.963964,120.968581],[23.963821,120.968733],[23.963594,120.968972],[23.963476,120.968817],[23.963455,120.968837],[23.963405,120.968875],[23.96337,120.968833],[23.963405,120.968875],[23.963455,120.968837],[23.963476,120.968817],[23.963594,120.968972],[23.963404,120.969179],[23.963338,120.969106],[23.963404,120.969179],[23.963348,120.969239],[23.963404,120.969179],[23.963558,120.969345],[23.963722,120.969526],[23.963946,120.969798],[23.964108,120.969995],[23.964166,120.970061],[23.963762,120.970496],[23.963264,120.971032],[23.963651,120.971478],[23.963264,120.971032],[23.963204,120.970963],[23.963063,120.970815],[23.96285,120.970594],[23.96248,120.970207],[23.96298,120.969636],[23.963404,120.969179],[23.9629,120.968622],[23.962754,120.968461],[23.962081,120.96764],[23.962,120.967728],[23.962081,120.96764],[23.962893,120.966781],[23.962875,120.9668],[23.962956,120.966715],[23.963162,120.966972],[23.963111,120.966908],[23.962956,120.966715],[23.963398,120.966251],[23.963825,120.965803],[23.964121,120.965474],[23.964402,120.965783],[23.964619,120.966054],[23.9648,120.966255],[23.964943,120.966111],[23.965002,120.966043],[23.964779,120.965819],[23.964834,120.965768],[23.965018,120.965965],[23.964953,120.966035]]}};
   var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var toast = document.getElementById('toast');
+  var KEY = 'puli-walk-picks-v2', picks = {};
+  try { picks = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { picks = {}; }
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.pick'));
+  var cnt = document.getElementById('cnt'), copy = document.getElementById('copy'), clr = document.getElementById('clr'), toast = document.getElementById('toast');
   function say(t) { toast.textContent = t; toast.classList.add('show'); clearTimeout(say.t); say.t = setTimeout(function () { toast.classList.remove('show'); }, 2600); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* ---------- 地圖 ---------- */
   var M = null;
   (function () {
-    var el = document.getElementById('map'), box = document.getElementById('wmap');
+    var el = document.getElementById('map');
     if (typeof L === 'undefined') { el.innerHTML = '<p class="wm-err">地圖載入不了（需要網路）。下面每一家都有「📍 地圖」按鈕。</p>'; return; }
     var map = L.map(el, { zoomControl: false, scrollWheelZoom: false, zoomSnap: 0.5, attributionControl: false });
     L.control.zoom({ position: 'topright', zoomInTitle: '放大', zoomOutTitle: '縮小' }).addTo(map);
@@ -173,30 +492,81 @@
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, className: 'wm-tiles',
       attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>' }).addTo(map);
     var b = L.latLngBounds([]);
-    var pw = Math.max(200, Math.min(260, el.clientWidth - 60));
-    var popOpt = { maxWidth: pw, minWidth: Math.min(200, pw), autoPanPadding: [16, 16] };
-    function mapA(u) { return '<div class="pp-btns"><a href="' + esc(u) + '" target="_blank" rel="noopener">📍 地圖</a></div>'; }
-    if (D.route && D.route.length) { var pl = L.polyline(D.route, { color: '#2A6355', weight: 7, opacity: .8, lineJoin: 'round', interactive: false }).addTo(map); b.extend(pl.getBounds()); }
-    D.shops.forEach(function (s) {
-      b.extend(s.ll);
-      L.marker(s.ll, { icon: L.divIcon({ className: 'pin-i', iconSize: [18, 18], iconAnchor: [9 - s.nx[0], 9 - s.nx[1]], popupAnchor: [s.nx[0], s.nx[1] - 11], html: '<div class="dot"></div>' }),
-                       title: s.name, riseOnHover: true })
-        .bindPopup('<p class="pp-name">' + esc(s.name) + '</p><p class="pp-k">' + esc(s.buy) + '</p>' + mapA(s.url), popOpt).addTo(map);
+    var sty = { w: { color: '#2A6355', weight: 5, opacity: .85 }, wx: { color: '#2A6355', weight: 5, opacity: .85, dashArray: '9 9' },
+                e: { color: '#A8422A', weight: 5, opacity: .8, dashArray: '9 9' } };
+    ['e', 'wx', 'w'].forEach(function (k) {
+      if (!D.routes[k]) return;
+      var o = sty[k]; o.lineJoin = 'round'; o.interactive = false;
+      b.extend(L.polyline(D.routes[k], o).addTo(map).getBounds());
     });
-    b.extend(D.park.ll);
-    L.marker(D.park.ll, { icon: L.divIcon({ className: 'pin-i', iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -18], html: '<div class="pin">P</div>' }),
-                          title: 'P ' + D.park.name, zIndexOffset: 500 })
-      .addTo(map).bindPopup('<p class="pp-name">' + esc(D.park.name) + '</p><p class="pp-k">' + esc(D.park.addr) + '</p>' + mapA(D.park.url), popOpt);
+    var mk = {}, off = {}, pts = [];
+    function icon(s) {
+      var z = 30, cls = s.p ? 'p' : (s.g === 'w' ? '' : s.g) + (picks[s.n] ? ' on' : '');
+      return L.divIcon({ className: 'pin-i', iconSize: [z, z], iconAnchor: [z / 2, z / 2], popupAnchor: [0, -z / 2 - 2],
+        html: '<div class="pin ' + cls + '">' + (s.p ? 'P' : s.n) + '</div>' });
+    }
+    function pop(s) {
+      var nc = s.p ? 'p' : (s.g === 'w' ? '' : s.g);
+      var h = '<div class="pp-top"><span class="pp-num ' + nc + '">' + (s.p ? 'P' : s.n) + '</span><span class="pp-name">' + esc(s.name) + '</span></div>';
+      if (s.p) h += '<p>' + esc(s.addr) + '</p><p class="pp-k">從這裡出發，最後走回這裡</p>';
+      else h += '<p><span class="pp-k">' + esc(s.hk) + '</span> ' + esc(s.hrs) + '</p><p><span class="pp-k">可買</span> ' + esc(s.buy) + '</p>';
+      return h + '<a class="pp-go" href="' + esc(s.url) + '" target="_blank" rel="noopener">📍 地圖</a>';
+    }
+    var park = { p: true, n: 'P', name: D.park.name, addr: D.park.addr, ll: D.park.ll, url: D.park.url };
+    var all = D.stops.concat([park]);
+    var pw = Math.max(200, Math.min(260, el.clientWidth - 60));
+    all.forEach(function (s) {
+      if (!s.far) b.extend(s.ll);   // 要開車的店不放進「看整條路線」的範圍
+      mk[s.n] = L.marker(s.ll, { icon: icon(s), title: (s.p ? 'P ' : s.n + ' ') + s.name, riseOnHover: true, zIndexOffset: s.p ? 500 : 0 })
+        .addTo(map).bindPopup(pop(s), { maxWidth: pw, minWidth: Math.min(200, pw), autoPanPadding: [16, 16] });
+    });
+    function setOff(n) {
+      var m = mk[n], e = m.getElement(), o = off[n] || [0, 0];
+      if (e && e.firstChild) e.firstChild.style.transform = (o[0] || o[1]) ? 'translate(' + o[0].toFixed(1) + 'px,' + o[1].toFixed(1) + 'px)' : '';
+      var pp = m.getPopup(); if (pp) { pp.options.offset = L.point(o[0], o[1] + 7); if (pp.isOpen()) pp.update(); }
+    }
+    function spread() {   // 太近的圖釘稍微錯開（座標不變，只移圖示），每顆都點得到
+      var R = 31, P = all.map(function (s) { return map.latLngToLayerPoint(s.ll); }), o = all.map(function () { return [0, 0]; });
+      for (var it = 0; it < 60; it++) {
+        var mv = false;
+        for (var i = 0; i < P.length; i++) for (var j = i + 1; j < P.length; j++) {
+          var dx = P[i].x + o[i][0] - P[j].x - o[j][0], dy = P[i].y + o[i][1] - P[j].y - o[j][1], dd = Math.sqrt(dx * dx + dy * dy);
+          if (dd >= R) continue;
+          if (dd < 0.5) { dx = Math.cos((i + j) * 2.4); dy = Math.sin((i + j) * 2.4); dd = 1; }
+          var pu = (R - dd) / 2 + 0.3; dx /= dd; dy /= dd;
+          o[i][0] += dx * pu; o[i][1] += dy * pu; o[j][0] -= dx * pu; o[j][1] -= dy * pu; mv = true;
+        }
+        if (!mv) break;
+      }
+      all.forEach(function (s, i) { off[s.n] = o[i]; setOff(s.n); });
+    }
     var touched = false;
-    function pad() { var lg = box.querySelector('.wm-leg'); return { paddingTopLeft: [24, 24], paddingBottomRight: [24, (lg ? lg.offsetHeight : 0) + 16], maxZoom: 18 }; }
-    function fit(anim) { map.closePopup(); var o = pad(); o.animate = !!anim && !RM; map.fitBounds(b, o); }
-    fit(false);
+    function pad() { var lg = document.querySelector('.wm-leg'); return { paddingTopLeft: [18, 18], paddingBottomRight: [18, (lg ? lg.offsetHeight : 0) + 14] }; }
+    function fit() { map.closePopup(); var o = pad(); o.animate = !RM; map.fitBounds(b, o); }
+    var o0 = pad(); o0.animate = false; map.fitBounds(b, o0);
     map.on('dragstart popupopen', function () { touched = true; });
+    var box = document.querySelector('.wmap');
     map.on('popupopen', function () { box.classList.add('popon'); });
     map.on('popupclose', function () { box.classList.remove('popon'); });
     el.addEventListener('click', function (e) { if (e.target.closest('.leaflet-control-zoom')) touched = true; });
-    M = { map: map, fit: function () { fit(true); } };
-    function refit() { map.invalidateSize(); if (!touched) fit(false); }
+    map.on('zoomend', spread);
+    spread();
+    M = {
+      map: map, fit: fit,
+      restyle: function () { D.stops.forEach(function (s) { mk[s.n].setIcon(icon(s)); setOff(s.n); }); },
+      focus: function (n) {
+        var m = mk[n]; if (!m) return;
+        document.querySelector('.wmap').scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' });
+        var z = Math.max(map.getZoom(), 17.5);
+        map.closePopup();
+        setTimeout(function () {
+          if (RM) { map.setView(m.getLatLng(), z, { animate: false }); m.openPopup(); return; }
+          map.once('moveend', function () { m.openPopup(); });
+          map.flyTo(m.getLatLng(), z, { duration: .7 });
+        }, RM ? 0 : 350);
+      }
+    };
+    function refit() { map.invalidateSize(); if (!touched) { var o = pad(); o.animate = false; map.fitBounds(b, o); } }
     if ('ResizeObserver' in window) new ResizeObserver(refit).observe(el);
     window.addEventListener('load', refit);
   })();
@@ -219,6 +589,55 @@
       say('已移到你的位置');
     }, function () { say('無法取得位置，請確認已允許定位'); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
   });
+  Array.prototype.forEach.call(document.querySelectorAll('.num'), function (b) {
+    b.addEventListener('click', function () {
+      if (!M) { say('地圖載入不了（需要網路）'); return; }
+      M.focus(+b.getAttribute('data-n'));
+    });
+  });
+
+  /* ---------- 勾選想去 ---------- */
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {} }
+  function render() {
+    var n = 0;
+    btns.forEach(function (b) {
+      var on = !!picks[b.dataset.id];
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.closest('.card').classList.toggle('on', on);
+      if (on) n++;
+    });
+    cnt.textContent = n ? '已勾 ' + n + ' 家' : '還沒勾選';
+    copy.disabled = clr.disabled = !n;
+    if (M) M.restyle();
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (picks[b.dataset.id]) delete picks[b.dataset.id]; else picks[b.dataset.id] = 1;
+      save(); render();
+    });
+  });
+  clr.addEventListener('click', function () { picks = {}; save(); render(); say('已清除'); });
+  function text() {
+    var gn = { w: '西區', wx: '西區延伸', wd: '西區開車', e: '東區' }, out = ['埔里逛街：我想去'];
+    D.stops.forEach(function (s) { if (picks[s.n]) out.push('・' + s.n + ' ' + s.name + '（' + gn[s.g] + '）'); });
+    out.push(location.href.split('#')[0]);
+    return out.join('\n');
+  }
+  copy.addEventListener('click', function () {
+    var t = text();
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      say(ok ? '已複製，可以貼到 LINE' : '複製不了，請截圖給大家');
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(t).then(function () { say('已複製，可以貼到 LINE'); }, fallback);
+    } else fallback();
+  });
+  render();
 })();
 </script>
 </body>
