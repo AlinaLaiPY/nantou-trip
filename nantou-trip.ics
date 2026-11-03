@@ -1,0 +1,517 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//alinalaipy.github.io//nantou-trip//ZH-TW
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:南投行程
+X-WR-TIMEZONE:Asia/Taipei
+BEGIN:VEVENT
+UID:nantou-2026-d1-1@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T010000Z
+DTEND:20261124T040000Z
+SUMMARY:汐止出發 → 台中
+LOCATION:新北市汐止區
+DESCRIPTION:時間：約 09:00\n下一站：空也素麵食（龍門店）
+ （12:00–13:30）\n行車版：https://alinalaipy.github.io/nantou-trip/
+ drive.html
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:汐止出發 → 台中（約 09:00）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d1-2@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T040000Z
+DTEND:20261124T053000Z
+SUMMARY:空也素麵食（龍門店）
+LOCATION:空也素麵食 龍門店 台中市西屯區朝富五街10號
+DESCRIPTION:時間：12:00–13:30\n下一站：日月町（約 14:25–15:
+ 10）\n導航：https://www.google.com/maps/dir/?api=1&destination=%E7%A9%
+ BA%E4%B9%9F%E7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5
+ %8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%B
+ A%94%E8%A1%9710%E8%99%9F&travelmode=driving\n電話：04-2252-3722\n行車
+ 版：https://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E7%A9%BA%E4%B9%9F%E
+ 7%B4%A0%E9%BA%B5%E9%A3%9F%20%E9%BE%8D%E9%96%80%E5%BA%97%20%E5%8F%B0%E4%B8%
+ AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%9C%9D%E5%AF%8C%E4%BA%94%E8%A1%97
+ 10%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:空也素麵食（龍門店）（12:00–13:30）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d1-3@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T062500Z
+DTEND:20261124T071000Z
+SUMMARY:日月町
+LOCATION:日月町第三停車場（P3) 南投縣埔里鎮中山路四段23
+ 5-8號
+DESCRIPTION:時間：約 14:25–15:10\n下一站：地母廟（約 15:35
+ –16:05）\n導航：https://www.google.com/maps/dir/?api=1&destination=%
+ E6%97%A5%E6%9C%88%E7%94%BA%E7%AC%AC%E4%B8%89%E5%81%9C%E8%BB%8A%E5%A0%B4%EF
+ %BC%88P3%29%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8
+ %AD%E5%B1%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&travelmode=driving\n
+ 電話：049-2009296\n行車版：https://alinalaipy.github.io/nantou-trip
+ /drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E
+ 7%94%BA%E7%AC%AC%E4%B8%89%E5%81%9C%E8%BB%8A%E5%A0%B4%EF%BC%88P3%29%20%E5%8
+ D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E4%B8%AD%E5%B1%B1%E8%B7%
+ AF%E5%9B%9B%E6%AE%B5235-8%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:日月町（約 14:25–15:10）
+TRIGGER:-PT65M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d1-4@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T073500Z
+DTEND:20261124T080500Z
+SUMMARY:地母廟
+LOCATION:寶湖宮天地堂地母廟 南投縣埔里鎮枇杷路94號
+DESCRIPTION:時間：約 15:35–16:05\n下一站：Feeling18℃（約 16:1
+ 5–16:45）\n導航：https://www.google.com/maps/dir/?api=1&destination=
+ %E5%AF%B6%E6%B9%96%E5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E
+ 5%BB%9F%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%
+ E6%9D%B7%E8%B7%AF94%E8%99%9F&travelmode=driving\n電話：049-2982873\n行
+ 車版：https://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E5%AF%B6%E6%B9%96%E
+ 5%AE%AE%E5%A4%A9%E5%9C%B0%E5%A0%82%E5%9C%B0%E6%AF%8D%E5%BB%9F%20%E5%8D%97%
+ E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%9E%87%E6%9D%B7%E8%B7%AF94%
+ E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:地母廟（約 15:35–16:05）
+TRIGGER:-PT35M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d1-5@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T081500Z
+DTEND:20261124T084500Z
+SUMMARY:Feeling18℃
+LOCATION:Feeling18度C巧克力工房 南投縣埔里鎮慈恩街20號
+DESCRIPTION:時間：約 16:15–16:45\n下一站：埔里街區散步（
+ 約 16:55–17:35）\n導航：https://www.google.com/maps/dir/?api=1&dest
+ ination=Feeling18%E5%BA%A6C%E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%2
+ 0%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%
+ E8%A1%9720%E8%99%9F&travelmode=driving\n電話：049-2984863\n行車版：
+ https://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=Feeling18%E5%BA%A6C%
+ E5%B7%A7%E5%85%8B%E5%8A%9B%E5%B7%A5%E6%88%BF%20%E5%8D%97%E6%8A%95%E7%B8%A3
+ %E5%9F%94%E9%87%8C%E9%8E%AE%E6%85%88%E6%81%A9%E8%A1%9720%E8%99%9F&travelmo
+ de=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Feeling18℃（約 16:15–16:45）
+TRIGGER:-PT20M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d1-6@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T085500Z
+DTEND:20261124T093500Z
+SUMMARY:埔里街區散步
+LOCATION:Times 南投埔里南昌街停車場 南投縣埔里鎮南昌街15
+ 5號
+DESCRIPTION:時間：約 16:55–17:35\n下一站：無所從來（晚餐
+ ）（17:45–19:15）\n導航：https://www.google.com/maps/dir/?api=1&de
+ stination=Times%20%E5%8D%97%E6%8A%95%E5%9F%94%E9%87%8C%E5%8D%97%E6%98%8C%E
+ 8%A1%97%E5%81%9C%E8%BB%8A%E5%A0%B4%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%
+ E9%87%8C%E9%8E%AE%E5%8D%97%E6%98%8C%E8%A1%97155%E8%99%9F&travelmode=drivin
+ g\n電話：049-2423135\n行車版：https://alinalaipy.github.io/nantou-t
+ rip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=Times%20%E5%8D%97%E6
+ %8A%95%E5%9F%94%E9%87%8C%E5%8D%97%E6%98%8C%E8%A1%97%E5%81%9C%E8%BB%8A%E5%A
+ 0%B4%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E6%
+ 98%8C%E8%A1%97155%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:埔里街區散步（約 16:55–17:35）
+TRIGGER:-PT20M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d1-7@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T094500Z
+DTEND:20261124T111500Z
+SUMMARY:無所從來（晚餐）
+LOCATION:無所從來蔬食文創館 南投縣埔里鎮南安路788號
+DESCRIPTION:時間：17:45–19:15\n下一站：日月潭教師會館（入
+ 住）（約 19:55）\n導航：https://www.google.com/maps/dir/?api=1&des
+ tination=%E7%84%A1%E6%89%80%E5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E
+ 5%89%B5%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%
+ E5%8D%97%E5%AE%89%E8%B7%AF788%E8%99%9F&travelmode=driving\n電話：049-29
+ 19007\n行車版：https://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E7%84%A1%E6%89%80%E
+ 5%BE%9E%E4%BE%86%E8%94%AC%E9%A3%9F%E6%96%87%E5%89%B5%E9%A4%A8%20%E5%8D%97%
+ E6%8A%95%E7%B8%A3%E5%9F%94%E9%87%8C%E9%8E%AE%E5%8D%97%E5%AE%89%E8%B7%AF788
+ %E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:無所從來（晚餐）（17:45–19:15）
+TRIGGER:-PT20M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d1-8@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T115500Z
+DTEND:20261124T122500Z
+SUMMARY:日月潭教師會館（入住）
+LOCATION:日月潭教師會館 南投縣魚池鄉中興路136號
+DESCRIPTION:時間：約 19:55\n導航：https://www.google.com/maps/dir/?a
+ pi=1&destination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9
+ %A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E
+ 8%88%88%E8%B7%AF136%E8%99%9F&travelmode=driving\n電話：049-2855991\n行
+ 車版：https://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E
+ 6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%
+ E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmo
+ de=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:日月潭教師會館（入住）（約 19:55）
+TRIGGER:-PT50M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-1@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261124T233000Z
+DTEND:20261125T004500Z
+SUMMARY:早餐（會館桃李緣）
+LOCATION:南投縣魚池鄉中興路136號
+DESCRIPTION:時間：07:30–08:45\n下一站：向山遊客中心・茶茶
+ 小王子（約 09:15–10:15）\n行車版：https://alinalaipy.github.io
+ /nantou-trip/drive.html
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:早餐（會館桃李緣）（07:30–08:45）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-2@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T011500Z
+DTEND:20261125T021500Z
+SUMMARY:向山遊客中心・茶茶小王子
+LOCATION:向山遊客中心 南投縣魚池鄉中山路599號
+DESCRIPTION:時間：約 09:15–10:15\n下一站：沿湖南岸開往纜
+ 車站（約 10:15）\n導航：https://www.google.com/maps/dir/?api=1&des
+ tination=%E5%90%91%E5%B1%B1%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%9
+ 7%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF5
+ 99%E8%99%9F&travelmode=driving\n電話：049-2341256\n行車版：https://
+ alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E5%90%91%E5%B1%B1%E
+ 9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%
+ E6%B1%A0%E9%84%89%E4%B8%AD%E5%B1%B1%E8%B7%AF599%E8%99%9F&travelmode=drivin
+ g
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:向山遊客中心・茶茶小王子（約 09:15–10:15）
+TRIGGER:-PT40M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-3@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T021500Z
+DTEND:20261125T030000Z
+SUMMARY:沿湖南岸開往纜車站
+DESCRIPTION:時間：約 10:15\n下一站：日月潭纜車（來回）（
+ 約 11:00–11:50）\n行車版：https://alinalaipy.github.io/nantou-trip
+ /drive.html
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:沿湖南岸開往纜車站（約 10:15）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-4@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T030000Z
+DTEND:20261125T035000Z
+SUMMARY:日月潭纜車（來回）
+LOCATION:日月潭纜車站 南投縣魚池鄉中正路102號
+DESCRIPTION:時間：約 11:00–11:50\n下一站：明雅小棧（午餐
+ ）（12:15–13:45）\n導航：https://www.google.com/maps/dir/?api=1&de
+ stination=%E6%97%A5%E6%9C%88%E6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%
+ 97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF
+ 102%E8%99%9F&travelmode=driving\n電話：049-2850666\n行車版：https:/
+ /alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E
+ 6%BD%AD%E7%BA%9C%E8%BB%8A%E7%AB%99%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%
+ E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF102%E8%99%9F&travelmode=drivin
+ g
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:日月潭纜車（來回）（約 11:00–11:50）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-5@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T041500Z
+DTEND:20261125T054500Z
+SUMMARY:明雅小棧（午餐）
+LOCATION:明雅小棧 南投縣魚池鄉魚池街557巷1號
+DESCRIPTION:時間：12:15–13:45\n下一站：日月老茶廠（約 13:55
+ –14:55）\n導航：https://www.google.com/maps/dir/?api=1&destination=%
+ E6%98%8E%E9%9B%85%E5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A
+ %E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&travel
+ mode=driving\n電話：049-2896929\n行車版：https://alinalaipy.github.
+ io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%98%8E%E9%9B%85%E
+ 5%B0%8F%E6%A3%A7%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%
+ E9%AD%9A%E6%B1%A0%E8%A1%97557%E5%B7%B71%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:明雅小棧（午餐）（12:15–13:45）
+TRIGGER:-PT35M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-6@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T055500Z
+DTEND:20261125T065500Z
+SUMMARY:日月老茶廠
+LOCATION:日月老茶廠 南投縣魚池鄉中明村有水巷38號
+DESCRIPTION:時間：約 13:55–14:55\n下一站：雲品大廳酒吧（
+ 下午茶）（約 15:10–17:10）\n導航：https://www.google.com/maps/
+ dir/?api=1&destination=%E6%97%A5%E6%9C%88%E8%80%81%E8%8C%B6%E5%BB%A0%20%E5
+ %8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%98%8E%E6%9
+ D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F&travelmode=driving\n電話：04
+ 9-2895508\n行車版：https://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E
+ 8%80%81%E8%8C%B6%E5%BB%A0%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%
+ E9%84%89%E4%B8%AD%E6%98%8E%E6%9D%91%E6%9C%89%E6%B0%B4%E5%B7%B738%E8%99%9F&
+ travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:日月老茶廠（約 13:55–14:55）
+TRIGGER:-PT20M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-7@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T071000Z
+DTEND:20261125T091000Z
+SUMMARY:雲品大廳酒吧（下午茶）
+LOCATION:雲品溫泉酒店 南投縣魚池鄉中正路23號
+DESCRIPTION:時間：約 15:10–17:10\n下一站：阿芬素食館（晚
+ 餐）（17:30–19:00）\n導航：https://www.google.com/maps/dir/?api=1
+ &destination=%E9%9B%B2%E5%93%81%E6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%
+ 8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7
+ %AF23%E8%99%9F&travelmode=driving\n電話：049-2212926\n行車版：https
+ ://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E9%9B%B2%E5%93%81%E
+ 6%BA%AB%E6%B3%89%E9%85%92%E5%BA%97%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%
+ E6%B1%A0%E9%84%89%E4%B8%AD%E6%AD%A3%E8%B7%AF23%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:雲品大廳酒吧（下午茶）（約 15:10–17:10）
+TRIGGER:-PT25M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-8@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T093000Z
+DTEND:20261125T110000Z
+SUMMARY:阿芬素食館（晚餐）
+LOCATION:阿芬素食館 南投縣魚池鄉魚池街349號
+DESCRIPTION:時間：17:30–19:00\n下一站：回教師會館停車（約
+  19:20）\n導航：https://www.google.com/maps/dir/?api=1&destination=%E9
+ %98%BF%E8%8A%AC%E7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E
+ 9%AD%9A%E6%B1%A0%E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmod
+ e=driving\n電話：049-2897761\n行車版：https://alinalaipy.github.io/
+ nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E9%98%BF%E8%8A%AC%E
+ 7%B4%A0%E9%A3%9F%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%
+ E9%84%89%E9%AD%9A%E6%B1%A0%E8%A1%97349%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:阿芬素食館（晚餐）（17:30–19:00）
+TRIGGER:-PT30M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-9@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T112000Z
+DTEND:20261125T113000Z
+SUMMARY:回教師會館停車
+LOCATION:南投縣魚池鄉中興路136號
+DESCRIPTION:時間：約 19:20\n下一站：水社碼頭周邊湖畔散步
+ （約 19:30–20:15）\n導航：https://www.google.com/maps/dir/?api=1&d
+ estination=%E6%97%A5%E6%9C%88%E6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8
+ %20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%8
+ 8%E8%B7%AF136%E8%99%9F&travelmode=driving\n行車版：https://alinalaipy.
+ github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%97%A5%E6%9C%88%E
+ 6%BD%AD%E6%95%99%E5%B8%AB%E6%9C%83%E9%A4%A8%20%E5%8D%97%E6%8A%95%E7%B8%A3%
+ E9%AD%9A%E6%B1%A0%E9%84%89%E4%B8%AD%E8%88%88%E8%B7%AF136%E8%99%9F&travelmo
+ de=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:回教師會館停車（約 19:20）
+TRIGGER:-PT30M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-10@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T113000Z
+DTEND:20261125T121500Z
+SUMMARY:水社碼頭周邊湖畔散步
+LOCATION:水社碼頭 南投縣魚池鄉水社村名勝街11號
+DESCRIPTION:時間：約 19:30–20:15\n下一站：回房休息（約 20:3
+ 0）\n導航：https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B
+ 4%E7%A4%BE%E7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%
+ A0%E9%84%89%E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%
+ 9F&travelmode=walking\n行車版：https://alinalaipy.github.io/nantou-tri
+ p/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%B0%B4%E7%A4%BE%E
+ 7%A2%BC%E9%A0%AD%20%E5%8D%97%E6%8A%95%E7%B8%A3%E9%AD%9A%E6%B1%A0%E9%84%89%
+ E6%B0%B4%E7%A4%BE%E6%9D%91%E5%90%8D%E5%8B%9D%E8%A1%9711%E8%99%9F&travelmod
+ e=walking
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:水社碼頭周邊湖畔散步（約 19:30–20:15）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d2-11@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T123000Z
+DTEND:20261125T130000Z
+SUMMARY:回房休息
+LOCATION:南投縣魚池鄉中興路136號
+DESCRIPTION:時間：約 20:30\n行車版：https://alinalaipy.github.io/na
+ ntou-trip/drive.html
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:回房休息（約 20:30）
+TRIGGER:-PT25M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d3-1@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261125T233000Z
+DTEND:20261126T004500Z
+SUMMARY:早餐，約 09:15 退房
+LOCATION:南投縣魚池鄉中興路136號
+DESCRIPTION:時間：07:30–08:45\n下一站：竹山紫南宮（約 10:15
+ –12:00）\n行車版：https://alinalaipy.github.io/nantou-trip/drive.ht
+ ml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:早餐，約 09:15 退房（07:30–08:45）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d3-2@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261126T021500Z
+DTEND:20261126T040000Z
+SUMMARY:竹山紫南宮
+LOCATION:紫南宮 南投縣竹山鎮大公街40號
+DESCRIPTION:時間：約 10:15–12:00\n下一站：璞石村（午餐）
+ （約 12:50–14:20）\n導航：https://www.google.com/maps/dir/?api=1&d
+ estination=%E7%B4%AB%E5%8D%97%E5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB
+ %B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=dri
+ ving\n電話：049-2623722\n行車版：https://alinalaipy.github.io/nanto
+ u-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E7%B4%AB%E5%8D%97%E
+ 5%AE%AE%20%E5%8D%97%E6%8A%95%E7%B8%A3%E7%AB%B9%E5%B1%B1%E9%8E%AE%E5%A4%A7%
+ E5%85%AC%E8%A1%9740%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:竹山紫南宮（約 10:15–12:00）
+TRIGGER:-PT70M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d3-3@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261126T045000Z
+DTEND:20261126T062000Z
+SUMMARY:璞石村（午餐）
+LOCATION:璞石村 南投縣草屯鎮平峰路531巷15號
+DESCRIPTION:時間：約 12:50–14:20\n下一站：台中市政府站出
+ 口 1（台中兩位下車）（約 15:10）\n導航：https://www.google.
+ com/maps/dir/?api=1&destination=%E7%92%9E%E7%9F%B3%E6%9D%91%20%E5%8D%97%E6
+ %8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E5%B9%B3%E5%B3%B0%E8%B7%AF531%E
+ 5%B7%B715%E8%99%9F&travelmode=driving\n電話：049-2572795\n行車版：h
+ ttps://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E7%92%9E%E7%9F%B3%E
+ 6%9D%91%20%E5%8D%97%E6%8A%95%E7%B8%A3%E8%8D%89%E5%B1%AF%E9%8E%AE%E5%B9%B3%
+ E5%B3%B0%E8%B7%AF531%E5%B7%B715%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:璞石村（午餐）（約 12:50–14:20）
+TRIGGER:-PT60M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d3-4@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261126T071000Z
+DTEND:20261126T071500Z
+SUMMARY:台中市政府站出口 1（台中兩位下車）
+LOCATION:台中捷運市政府站出口1 台中市西屯區文心路二段6
+ 99號
+DESCRIPTION:時間：約 15:10\n下一站：返程（約 15:15）\n導航
+ ：https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E4%B8%AD%E
+ 6%8D%B7%E9%81%8B%E5%B8%82%E6%94%BF%E5%BA%9C%E7%AB%99%E5%87%BA%E5%8F%A31%20
+ %E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%96%87%E5%BF%83%E
+ 8%B7%AF%E4%BA%8C%E6%AE%B5699%E8%99%9F&travelmode=driving\n行車版：http
+ s://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E5%8F%B0%E4%B8%AD%E
+ 6%8D%B7%E9%81%8B%E5%B8%82%E6%94%BF%E5%BA%9C%E7%AB%99%E5%87%BA%E5%8F%A31%20
+ %E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E6%96%87%E5%BF%83%E
+ 8%B7%AF%E4%BA%8C%E6%AE%B5699%E8%99%9F&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:台中市政府站出口 1（台中兩位下車）（約 15:10
+ ）
+TRIGGER:-PT60M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:nantou-2026-d3-5@alinalaipy.github.io
+DTSTAMP:20261103T000000Z
+DTSTART:20261126T071500Z
+DTEND:20261126T103500Z
+SUMMARY:返程
+DESCRIPTION:時間：約 15:15\n回汐止：https://www.google.com/maps/dir
+ /?api=1&destination=%E6%B1%90%E6%AD%A2%E5%8D%80&travelmode=driving\n行車
+ 版：https://alinalaipy.github.io/nantou-trip/drive.html
+URL:https://www.google.com/maps/dir/?api=1&destination=%E6%B1%90%E6%AD%A2%E
+ 5%8D%80&travelmode=driving
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:返程（約 15:15）
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+END:VCALENDAR
