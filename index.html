@@ -297,7 +297,6 @@
   @keyframes flip { from { transform: perspective(200px) rotateX(90deg); opacity: 0; } to { transform: none; opacity: 1; } }
   .tl .stop.now::before { animation: breathe 2.2s ease-in-out infinite; }
   @keyframes breathe { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,90,60,.45); } 50% { box-shadow: 0 0 0 9px rgba(200,90,60,0); } }
-  .nowtag { display: inline-block; margin-right: 8px; padding: 0 10px; border-radius: 999px; background: var(--vermilion); color: #fff; font-size: 15px; vertical-align: 2px; letter-spacing: .05em; }
   .m-steps li { cursor: pointer; border-radius: 4px; transition: background .3s; }
   .m-steps li.sel { background: var(--jade-soft); }
   .map.go .pop.shown { animation: none; opacity: 1; transform: none; }
@@ -322,7 +321,6 @@
   html.night .nightcard h3, html.night .nightcard li, html.night .nightcard p { color: #F1EBDA !important; }
   html.night .nightcard .time { color: #F2CF7A !important; }
   html.night .nightcard .gmap a { color: #F2CF7A !important; border-color: #F2CF7A !important; }
-  html.night .nightcard .nowtag { background: #F2CF7A; color: #2F3A5A; }
   html.night footer { color: #E6E1D3; border-top-color: rgba(255,255,255,.25); }
   @keyframes twinkle { from { opacity: .3; transform: scale(.7); } to { opacity: 1; transform: scale(1.1); } }
   .sky-night { opacity: 0; transition: opacity 1.6s ease; }
@@ -571,6 +569,33 @@
   html.big .nowbar .nw-a, html.big .nowbar .nw-c { font-size: 17px; }
   html.big .nowbar .nw-b { font-size: 20px; }
   @media (prefers-reduced-motion: reduce) { .nowbar .nw-go a:active { transform: none; } }
+  /* ---- 時間軸卡片「現在／下一站／已完成」（2026/11/3 v99 Alina：「現在走到哪裡」要更明顯；JS 在 markNow） ----
+     不只靠顏色：現在＝4px 實線框＋實心橫帶「📍 現在在這裡」（開車中「🚗 現在：開往 XX」）；下一站＝3px 虛線框＋淡色橫帶「⏭ 下一站 HH:MM（約 N 分鐘後）」；
+     已完成＝淺灰底＋灰色小橫帶「✓ 已完成」（不降 opacity）。框線變粗時 padding 同步減少，內文不位移。
+     對比：橫帶白字對 #8A2E1A 8.45；#7A2814 對 #FCEFEA 8.72；#36312B 對 #E6E3DC 10.05；框線 #8A2E1A 對白 8.45、對頁面底 #F6F3EC 7.62（行車版 #EEF0F4 也 ≥7）
+     卡片裡的綠／藍、紅字（--jade、--vermilion）在這三種卡片換成加深色，淡底上仍 ≥7（綠 #1F4D42 9.09、藍 #1E3152 12.36、紅 #86301C 8.15） */
+  .tl > .stop.now, .tl > .stop.next, .tl > .stop.done { --jade: var(--jade-deep); --vermilion: #86301C; }
+  .tl > .stop.now.stay .time, .tl > .stop.next.stay .time { color: #5E4520; }   /* 2026/11/3 稽核：住宿卡時間字 #7A5C2E 在淡底只有 5.88，改深（淡底 8.51、白底 8.94） */
+  .tl > .stop.now { border: 4px solid #8A2E1A; padding: 13px 15px 15px; background: #FFF8F4; box-shadow: 0 8px 24px rgba(138, 46, 26, .28); }
+  .tl > .stop.next { border: 3px dashed #8A2E1A; padding: 14px 16px 15px; background: #FFFFFF; }
+  .tl > .stop.done { background: #F3F2EE; box-shadow: none; }
+  .tl > .stop.done h3, .tl > .stop.done .time { color: var(--ink-soft); }
+  .tl > .stop.done img { filter: saturate(.45); }
+  .tl > .stop.now .ph figcaption, .tl > .stop.now .ph figcaption a, .tl > .stop.now .car .cnt, .tl > .stop.now .bnote,
+  .tl > .stop.next .ph figcaption, .tl > .stop.next .ph figcaption a, .tl > .stop.next .car .cnt, .tl > .stop.next .bnote,
+  .tl > .stop.done .ph figcaption, .tl > .stop.done .ph figcaption a, .tl > .stop.done .car .cnt, .tl > .stop.done .bnote { color: var(--ink-soft); }   /* 原本淺灰字 #8A8377（照片出處、張數）在這三種卡片改深灰，淡底上 ≥7 */
+  .tl > .stop.now::before { left: -35px; top: 18px; background: #8A2E1A; border-color: #8A2E1A; }
+  .tl > .stop.next::before { left: -34px; top: 19px; background: #FFFFFF; border-color: #8A2E1A; }
+  .tl > .stop.done::before { content: "✓"; background: #6B6458; border-color: #6B6458; color: #fff; font: 700 11px/10px var(--sans); text-align: center; }
+  .tl > .stop .nowband { display: block; font-family: var(--sans); letter-spacing: .03em; font-variant-numeric: tabular-nums; }
+  .tl > .stop .nowband b, .tl > .stop .nowband span { display: block; color: inherit; }
+  .tl > .stop .nowband.nb-now { margin: -13px -15px 14px; padding: 9px 15px 10px; border-radius: 10px 10px 0 0; background: #8A2E1A; color: #FFFFFF; box-shadow: 0 0 0 1px #8A2E1A; }
+  .tl > .stop .nowband.nb-now b { font-size: 23px; line-height: 1.35; font-weight: 700; }
+  .tl > .stop .nowband span { font-size: 18px; line-height: 1.45; font-weight: 700; }
+  .tl > .stop .nowband.nb-next { margin: -14px -16px 14px; padding: 8px 16px 9px; border-radius: 11px 11px 0 0; background: #FCEFEA; color: #7A2814; border-bottom: 2px dashed #8A2E1A; }
+  .tl > .stop .nowband.nb-next b { font-size: 21px; line-height: 1.35; font-weight: 700; }
+  .tl > .stop .nowband.nb-done { margin: -16px -18px 10px; padding: 3px 18px; border-radius: 13px 13px 0 0; background: #E6E3DC; color: #36312B; font-size: 16px; line-height: 1.6; font-weight: 700; }
+  html.night .nightcard.now, html.night .nightcard.next { border-color: #F2CF7A !important; }
 </style>
 <style>
   /* ---- 使用教學：頁首按鈕＋暗色遮罩、光圈、毛玻璃小卡（顏色跟版本走：一般版綠、行車版深藍） ---- */
@@ -1383,17 +1408,41 @@
         st.forEach(function (x, i) { if (x.a <= mins) k = i; });
         if (k < 0) { k = 0; nxt = true; }
         else if (st[k].b !== null && mins > st[k].b && k < st.length - 1) { k += 1; nxt = true; }
-        st.forEach(function (x) { x.el.classList.remove('now'); var g = x.el.querySelector('.nowtag'); if (g) g.remove(); });
-        var cur = st[k].el; cur.classList.add('now', 'in');
-        var tm = cur.querySelector('.time'); if (tm) tm.insertAdjacentHTML('afterbegin', '<span class="nowtag">' + (nxt ? '下一站' : '現在') + '</span>');
+        // 2026/11/3 v99：整張卡片標示（取代原本時間前面的小紅標籤）：已完成＝淺灰底＋「✓ 已完成」；現在＝粗實線框＋實心橫帶；下一站＝虛線框＋淡色橫帶
+        st.forEach(function (x) { x.el.classList.remove('now', 'next', 'done', 'go'); x.el.querySelectorAll(':scope > .nowband').forEach(function (g) { g.remove(); }); });
+        var cur = st[k].el, mode = !nxt ? 'here' : (k > 0 ? 'go' : 'wait');   // go＝兩站之間（開車前往 cur）；wait＝還沒出發
+        var ride = cur.classList.contains('ride'), arrow = ride && nwRaw(cur).indexOf('→') >= 0;
+        if (mode === 'go' && arrow) mode = 'wait';   // 「汐止 → 台中」這種開車卡片的時間是出發時間：之前還沒出發，標「下一站」
+        function band(el, cls, h) { el.insertAdjacentHTML('afterbegin', '<div class="nowband ' + cls + '">' + h + '</div>'); }
+        function left(el, to) { var t = nwTime(el); return t ? '<span>' + t.s + (to ? ' 到' : '') + '（' + nwLeft(t.a - mins) + '）</span>' : ''; }
+        function dest(el) { var d = nwName(el); return /^回/.test(d) ? d : '開往' + d; }
+        function adest(el) { var d = nwRaw(el).split('→').pop().replace(/（[^）]*）/g, '').trim(); return /^回/.test(d) ? '開車' + d : '開往' + d; }
+        for (var j = 0; j < k; j++) { st[j].el.classList.add('done'); band(st[j].el, 'nb-done', '✓ 已完成'); }
+        if (mode === 'wait') { cur.classList.add('next', 'in'); band(cur, 'nb-next', '<b>⏭ 下一站</b>' + left(cur)); }
+        else if (mode === 'go') { cur.classList.add('now', 'go', 'in'); band(cur, 'nb-now', '<b>🚗 現在：' + dest(cur) + '</b>' + left(cur, true)); }
+        else {
+          cur.classList.add('now', 'in'); if (arrow) cur.classList.add('go');
+          band(cur, 'nb-now', '<b>' + (arrow ? '🚗 現在：' + adest(cur) : '📍 現在在這裡') + '</b>');
+          var nx = st[k + 1] ? st[k + 1].el : null;
+          if (nx) { nx.classList.add('next'); band(nx, 'nb-next', '<b>⏭ 下一站</b>' + left(nx)); }
+        }
         nowBar(cur, nxt, mins);
         return cur;
       };
       if (st.length) {
         var cur0 = markNow();
         show('t' + (di + 1));
-        setTimeout(function () { if (!/^#rc-[\w-]+$/.test(location.hash) || !document.getElementById(location.hash.slice(1))) { var r0 = cur0.getBoundingClientRect(), H0 = nowH() + (document.getElementById('dayBar') ? 52 : 0), av = window.innerHeight - H0;   // 2026/11/3：扣掉上方橫幅、天數列；卡片比畫面高時，標題放在橫幅下面
-          window.scrollTo({ top: Math.max(0, r0.top + window.pageYOffset - H0 - Math.max(12, (av - r0.height) / 2)), behavior: RM ? 'auto' : 'smooth' }); } }, 900);   // 2026/11/2：網址有 #rc-…（紙本 QR）時改由 RCHASH_JS 捲到路線圖卡
+        function nowTop() { var r0 = cur0.getBoundingClientRect(), H0 = nowH() + (document.getElementById('dayBar') ? 52 : 0), av = window.innerHeight - H0;   // 2026/11/3：扣掉上方橫幅、天數列；卡片比畫面高時，標題放在橫幅下面
+          return Math.max(0, r0.top + window.pageYOffset - H0 - Math.max(12, (av - r0.height) / 2)); }
+        setTimeout(function () { if (!/^#rc-[\w-]+$/.test(location.hash) || !document.getElementById(location.hash.slice(1))) {   // 2026/11/2：網址有 #rc-…（紙本 QR）時改由 RCHASH_JS 捲到路線圖卡
+          window.scrollTo({ top: nowTop(), behavior: RM ? 'auto' : 'smooth' });
+          // 2026/11/3 v99：網頁字型晚到時卡片會位移，「現在」橫帶可能被上方天數列蓋住 → 字型載完再對準一次（使用者已經自己捲動、點了，或教學、搜尋開著就不動）
+          var moved = false, R0 = document.documentElement; ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function (e) { window.addEventListener(e, function () { moved = true; }, { once: true, passive: true }); });
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(function () {
+            if (moved || R0.classList.contains('touron') || R0.classList.contains('srchopen') || R0.classList.contains('lbopen')) return;
+            var t = nowTop(); if (Math.abs(t - window.pageYOffset) > 8) window.scrollTo({ top: t, behavior: RM ? 'auto' : 'smooth' });
+          }, 800); });
+        } }, 900);
         setInterval(markNow, 60000);
       }
     }
@@ -1685,7 +1734,7 @@
     (function () {
       var WORDS = ["停車", "電話", "素食", "廁所", "營業時間", "紅茶", "伴手禮", "電梯"], MAX = 30;
       var root = document.documentElement, box = null, inp, chips, cnt, lst, pushed = false, after = null, sr0 = null, t0 = 0, opener = null, U = [];
-      var SKIP = 'svg,figure,script,style,summary,input,.time,.lv,.act,.nowtag,.lk-ic,.lk-map,.feat-ic,.feat-ar,.ck,.cnt,.cbtn,.amb,[aria-hidden="true"]';
+      var SKIP = 'svg,figure,script,style,summary,input,.time,.lv,.act,.nowtag,.nowband,.lk-ic,.lk-map,.feat-ic,.feat-ar,.ck,.cnt,.cbtn,.amb,[aria-hidden="true"]';
       var BLK = { LI: 1, P: 1, DT: 1, H4: 1, TD: 1, TH: 1, LABEL: 1, DIV: 1, UL: 1, OL: 1, DL: 1, DETAILS: 1, TABLE: 1, TR: 1 };
       function esc(x) { return x.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
       function nc(c) { var n = c.normalize ? c.normalize('NFKC') : c; n = n.toLowerCase().replace(/\s+/g, ''); return n === '臺' ? '台' : n; }
@@ -1749,7 +1798,7 @@
             var h = el.querySelector('h3, h4'); if (!h) return;
             var ar = h.querySelector('.area'), ex = null;
             if (ar) { ex = { t: clean(ar.textContent), el: ar, kw: '', det: null }; ex.n = norm(ex.t).s; ex.k = ''; }
-            mk(el, h, txt(h, '.lv, .area, svg, .nowtag'), ex);
+            mk(el, h, txt(h, '.lv, .area, svg, .nowtag, .nowband'), ex);
           });
         });
       }
