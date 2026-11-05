@@ -111,7 +111,8 @@
   .box b { color: var(--ink); }
   .box a { color: var(--jade); }
   .stay::before { border-color: #7A5C2E; background: #F3E9D6; }
-  .stay .time { color: #7A5C2E; }
+  .stay .time { color: #5E4520; }   /* fix2-1104 重要優化：原 #7A5C2E 對白 6.18 → 8.94（入住、回房時間） */
+  .meal .time { color: #86301C; }   /* fix2-1104 重要優化：用餐時間原 --vermilion #A8422A 對白 6.04 → 8.56 */
   .m-route3 { fill: none; stroke: #7A5C2E; stroke-width: 2.6; stroke-dasharray: 3 5; stroke-linecap: round; opacity: .85; }
   .tab { grid-column: span 2; }
   .tab.wide { grid-column: span 3; }
@@ -227,7 +228,7 @@
   .bnote { margin: 10px 0 0 !important; font-size: 15px !important; color: #8A8377; line-height: 1.5; }
   #p8 .box, #p8 .pack { margin: 0 0 16px; }
   .pack .add { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 999px; background: var(--jade-soft); color: var(--jade); font-size: 12px; }
-  .tag { display: inline-block; margin: 0 0 6px !important; padding: 2px 10px; border-radius: 999px; background: var(--vermilion-soft); color: var(--vermilion) !important; font-size: 15px !important; }
+  .tag { display: inline-block; margin: 0 0 6px !important; padding: 2px 10px; border-radius: 999px; background: var(--vermilion-soft); color: #86301C !important; font-size: 15px !important; }   /* fix2-1104 重要優化：素食類型標籤原 #A8422A 對 #F7E9E3 5.10 → 7.22 */
   .pts, .gol, .bl, .sl { margin: 0; padding-left: 20px; }
   .pts li, .gol li { font-size: 17px; color: var(--ink-soft); margin-bottom: 2px; }
   .info { margin-top: 8px !important; font-size: 16px !important; }
@@ -897,7 +898,7 @@
 <p class="mrt-info">單程 20 元（敬老卡、愛心卡 10 元）<br>平日白天 8–10 分鐘一班</p>
 <div class="mrt-map"><svg class="mrt-strip" viewBox="0 0 340 28" preserveAspectRatio="none" role="img" aria-label="綠線全線 18 站，從 四維國小 坐到 市政府"><line x1="10" y1="16" x2="330" y2="16" class="s-all"/><line x1="66.5" y1="16" x2="160.6" y2="16" class="s-ride"/><circle cx="10.0" cy="16" r="2.6" class="s-dot"/><circle cx="28.8" cy="16" r="2.6" class="s-dot"/><circle cx="47.6" cy="16" r="2.6" class="s-dot"/><circle cx="85.3" cy="16" r="3" class="s-in"/><circle cx="104.1" cy="16" r="3" class="s-in"/><circle cx="122.9" cy="16" r="3" class="s-in"/><circle cx="141.8" cy="16" r="3" class="s-in"/><circle cx="179.4" cy="16" r="2.6" class="s-dot"/><circle cx="198.2" cy="16" r="2.6" class="s-dot"/><circle cx="217.1" cy="16" r="2.6" class="s-dot"/><circle cx="235.9" cy="16" r="2.6" class="s-dot"/><circle cx="254.7" cy="16" r="2.6" class="s-dot"/><circle cx="273.5" cy="16" r="2.6" class="s-dot"/><circle cx="292.4" cy="16" r="2.6" class="s-dot"/><circle cx="311.2" cy="16" r="2.6" class="s-dot"/><circle cx="330.0" cy="16" r="2.6" class="s-dot"/><path d="M106.5 7 L120.5 7" class="s-arw"/><path d="M115.5 3 L120.5 7 L115.5 11" class="s-arw"/><circle cx="66.5" cy="16" r="7" class="s-on"/><circle cx="160.6" cy="16" r="7" class="s-off"/></svg><div class="mrt-ends"><span>北屯總站</span><span>高鐵臺中站</span></div></div>
 <ol class="mrt-rt">
-<li class="mrt-st big on"><span class="mrt-tag">上車</span><span class="mrt-nm">四維國小</span><span class="mrt-code">105</span><div class="mrt-gate"><span class="mrt-g lift"><svg class="mrt-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="2.5" width="18" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 5.5l3.6 4.2H8.4z M12 18.5l3.6-4.2H8.4z" fill="currentColor"/></svg><span><b>有電梯</b></span></span><span class="mrt-gn">單一出口：文心路四段與天津路四段路口；電梯 B1F 地下層－3F 穿堂層</span></div></li>
+<li class="mrt-st big on"><span class="mrt-tag">上車</span><span class="mrt-nm">四維國小</span><span class="mrt-code">105</span><div class="mrt-gate"><span class="mrt-g lift"><svg class="mrt-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="2.5" width="18" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 5.5l3.6 4.2H8.4z M12 18.5l3.6-4.2H8.4z" fill="currentColor"/></svg><span><b>有電梯</b></span></span><span class="mrt-gn">單一出口：文心路四段與天津路四段路口；出口電梯到 3F 穿堂層</span></div></li>
 <li class="mrt-st mid"><span class="mrt-mn">文心崇德</span><span class="mrt-k">第 1 站</span></li>
 <li class="mrt-st mid"><span class="mrt-mn">文心中清</span><span class="mrt-k">第 2 站</span></li>
 <li class="mrt-st mid"><span class="mrt-mn">文華高中</span><span class="mrt-k">第 3 站</span></li>
@@ -1160,13 +1161,13 @@
 <p class="mrt-info">單程 20 元（敬老卡、愛心卡 10 元）<br>平日白天 8–10 分鐘一班</p>
 <div class="mrt-map"><svg class="mrt-strip" viewBox="0 0 340 28" preserveAspectRatio="none" role="img" aria-label="綠線全線 18 站，從 市政府 坐到 四維國小"><line x1="10" y1="16" x2="330" y2="16" class="s-all"/><line x1="66.5" y1="16" x2="160.6" y2="16" class="s-ride"/><circle cx="10.0" cy="16" r="2.6" class="s-dot"/><circle cx="28.8" cy="16" r="2.6" class="s-dot"/><circle cx="47.6" cy="16" r="2.6" class="s-dot"/><circle cx="85.3" cy="16" r="3" class="s-in"/><circle cx="104.1" cy="16" r="3" class="s-in"/><circle cx="122.9" cy="16" r="3" class="s-in"/><circle cx="141.8" cy="16" r="3" class="s-in"/><circle cx="179.4" cy="16" r="2.6" class="s-dot"/><circle cx="198.2" cy="16" r="2.6" class="s-dot"/><circle cx="217.1" cy="16" r="2.6" class="s-dot"/><circle cx="235.9" cy="16" r="2.6" class="s-dot"/><circle cx="254.7" cy="16" r="2.6" class="s-dot"/><circle cx="273.5" cy="16" r="2.6" class="s-dot"/><circle cx="292.4" cy="16" r="2.6" class="s-dot"/><circle cx="311.2" cy="16" r="2.6" class="s-dot"/><circle cx="330.0" cy="16" r="2.6" class="s-dot"/><path d="M120.5 7 L106.5 7" class="s-arw"/><path d="M111.5 3 L106.5 7 L111.5 11" class="s-arw"/><circle cx="160.6" cy="16" r="7" class="s-on"/><circle cx="66.5" cy="16" r="7" class="s-off"/></svg><div class="mrt-ends"><span>北屯總站</span><span>高鐵臺中站</span></div></div>
 <ol class="mrt-rt">
-<li class="mrt-leg pre"><span class="mrt-li">🚗</span><span>開車送到市政府站出口 1</span></li>
+<li class="mrt-leg pre"><span class="mrt-li">🚗</span><span>開車送到出口 1 旁的市政府停車場，走約 120 公尺到出口 1</span></li>
 <li class="mrt-st big on"><span class="mrt-tag">上車</span><span class="mrt-nm">市政府</span><span class="mrt-code">110</span><div class="mrt-gate"><span class="mrt-g"><svg class="mrt-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h10v4h-2V5H6v14h6v-2h2v4H4z" fill="currentColor"/><path d="M15 8l5 4-5 4v-3H9v-2h6z" fill="currentColor"/></svg><span>進站：<b>1 號出口</b></span></span><span class="mrt-g lift"><svg class="mrt-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="2.5" width="18" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 5.5l3.6 4.2H8.4z M12 18.5l3.6-4.2H8.4z" fill="currentColor"/></svg><span><b>有電梯</b></span></span><span class="mrt-gn">電梯 1F 地面層－3F 穿堂層；月台電梯 3F 月台層－4F 穿越層</span></div></li>
 <li class="mrt-st mid"><span class="mrt-mn">文心櫻花</span><span class="mrt-k">第 1 站</span></li>
 <li class="mrt-st mid"><span class="mrt-mn">文華高中</span><span class="mrt-k">第 2 站</span></li>
 <li class="mrt-st mid"><span class="mrt-mn">文心中清</span><span class="mrt-k">第 3 站</span></li>
 <li class="mrt-st mid"><span class="mrt-mn">文心崇德</span><span class="mrt-k">第 4 站</span></li>
-<li class="mrt-st big off"><span class="mrt-tag">下車</span><span class="mrt-nm">四維國小</span><span class="mrt-code">105</span><span class="mrt-k">第 5 站</span><div class="mrt-gate"><span class="mrt-g lift"><svg class="mrt-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="2.5" width="18" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 5.5l3.6 4.2H8.4z M12 18.5l3.6-4.2H8.4z" fill="currentColor"/></svg><span><b>有電梯</b></span></span><span class="mrt-gn">單一出口：文心路四段與天津路四段路口；電梯 B1F 地下層－3F 穿堂層</span></div>
+<li class="mrt-st big off"><span class="mrt-tag">下車</span><span class="mrt-nm">四維國小</span><span class="mrt-code">105</span><span class="mrt-k">第 5 站</span><div class="mrt-gate"><span class="mrt-g lift"><svg class="mrt-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="2.5" width="18" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 5.5l3.6 4.2H8.4z M12 18.5l3.6-4.2H8.4z" fill="currentColor"/></svg><span><b>有電梯</b></span></span><span class="mrt-gn">單一出口：文心路四段與天津路四段路口；出口電梯到 3F 穿堂層</span></div>
 </li>
 </ol>
 <p class="mrt-src">站名、站序：台中捷運官網路線圖；方向、站數、乘車時間、票價、出口、電梯：台中捷運官網（A）</p>
@@ -1206,7 +1207,7 @@
   <button type="button" class="top-btn" id="toTop">↑ 回到最上面（切換頁籤）</button>
 <svg class="lotus" viewBox="0 0 170 74" aria-hidden="true"><ellipse class="lrip" cx="85" cy="63" rx="34" ry="4.5"/><ellipse class="lrip r2" cx="85" cy="63" rx="34" ry="4.5"/><g class="lpad"><path d="M30 63 m-22 0 a22 6 0 1 0 44 0 a22 6 0 1 0 -44 0 M30 63 L44 58" fill="#A9C1A6" stroke="#F6F3EC" stroke-width="1.2"/></g><g class="lpad p2"><path d="M141 64 m-18 0 a18 5 0 1 0 36 0 a18 5 0 1 0 -36 0 M141 64 L128 60" fill="#B6CBB2" stroke="#F6F3EC" stroke-width="1.2"/></g><g transform="translate(43 0)"><path class="pt" style="--r:-62deg;--dl:0.5s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#EDB9C4"/><path class="pt" style="--r:62deg;--dl:0.5s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#EDB9C4"/><path class="pt" style="--r:-32deg;--dl:0.3s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F0C6CF"/><path class="pt" style="--r:32deg;--dl:0.3s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F0C6CF"/><path class="pt" style="--r:0deg;--dl:0.1s" d="M42 58 C34 44 34 26 42 10 C50 26 50 44 42 58 Z" fill="#F5D6DC"/><path d="M24 60 Q42 66 60 60" stroke="#8FAA9E" stroke-width="2" fill="none" stroke-linecap="round"/></g></svg>
   <footer>
-    車程為一般路況概估，實際以當日車況為準。營業時間以店家公告為準。資料查證日：2026 年 11 月 4 日。
+    車程為一般路況概估，實際以當日車況為準。營業時間以店家公告為準。資料查證日：2026 年 11 月 5 日。
   </footer>
 </div>
 <button type="button" class="top-fab" id="toTopFab" aria-label="回到最上面">↑</button>
@@ -1608,7 +1609,7 @@
       var TOUR = {"key":"tourSeen-index","steps":[{"t":"點這裡切換第一、二、三天","s":[".pick"]},{"t":"點站名，地圖上會標出位置","s":["{P} .m-steps"]},{"t":"停車、連結、評分收在這裡","s":["{P} details.more > summary"]},{"t":"旅途中，會標出「現在／下一站」","s":["{P} .stop.now","{P} .tl:not(.plain) > .stop"]},{"t":"字太小，點這裡放大","s":["#fontBtn"]},{"t":"開車時點這裡：導航、停車、電話","s":[".vsw.hv"]},{"t":"想找東西，點這裡搜尋","s":["#srchBtn"]},{"t":"想再看一次說明，點這裡","s":["#tourBtn"]}]};
       var root = document.documentElement, tbtn = document.getElementById('tourBtn');
       var ov = null, hole, card, txt, dots, sr, bPrev, bNext, list = [], k = 0, raf = 0, still = 0, last = '', tab0 = null, opener = null, safety = 0;
-      // 每一版各自記「看過」（一般版 tourSeen-index、行車版 tourSeen-drive-1103）：各自第一次打開時播放一次
+      // 每一版各自記「看過」（一般版 tourSeen-index、行車版 tourSeen-drive-1104，見 TOUR_KEY）：各自第一次打開時播放一次
       function seen() { try { return localStorage.getItem(TOUR.key) === '1'; } catch (e) { return false; } }
       function markSeen() { try { localStorage.setItem(TOUR.key, '1'); } catch (e) {} }
       function vis(el) { return !!el && el.getClientRects().length > 0; }
