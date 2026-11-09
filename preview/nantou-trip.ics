@@ -5,8 +5,9 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 NAME:南投行程
 X-WR-CALNAME:南投行程
-X-WR-CALDESC:南投三天行程（2026/11/24–26），每站出發前會
- 跳提醒；網站：https://alinalaipy.github.io/nantou-trip/drive.html
+X-WR-CALDESC:南投三天行程（2026/11/24–26），每個行程開始
+ 前 30 分鐘提醒（iPhone 預設）；網站：https://alinalaipy.githu
+ b.io/nantou-trip/drive.html
 X-WR-TIMEZONE:Asia/Taipei
 REFRESH-INTERVAL;VALUE=DURATION:PT1H
 X-PUBLISHED-TTL:PT1H
